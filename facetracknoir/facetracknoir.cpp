@@ -52,10 +52,10 @@
 
 #if defined(__APPLE__)
 #   define SONAME "dylib"
-#elif defined(__linux) || defined(__unix)
-#   define SONAME "so"
-#else
+#elif defined(_WIN32) || defined(__WIN32)
 #   define SONAME "dll"
+#else
+#   define SONAME "so"
 #endif
 
 //
@@ -1006,7 +1006,7 @@ void FaceTrackNoIR::createIconGroupBox()
 	QDir settingsDir( QCoreApplication::applicationDirPath() );
 
     {
-        QStringList protocols = settingsDir.entryList( QStringList() << "libftnoir-proto-*." SONAME, QDir::Files, QDir::Name );
+        QStringList protocols = settingsDir.entryList( QStringList() << ("libftnoir-proto-*." SONAME), QDir::Files, QDir::Name );
         for ( int i = 0; i < protocols.size(); i++) {
             QIcon icon;
             QString longName;
@@ -1027,7 +1027,7 @@ void FaceTrackNoIR::createIconGroupBox()
 
     {
         ui.cbxSecondTrackerSource->addItem(QIcon(), "None");
-        QStringList trackers = settingsDir.entryList( QStringList() << "libftnoir-tracker-*." SONAME, QDir::Files, QDir::Name );
+        QStringList trackers = settingsDir.entryList( QStringList() << ("libftnoir-tracker-*." SONAME), QDir::Files, QDir::Name );
         for ( int i = 0; i < trackers.size(); i++) {
             QIcon icon;
             QString longName;
@@ -1050,7 +1050,7 @@ void FaceTrackNoIR::createIconGroupBox()
     {
         dlopen_filters.push_back((DynamicLibrary*) NULL);
         ui.iconcomboFilter->addItem(QIcon(), "None");
-        QStringList filters = settingsDir.entryList( QStringList() << "libftnoir-filter-*.dll" SONAME, QDir::Files, QDir::Name );
+        QStringList filters = settingsDir.entryList( QStringList() << ("libftnoir-filter-*." SONAME), QDir::Files, QDir::Name );
         for ( int i = 0; i < filters.size(); i++) {
             QIcon icon;
             QString fullName;
