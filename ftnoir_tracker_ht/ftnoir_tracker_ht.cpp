@@ -172,9 +172,8 @@ bool Tracker::GiveHeadPoseData(THeadPoseData* data)
     shm->timer = 0;
     if (shm->frame.width > 0)
     {
-        unsigned char foo[shm->frame.width * shm->frame.height * 3];
-        memcpy(foo, shm->frame.frame, shm->frame.width * shm->frame.height * 3);
-        videoWidget->update(foo, shm->frame.width, shm->frame.height);
+        //memcpy(foo, shm->frame.frame, shm->frame.width * shm->frame.height * 3);
+        videoWidget->update(shm->frame.frame, shm->frame.width, shm->frame.height);
     }
     if (shm->result.filled) {
         if (enableRX)
