@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UICCurveConfigurationDialog</class>
+ <widget class="QWidget" name="UICCurveConfigurationDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>901</width>
+    <height>661</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>FaceTrackNoIR tracking curves</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>images/FaceTrackNoIR.ico</normaloff>images/FaceTrackNoIR.ico</iconset>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* Customize any plain widget that is a child of a QMainWindow. */ 
+QMainWindow &gt; .QWidget {
+background-color: rgb(100, 100, 100);
+}
+
+/* Set the selection colors for all widgets. */
+QWidget {
+selection-color: black;
+selection-background-color: Silver;
+color: black;
+}
+
+/* Specials for individual widget(s) */
+QWidget#UICCurveConfigurationDialog {
+background-color: #484848;
+}
+
+QWidget#tabWidget {
+background-color: #595959;
+}
+
+/*
+QWidget#widgetTop {
+background-color: #595959;
+border-bottom: 1px solid #000;
+}
+*/
+
+/* Make text in message boxes selectable. */
+QMessageBox {
+/* LinksAccessibleByMouse | TextSelectableByMouse */
+messagebox-text-interaction-flags: 5;
+}
+/* Make the entire row selected in item views. */
+QAbstractItemView {
+show-decoration-selected: 1;
+}
+
+/* Nice WindowsXP-style password character for password line edits. */
+QLineEdit[echoMode=&quot;2&quot;] {
+lineedit-password-character: 9679;
+}
+
+/* Customize tooltips. */
+QToolTip {
+background-color: rgb(170, 255, 127);
+opacity: 200;
+}
+
+/* Customize push buttons and comboboxes. Our read-only combobox
+is very similar to a push button, so they share the same border image. */
+
+QPushButton {
+min-width: 4em;
+}
+
+QPushButton:disabled {
+color: rgb(128, 128, 128);
+}
+
+QGroupBox {
+color: rgb(255, 255, 255);
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="_vertical_layout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="rotation_tab">
+        <attribute name="icon">
+         <iconset resource="FaceTrackNoIR.qrc">
+          <normaloff>:/images/rotation_DOFs.png</normaloff>:/images/rotation_DOFs.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Rotations</string>
+        </attribute>
+        <widget class="QWidget" name="verticalLayoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>794</width>
+           <height>548</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="1">
+           <widget class="QFunctionConfigurator" name="qFunctionPitch">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>240</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>260</width>
+              <height>500</height>
+             </size>
+            </property>
+            <property name="maxOutputEGU" stdset="0">
+             <number>180</number>
+            </property>
+            <property name="pixPerEGU_Output" stdset="0">
+             <number>1</number>
+            </property>
+            <property name="colorBezier">
+             <color>
+              <red>0</red>
+              <green>255</green>
+              <blue>255</blue>
+             </color>
+            </property>
+            <property name="colorBackground">
+             <color>
+              <red>192</red>
+              <green>192</green>
+              <blue>192</blue>
+             </color>
+            </property>
+            <property name="stringInputEGU" stdset="0">
+             <string>Input Pitch Up (degr.)</string>
+            </property>
+            <property name="stringOutputEGU" stdset="0">
+             <string>Output Pitch Up (degr.)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QFunctionConfigurator" name="qFunctionRoll">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>240</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>260</width>
+              <height>500</height>
+             </size>
+            </property>
+            <property name="pixPerEGU_Output" stdset="0">
+             <number>1</number>
+            </property>
+            <property name="colorBezier">
+             <color>
+              <red>0</red>
+              <green>255</green>
+              <blue>0</blue>
+             </color>
+            </property>
+            <property name="colorBackground">
+             <color>
+              <red>192</red>
+              <green>192</green>
+              <blue>192</blue>
+             </color>
+            </property>
+            <property name="stringInputEGU" stdset="0">
+             <string>Input Roll (degr.)</string>
+            </property>
+            <property name="stringOutputEGU" stdset="0">
+             <string>Output Roll (degr.)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QFunctionConfigurator" name="qFunctionYaw">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>240</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>400</width>
+              <height>500</height>
+             </size>
+            </property>
+            <property name="pixPerEGU_Output" stdset="0">
+             <number>1</number>
+            </property>
+            <property name="colorBezier">
+             <color>
+              <red>255</red>
+              <green>170</green>
+              <blue>0</blue>
+             </color>
+            </property>
+            <property name="colorBackground">
+             <color>
+              <red>192</red>
+              <green>192</green>
+              <blue>192</blue>
+             </color>
+            </property>
+            <property name="stringInputEGU" stdset="0">
+             <string>Input Yaw (degr.)</string>
+            </property>
+            <property name="stringOutputEGU" stdset="0">
+             <string>Output Yaw (degr.)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QFunctionConfigurator" name="qFunctionPitchDown">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>240</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>260</width>
+              <height>500</height>
+             </size>
+            </property>
+            <property name="maxOutputEGU" stdset="0">
+             <number>90</number>
+            </property>
+            <property name="pixPerEGU_Output" stdset="0">
+             <number>2</number>
+            </property>
+            <property name="colorBezier">
+             <color>
+              <red>0</red>
+              <green>255</green>
+              <blue>255</blue>
+             </color>
+            </property>
+            <property name="colorBackground">
+             <color>
+              <red>192</red>
+              <green>192</green>
+              <blue>192</blue>
+             </color>
+            </property>
+            <property name="stringInputEGU" stdset="0">
+             <string>Input Pitch Down (degr.)</string>
+            </property>
+            <property name="stringOutputEGU" stdset="0">
+             <string>Output Pitch Down (degr.)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Left-click the graph to place a new point, right-click a point to remove. Left-click and drag to move a point.</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QWidget" name="widget_3" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>140</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">image: url(:/images/rotation_DOFs.png);</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="translation_tab">
+        <attribute name="icon">
+         <iconset resource="FaceTrackNoIR.qrc">
+          <normaloff>:/images/translation_DOFs.png</normaloff>:/images/translation_DOFs.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Translations</string>
+        </attribute>
+        <widget class="QWidget" name="verticalLayoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>10</y>
+           <width>794</width>
+           <height>390</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="0">
+           <widget class="QFunctionConfigurator" name="qFunctionX">
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>240</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>260</width>
+              <height>240</height>
+             </size>
+            </property>
+            <property name="colorBezier">
+             <color>
+              <red>255</red>
+              <green>255</green>
+              <blue>0</blue>
+             </color>
+            </property>
+            <property name="colorBackground">
+             <color>
+              <red>192</red>
+              <green>192</green>
+              <blue>192</blue>
+             </color>
+            </property>
+            <property name="stringInputEGU" stdset="0">
+             <string>Left/Right Input X (cm.)</string>
+            </property>
+            <property name="stringOutputEGU" stdset="0">
+             <string>Output X (cm.)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QFunctionConfigurator" name="qFunctionY">
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>240</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>260</width>
+              <height>240</height>
+             </size>
+            </property>
+            <property name="colorBezier">
+             <color>
+              <red>85</red>
+              <green>0</green>
+              <blue>255</blue>
+             </color>
+            </property>
+            <property name="colorBackground">
+             <color>
+              <red>192</red>
+              <green>192</green>
+              <blue>192</blue>
+             </color>
+            </property>
+            <property name="stringInputEGU" stdset="0">
+             <string>Up/Down Input Y (cm.)</string>
+            </property>
+            <property name="stringOutputEGU" stdset="0">
+             <string>Output Y (cm.)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QFunctionConfigurator" name="qFunctionZ">
+            <property name="minimumSize">
+             <size>
+              <width>260</width>
+              <height>240</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>260</width>
+              <height>240</height>
+             </size>
+            </property>
+            <property name="colorBezier">
+             <color>
+              <red>255</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </property>
+            <property name="colorBackground">
+             <color>
+              <red>192</red>
+              <green>192</green>
+              <blue>192</blue>
+             </color>
+            </property>
+            <property name="stringInputEGU" stdset="0">
+             <string>Forward/Backward Input Z (cm.)</string>
+            </property>
+            <property name="stringOutputEGU" stdset="0">
+             <string>Output Z (cm.)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Left-click the graph to place a new point, right-click a point to remove. Left-click and drag to move a point.</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QWidget" name="widget_2" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>140</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">image: url(:/images/translation_DOFs.png);</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="1">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="2">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <item>
+        <widget class="QPushButton" name="btnOK">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>52</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>OK</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnCancel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>52</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="3">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>10</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QFunctionConfigurator</class>
+   <extends>QWidget</extends>
+   <header>qfunctionconfigurator/qfunctionconfigurator.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="FaceTrackNoIR.qrc"/>
+ </resources>
+ <connections/>
+ <slots>
+  <slot>startEngineClicked()</slot>
+  <slot>stopEngineClicked()</slot>
+  <slot>cameraSettingsClicked()</slot>
+ </slots>
+</ui>
