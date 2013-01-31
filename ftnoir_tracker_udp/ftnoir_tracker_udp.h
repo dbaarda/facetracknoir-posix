@@ -28,9 +28,7 @@ private:
 	QUdpSocket *inSocket;									// Receive from ...
 	QUdpSocket *outSocket;									// Send to ...
 	QHostAddress destIP;									// Destination IP-address
-	int destPort;											// Destination port-number
 	QHostAddress srcIP;										// Source IP-address
-	int srcPort;											// Source port-number
 
 	THeadPoseData newHeadPose;								// Structure with new headpose
 
