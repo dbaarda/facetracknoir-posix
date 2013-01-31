@@ -1007,10 +1007,11 @@ void FaceTrackNoIR::createIconGroupBox()
 
     {
         QStringList protocols = settingsDir.entryList( QStringList() << ("libftnoir-proto-*." SONAME), QDir::Files, QDir::Name );
+        qDebug() << "protos" << protocols;
         for ( int i = 0; i < protocols.size(); i++) {
             QIcon icon;
             QString longName;
-            DynamicLibrary* lib = new DynamicLibrary(protocols.at(i));
+            DynamicLibrary* lib = new DynamicLibrary(QCoreApplication::applicationDirPath() + "/" + protocols.at(i));
             Metadata* meta;
             if (!lib->Metadata || ((meta = lib->Metadata()), !meta))
             {
@@ -1031,7 +1032,7 @@ void FaceTrackNoIR::createIconGroupBox()
         for ( int i = 0; i < trackers.size(); i++) {
             QIcon icon;
             QString longName;
-            DynamicLibrary* lib = new DynamicLibrary(trackers.at(i));
+            DynamicLibrary* lib = new DynamicLibrary(QCoreApplication::applicationDirPath() + "/" + trackers.at(i));
             Metadata* meta;
             if (!lib->Metadata || ((meta = lib->Metadata()), !meta))
             {
@@ -1054,7 +1055,7 @@ void FaceTrackNoIR::createIconGroupBox()
         for ( int i = 0; i < filters.size(); i++) {
             QIcon icon;
             QString fullName;
-            DynamicLibrary* lib = new DynamicLibrary(filters.at(i));
+            DynamicLibrary* lib = new DynamicLibrary(QCoreApplication::applicationDirPath() + "/" + filters.at(i));
             Metadata* meta;
             if (!lib->Metadata || ((meta = lib->Metadata()), !meta))
             {
