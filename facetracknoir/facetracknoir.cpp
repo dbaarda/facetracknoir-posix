@@ -1007,7 +1007,6 @@ void FaceTrackNoIR::createIconGroupBox()
 
     {
         QStringList protocols = settingsDir.entryList( QStringList() << ("libftnoir-proto-*." SONAME), QDir::Files, QDir::Name );
-        qDebug() << "protos" << protocols;
         for ( int i = 0; i < protocols.size(); i++) {
             QIcon icon;
             QString longName;
