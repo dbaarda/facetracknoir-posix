@@ -112,7 +112,7 @@ void FunctionConfig::reload() {
 		qStableSort(_points.begin(), _points.end(), sortFn);
 
 	if (_data)
-		delete _data;
+        delete[] _data;
 	_data = NULL;
 	if (_points.size()) {
 		_data = new double[_size = MEMOIZE_PRECISION * _points[_points.size() - 1].x()];
