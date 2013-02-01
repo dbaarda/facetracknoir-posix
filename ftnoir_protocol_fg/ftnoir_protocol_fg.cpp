@@ -151,7 +151,7 @@ char data[100];
 	//! [1]
 //	no_bytes = outSocket->writeDatagram((const char *) &FlightData, sizeof( FlightData ), QHostAddress::LocalHost, 5550);
 	if (outSocket != 0) {
-		no_bytes = outSocket->writeDatagram((const char *) &FlightData, sizeof( FlightData ), destIP, destPort);
+        no_bytes = outSocket->writeDatagram((const char *) &FlightData, sizeof( FlightData ), destIP, destPort);
 		if ( no_bytes > 0) {
 	//		qDebug() << "FGServer::writePendingDatagrams says: bytes send =" << no_bytes << sizeof( double );
 		}

@@ -9,7 +9,7 @@
 #include <math.h>
 #include "facetracknoir/global-settings.h"
 
-class FTNoIR_Tracker : public ITracker, QThread
+class FTNoIR_Tracker : public ITracker, public QThread
 {
 public:
 	FTNoIR_Tracker();
@@ -18,7 +18,11 @@ public:
     void StartTracker( QFrame *videoframe );
 	bool GiveHeadPoseData(THeadPoseData *data);
 	void loadSettings();
-    bool NeedsTimeToFinish() { return true; }
+    volatile bool should_quit;
+    void WaitForExit() {
+        should_quit = true;
+        wait();
+    }
 
 protected:
 	void run();												// qthread override run method

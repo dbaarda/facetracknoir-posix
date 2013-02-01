@@ -23,7 +23,7 @@
 #include <QFrame>
 
 //-----------------------------------------------------------------------------
-class Tracker : public ITracker, QThread
+class Tracker : public ITracker, public QThread
 {
 public:
 	Tracker();
@@ -39,7 +39,10 @@ public:
 	void center();
 	void reset();	// reset the trackers internal state variables
 	void run();
-    bool NeedsTimeToFinish() { return true; }
+    void WaitForExit() {
+        should_quit = true;
+        wait();
+    }
 
 	void get_pose(FrameTrafo* X_CM) { QMutexLocker lock(&mutex); *X_CM = point_tracker.get_pose(); }
 	int get_n_points() { QMutexLocker lock(&mutex); return point_extractor.get_points().size(); }
@@ -79,6 +82,8 @@ protected:
 
 	VideoWidget* video_widget;
 	Timer time;
+    QMutex mutex;
+    volatile bool should_quit;
 };
 
 #endif // FTNOIR_TRACKER_PT_H

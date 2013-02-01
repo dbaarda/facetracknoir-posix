@@ -132,6 +132,8 @@ private:
     QList<DynamicLibrary*> dlopen_trackers;
     QList<DynamicLibrary*> dlopen_protocols;
 
+    bool looping;
+
 	private slots:
 		//file menu
 		void open();

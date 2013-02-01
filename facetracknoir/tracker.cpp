@@ -92,28 +92,21 @@ Tracker::Tracker( FaceTrackNoIR *parent ) :
 {
     // Retieve the pointer to the parent
 	mainApp = parent;
-	//
-	// Load the Tracker-engine DLL, get the tracker-class from it and do stuff...
-	//
-
-
 	// Load the settings from the INI-file
 	loadSettings();
 }
 
-/** destructor empty **/
-Tracker::~Tracker() {
+Tracker::~Tracker()
+{
 }
 
 /** QThread run method @override **/
 void Tracker::run() {
     forever
 	{
-        mutex.lock();
-        if (should_quit) {
-            mutex.unlock();
+        if (should_quit)
             break;
-        }
+
         // Check event for stop thread
 
         THeadPoseData newpose;
@@ -135,6 +128,7 @@ void Tracker::run() {
             bTracker2Confid = false;
             bInitialCenter2 = false;
         }
+
         if (Libraries->pTracker) {
             bTracker1Confid = Libraries->pTracker->GiveHeadPoseData(&newpose);
         }
@@ -266,8 +260,6 @@ void Tracker::run() {
             GlobalPose->Roll.curvePtr->setTrackingActive( false );
         }
 
-        mutex.unlock();
-
         //for lower cpu load
         usleep(10000);
     }
@@ -279,7 +271,6 @@ void Tracker::run() {
     GlobalPose->Pitch.curvePtr->setTrackingActive( false );
     GlobalPose->Pitch.curvePtrAlt->setTrackingActive( false );
     GlobalPose->Roll.curvePtr->setTrackingActive( false );
-    alert_finished.wakeAll();
 }
 
 //
@@ -308,7 +299,6 @@ bool Tracker::handleGameCommand ( int command ) {
 
 	switch ( command ) {
 		case 1:										// reset headtracker
-        qDebug("game center");
 			Tracker::do_center = true;
 			break;
 		default:
@@ -321,7 +311,6 @@ bool Tracker::handleGameCommand ( int command ) {
 // Get the raw headpose, so it can be displayed.
 //
 void Tracker::getHeadPose( THeadPoseData *data ) {
-    mutex.lock();
     data->x = GlobalPose->X.headPos;				// centimeters
     data->y = GlobalPose->Y.headPos;
     data->z = GlobalPose->Z.headPos;
@@ -329,14 +318,12 @@ void Tracker::getHeadPose( THeadPoseData *data ) {
     data->pitch = GlobalPose->Pitch.headPos;		// degrees
     data->yaw = GlobalPose->Yaw.headPos;
     data->roll = GlobalPose->Roll.headPos;
-    mutex.unlock();
 }
 
 //
 // Get the output-headpose, so it can be displayed.
 //
 void Tracker::getOutputHeadPose( THeadPoseData *data ) {
-    mutex.lock();
 	data->x = output_camera.x;										// centimeters
 	data->y = output_camera.y;
 	data->z = output_camera.z;
@@ -344,7 +331,6 @@ void Tracker::getOutputHeadPose( THeadPoseData *data ) {
 	data->pitch = output_camera.pitch;	// degrees
 	data->yaw   = output_camera.yaw;
 	data->roll  = output_camera.roll;
-    mutex.unlock();
 }
 
 //
@@ -362,13 +348,11 @@ void Tracker::loadSettings() {
     iniFile.beginGroup ( "Tracking" );
 	iniFile.endGroup ();
 	iniFile.beginGroup ( "KB_Shortcuts" );
-    mutex.lock();
     // Reverse Axis
     useAxisReverse = iniFile.value ( "Enable_ReverseAxis", 0 ).toBool();
     YawAngle4ReverseAxis = iniFile.value ( "RA_Yaw", 40 ).toInt();
     Z_Pos4ReverseAxis = iniFile.value ( "RA_ZPos", 50 ).toInt();
     Z_PosWhenReverseAxis = iniFile.value ( "RA_ToZPos", 80 ).toInt();
-    mutex.unlock();
 	iniFile.endGroup ();
 }
 

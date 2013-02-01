@@ -239,6 +239,9 @@ SET_TARGET_PROPERTIES(ftnoir-tracker-udp PROPERTIES COMPILE_FLAGS "-DFTNOIR_TRAC
 
 add_executable(ftnoir ${ftnoir-bin-c} ${ftnoir-bin-moc} ${ftnoir-bin-uih} ${ftnoir-bin-rcc})
 target_link_libraries(ftnoir ftnoir-pose-widget ftnoir-spline-widget ${QT_LIBRARIES} ${QXT_QXTCORE_LIB_RELEASE} ${QXT_QXTGUI_LIB_RELEASE})
+if(NOT WIN32)
+    target_link_libraries(ftnoir dl)
+endif()
 
 if(WIN32)
     SET_TARGET_PROPERTIES(ftnoir PROPERTIES LINK_FLAGS "-Wl,--subsystem,windows")

@@ -1,20 +1,18 @@
 #include "global-settings.h"
 
+#if !(defined(__WIN32) || defined(_WIN32))
+#   include <dlfcn.h>
+#endif
+
 SelectedLibraries* Libraries = NULL;
 
 SelectedLibraries::~SelectedLibraries()
 {
-    if (pTracker && pTracker->NeedsTimeToFinish()) {
-        pTracker->mutex.lock();
-        pTracker->should_quit = true;
-        pTracker->alert_finished.wait(&pTracker->mutex);
-        pTracker->mutex.unlock();
+    if (pTracker) {
+        pTracker->WaitForExit();
     }
-    if (pSecondTracker && pSecondTracker->NeedsTimeToFinish()) {
-        pSecondTracker->mutex.lock();
-        pSecondTracker->should_quit = true;
-        pSecondTracker->alert_finished.wait(&pSecondTracker->mutex);
-        pSecondTracker->mutex.unlock();
+    if (pSecondTracker) {
+        pSecondTracker->WaitForExit();
     }
 
     if (pTracker) {
@@ -100,16 +98,37 @@ SelectedLibraries::SelectedLibraries(IDynamicLibraryProvider* mainApp) :
 #endif
 }
 
-DynamicLibrary::DynamicLibrary(QString filename)
+DynamicLibrary::DynamicLibrary(const char* filename)
 {
     this->filename = filename;
+#if defined(__WIN32) || defined(_WIN32)
     handle = new QLibrary(filename);
     Dialog = (SETTINGS_FUNCTION) handle->resolve("GetDialog" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
     Constructor = (NULLARY_DYNAMIC_FUNCTION) handle->resolve("GetConstructor" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
     Metadata = (METADATA_FUNCTION) handle->resolve("GetMetadata" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
+#else
+    handle = dlopen(filename, RTLD_LAZY |
+#   if __linux
+                    RTLD_DEEPBIND
+#   else
+                    0
+#   endif
+                    );
+    if (handle)
+    {
+        Dialog = (SETTINGS_FUNCTION) dlsym(handle, "GetDialog");
+        Constructor = (NULLARY_DYNAMIC_FUNCTION) dlsym(handle, "GetConstructor");
+        Metadata = (METADATA_FUNCTION) dlsym(handle, "GetMetadata");
+    }
+#endif
 }
 
 DynamicLibrary::~DynamicLibrary()
 {
+#if defined(__WIN32) || defined(_WIN32)
     handle->unload();
+#else
+    if (handle)
+        (void) dlclose(handle);
+#endif
 }

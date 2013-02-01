@@ -62,15 +62,16 @@
 // Setup the Main Dialog
 //
 FaceTrackNoIR::FaceTrackNoIR(QWidget *parent, Qt::WFlags flags) : 
-QMainWindow(parent, flags),
-pTrackerDialog(NULL),
-pSecondTrackerDialog(NULL),
-pProtocolDialog(NULL),
-pFilterDialog(NULL),
-keyCenter(NULL),
-keyZero(NULL),
-keyStartStop(NULL),
-keyInhibit(NULL)
+    QMainWindow(parent, flags),
+    pTrackerDialog(NULL),
+    pSecondTrackerDialog(NULL),
+    pProtocolDialog(NULL),
+    pFilterDialog(NULL),
+    keyCenter(NULL),
+    keyZero(NULL),
+    keyStartStop(NULL),
+    keyInhibit(NULL),
+    looping(false)
 {	
     GlobalPose = new HeadPoseData();
 	cameraDetected = false;
@@ -449,7 +450,9 @@ void FaceTrackNoIR::saveAs()
 // Load the current Settings from the currently 'active' INI-file.
 //
 void FaceTrackNoIR::loadSettings() {
-
+    if (looping)
+        return;
+    looping = true;
 	qDebug() << "loadSettings says: Starting ";
 	QSettings settings("Abbequerque Inc.", "FaceTrackNoIR");	// Registry settings (in HK_USER)
 
@@ -553,6 +556,7 @@ void FaceTrackNoIR::loadSettings() {
 	}
 
 	settingsDirty = false;
+    looping = false;
 }
 
 /** show support page in web-browser **/
@@ -604,6 +608,11 @@ void FaceTrackNoIR::startTracker( ) {
         delete Libraries;
     Libraries = new SelectedLibraries(this);
 
+    if (tracker) {
+        tracker->wait();
+        delete tracker;
+    }
+
 	tracker = new Tracker ( this );
 
 	//
@@ -617,7 +626,7 @@ void FaceTrackNoIR::startTracker( ) {
 	tracker->setInvertY (ui.chkInvertY->isChecked() );
 	tracker->setInvertZ (ui.chkInvertZ->isChecked() );
 
-	tracker->start( QThread::TimeCriticalPriority );
+    tracker->start();
 
 	//
 	// Register the Tracker instance with the Tracker Dialog (if open)
@@ -713,10 +722,9 @@ void FaceTrackNoIR::stopTracker( ) {
 	// Delete the tracker (after stopping things and all).
 	//
     if ( tracker ) {
-        tracker->mutex.lock();
+        qDebug() << "Done with tracking";
         tracker->should_quit = true;
-        (void) tracker->alert_finished.wait(&tracker->mutex);
-        tracker->mutex.unlock();
+        tracker->wait();
 
 		qDebug() << "stopTracker says: Deleting tracker!";
 		delete tracker;
@@ -881,7 +889,6 @@ void FaceTrackNoIR::showTrackerSettings() {
     DynamicLibrary* lib = dlopen_trackers.value(ui.iconcomboTrackerSource->currentIndex(), (DynamicLibrary*) NULL);
 
     if (lib) {
-        qDebug() << "Lib name:" << lib->filename;
         pTrackerDialog = (ITrackerDialog*) lib->Dialog();
         if (pTrackerDialog) {
             pTrackerDialog->Initialize(this);
@@ -937,7 +944,6 @@ void FaceTrackNoIR::showFilterControls() {
     DynamicLibrary* lib = dlopen_filters.value(ui.iconcomboFilter->currentIndex(), (DynamicLibrary*) NULL);
 
     if (lib && lib->Dialog) {
-        qDebug() << "Lib filename:" << lib->filename;
         pFilterDialog = (IFilterDialog*) lib->Dialog();
         if (pFilterDialog) {
             pFilterDialog->Initialize(this, Libraries ? Libraries->pFilter : NULL);
@@ -1010,7 +1016,8 @@ void FaceTrackNoIR::createIconGroupBox()
         for ( int i = 0; i < protocols.size(); i++) {
             QIcon icon;
             QString longName;
-            DynamicLibrary* lib = new DynamicLibrary(QCoreApplication::applicationDirPath() + "/" + protocols.at(i));
+            QString str = QCoreApplication::applicationDirPath() + "/" + protocols.at(i);
+            DynamicLibrary* lib = new DynamicLibrary(str.toLatin1().constData());
             Metadata* meta;
             if (!lib->Metadata || ((meta = lib->Metadata()), !meta))
             {
@@ -1031,7 +1038,8 @@ void FaceTrackNoIR::createIconGroupBox()
         for ( int i = 0; i < trackers.size(); i++) {
             QIcon icon;
             QString longName;
-            DynamicLibrary* lib = new DynamicLibrary(QCoreApplication::applicationDirPath() + "/" + trackers.at(i));
+            QString str = QCoreApplication::applicationDirPath() + "/" + trackers.at(i);
+            DynamicLibrary* lib = new DynamicLibrary(str.toLatin1().constData());
             Metadata* meta;
             if (!lib->Metadata || ((meta = lib->Metadata()), !meta))
             {
@@ -1054,7 +1062,8 @@ void FaceTrackNoIR::createIconGroupBox()
         for ( int i = 0; i < filters.size(); i++) {
             QIcon icon;
             QString fullName;
-            DynamicLibrary* lib = new DynamicLibrary(QCoreApplication::applicationDirPath() + "/" + filters.at(i));
+            QString str = QCoreApplication::applicationDirPath() + "/" + filters.at(i);
+            DynamicLibrary* lib = new DynamicLibrary(str.toLatin1().constData());
             Metadata* meta;
             if (!lib->Metadata || ((meta = lib->Metadata()), !meta))
             {
@@ -1805,10 +1814,7 @@ void FaceTrackNoIR::shortcutRecentered()
 {
     if (tracker)
     {
-        tracker->mutex.lock();
-        qDebug() << "recentered";
         tracker->do_center = true;
-        tracker->mutex.unlock();
     }
 }
 
@@ -1816,9 +1822,7 @@ void FaceTrackNoIR::shortcutZero()
 {
     if (tracker)
     {
-        tracker->mutex.lock();
         tracker->do_game_zero = true;
-        tracker->mutex.unlock();
     }
 }
 
@@ -1826,9 +1830,7 @@ void FaceTrackNoIR::shortcutStartStop()
 {
     if (tracker)
     {
-        tracker->mutex.lock();
         tracker->do_tracking = !tracker->do_tracking;
-        tracker->mutex.unlock();
     }
 }
 
@@ -1836,8 +1838,6 @@ void FaceTrackNoIR::shortcutInhibit()
 {
     if (tracker)
     {
-        tracker->mutex.lock();
         tracker->do_inhibit = true;
-        tracker->mutex.unlock();
     }
 }

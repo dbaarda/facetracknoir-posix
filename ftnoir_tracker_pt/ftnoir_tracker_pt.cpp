@@ -22,6 +22,7 @@ using namespace cv;
 Tracker::Tracker()
     : tracking_valid(false), frame_count(0), commands(0), video_widget(NULL)
 {
+    should_quit = false;
 	qDebug()<<"Tracker::Tracker";
 	TrackerSettings settings;
 	settings.load_ini();
@@ -93,7 +94,6 @@ void Tracker::run()
 		msleep(sleep_time);
 	}
 
-    alert_finished.wakeAll();
 	qDebug()<<"Tracker:: Thread stopping";
 }
 

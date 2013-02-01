@@ -54,19 +54,11 @@
 // Instances are obtained via factory function.
 struct ITracker
 {
-    ITracker() : should_quit(false)
-    {
-    }
-
     virtual ~ITracker() {}
     virtual void StartTracker( QFrame* frame ) = 0;
     virtual bool GiveHeadPoseData(THeadPoseData *data) = 0;
 
-    virtual bool NeedsTimeToFinish() = 0;
-
-    volatile bool should_quit;
-    QWaitCondition alert_finished;
-    QMutex mutex;
+    virtual void WaitForExit() = 0;
 };
 
 typedef ITracker* ITrackerPtr;

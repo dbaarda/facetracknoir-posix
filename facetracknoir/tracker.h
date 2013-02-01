@@ -30,14 +30,12 @@
 #include <QThread>
 #include <QMessageBox>
 #include <QLineEdit>
-#include <QThread>
 #include <QPoint>
 #include <QWaitCondition>
 #include <QList>
 #include <QPainterPath>
 #include <QDebug>
 #include <QMutex>
-#include <QWaitCondition>
 #include "global-settings.h"
 
 //#define DIRECTINPUT_VERSION 0x0800
@@ -153,7 +151,7 @@ protected:
 
 public:
 	Tracker( FaceTrackNoIR *parent );
-	~Tracker();
+    ~Tracker();
 
 //	void registerHeadPoseCallback();
 	bool handleGameCommand ( int command );
@@ -179,8 +177,6 @@ public:
 
     float getDegreesFromRads ( float rads ) { return (rads * 57.295781f); }
     float getRadsFromDegrees ( float degrees ) { return (degrees * 0.017453f); }
-    QWaitCondition alert_finished;
-    QMutex mutex;
     volatile bool should_quit;
     // following are now protected by hTrackMutex
     bool do_tracking;						// Start/stop tracking, using the shortkey

@@ -13,8 +13,6 @@
 PortableLockedShm::PortableLockedShm(const char* shmName, const char* mutexName, int mapSize)
 {
     hMutex = CreateMutexA(NULL, false, mutexName);
-    if (!hMutex)
-        throw std::exception();
     hMapFile = CreateFileMappingA(
                  INVALID_HANDLE_VALUE,
                  NULL,
@@ -22,15 +20,11 @@ PortableLockedShm::PortableLockedShm(const char* shmName, const char* mutexName,
                  0,
                  mapSize,
                  shmName);
-    if (!hMapFile)
-        throw std::exception();
     mem = MapViewOfFile(hMapFile,
                         FILE_MAP_READ | FILE_MAP_WRITE,
                         0,
                         0,
                         mapSize);
-    if (!mem)
-        throw std::exception();
 }
 
 PortableLockedShm::~PortableLockedShm()
@@ -42,8 +36,7 @@ PortableLockedShm::~PortableLockedShm()
 
 void PortableLockedShm::lock()
 {
-    if (WaitForSingleObject(hMutex, INFINITE) != WAIT_OBJECT_0)
-        throw std::exception();
+    (void) WaitForSingleObject(hMutex, INFINITE);
 }
 
 void PortableLockedShm::unlock()
@@ -63,16 +56,7 @@ PortableLockedShm::PortableLockedShm(const char *shmName, const char *mutexName,
 
     fd = shm_open(shm_filename, O_RDWR | O_CREAT, 0600);
 
-    if (fd < 0)
-        throw std::exception();
-
-    if (ftruncate(fd, mapSize) < 0)
-        std::exception();
-
     mem = mmap(NULL, mapSize, PROT_READ|PROT_WRITE, MAP_SHARED, fd, (off_t)0);
-
-    if (mem == (void *)-1)
-        throw std::exception();
 }
 
 PortableLockedShm::~PortableLockedShm()
@@ -85,14 +69,12 @@ PortableLockedShm::~PortableLockedShm()
 
 void PortableLockedShm::lock()
 {
-    if (flock(fd, LOCK_EX))
-        throw std::exception();
+    flock(fd, LOCK_EX);
 }
 
 void PortableLockedShm::unlock()
 {
-    if (flock(fd, LOCK_UN))
-        throw std::exception();
+    flock(fd, LOCK_UN);
 }
 
 

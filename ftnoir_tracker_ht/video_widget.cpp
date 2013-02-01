@@ -32,7 +32,7 @@ void VideoWidget::resizeGL(int w, int h)
 
 void VideoWidget::paintGL()
 {
-    //glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 	if (!resized_qframe.isNull())
         glDrawPixels(resized_qframe.width(), resized_qframe.height(), GL_RGB, GL_UNSIGNED_BYTE, resized_qframe.bits());
 	glFlush();

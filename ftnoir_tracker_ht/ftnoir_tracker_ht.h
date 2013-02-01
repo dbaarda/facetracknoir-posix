@@ -27,6 +27,7 @@ public:
     bool NeedsTimeToFinish() {
         return false;
     }
+    void WaitForExit() {}
 private:
     PortableLockedShm lck_shm;
 	QProcess subprocess;

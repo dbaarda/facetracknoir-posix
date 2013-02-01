@@ -86,10 +86,6 @@ quint16 senderPort;
 
 		usleep(10000);
 	}
-
-    mutex.lock();
-    alert_finished.wakeAll();
-    mutex.unlock();
 }
 
 void FTNoIR_Tracker::StartTracker(QFrame* videoFrame)

@@ -43,14 +43,18 @@ extern "C" typedef void* (CALLING_CONVENTION* SETTINGS_FUNCTION)(void);
 
 class DynamicLibrary {
 public:
-    DynamicLibrary(QString filename);
+    DynamicLibrary(const char* filename);
     virtual ~DynamicLibrary();
     SETTINGS_FUNCTION Dialog;
     NULLARY_DYNAMIC_FUNCTION Constructor;
     METADATA_FUNCTION Metadata;
     QString filename;
 private:
+#if defined(_WIN32) || defined(__WIN32)
     QLibrary* handle;
+#else
+    void* handle;
+#endif
 };
 
 struct Metadata
