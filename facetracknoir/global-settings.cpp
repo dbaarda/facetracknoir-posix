@@ -86,16 +86,9 @@ SelectedLibraries::SelectedLibraries(IDynamicLibraryProvider* mainApp) :
     // Check if the Protocol-server files were installed OK.
     // Some servers also create a memory-mapping, for Inter Process Communication.
     // The handle of the MainWindow is sent to 'The Game', so it can send a message back.
-    //
-    // Sorry! -sh
-#if 0
-    if (pProtocol) {
-        bool DLL_Ok = pProtocol->checkServerInstallationOK();
-        if (!DLL_Ok) {
-            QMessageBox::information(mainApp, "FaceTrackNoIR error", "Protocol is not (correctly) installed!");
-        }
-    }
-#endif
+
+    if (pProtocol)
+        (void) pProtocol->checkServerInstallationOK();
 }
 
 DynamicLibrary::DynamicLibrary(const char* filename)
@@ -108,7 +101,7 @@ DynamicLibrary::DynamicLibrary(const char* filename)
     Metadata = (METADATA_FUNCTION) handle->resolve("GetMetadata" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
 #else
     handle = dlopen(filename, RTLD_LAZY |
-#   if __linux
+#   ifdef __linux
                     RTLD_DEEPBIND
 #   else
                     0
