@@ -25,9 +25,15 @@ public:
 	bool enableTX, enableTY, enableTZ, enableRX, enableRY, enableRZ;
 	ht_shm_t* shm;
     bool NeedsTimeToFinish() {
-        return false;
+        return true;
     }
-    void WaitForExit() {}
+    void WaitForExit() {
+        if (shm) {
+            shm->terminate = true;
+            subprocess.waitForFinished(5000);
+        }
+        subprocess.kill();
+    }
 private:
     PortableLockedShm lck_shm;
 	QProcess subprocess;
