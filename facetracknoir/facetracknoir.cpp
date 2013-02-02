@@ -1165,7 +1165,8 @@ void FaceTrackNoIR::protocolSelected(int index)
 		trayIcon->showMessage( "FaceTrackNoIR", ui.iconcomboProtocol->itemText(index));
 	}
     //setWindowIcon(QIcon(":/images/FaceTrackNoIR.ico"));
-	ui.btnShowServerControls->setIcon(icon);
+    //breaks with transparency -sh
+    //ui.btnShowServerControls->setIcon(icon);]
 }
 
 //

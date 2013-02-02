@@ -65,7 +65,7 @@ FTNoIR_Protocol::~FTNoIR_Protocol()
 
 void FTNoIR_Protocol::Initialize()
 {
-    wrapper.start(WINEBINARY, QStringList() << (QCoreApplication::applicationDirPath() + "/ftnoir-wine-wrapper.exe.so"));
+    wrapper.start("wine", QStringList() << (QCoreApplication::applicationDirPath() + "/ftnoir-wrapper-wine.exe.so"));
 }
 
 void FTNoIR_Protocol::sendHeadposeToGame( THeadPoseData *headpose, THeadPoseData *rawheadpose ) {

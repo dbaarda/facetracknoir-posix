@@ -258,10 +258,10 @@ SET_TARGET_PROPERTIES(ftnoir-proto-udp PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOC
 
 if(NOT WIN32 AND SDK_WINE_PREFIX)
     add_library(ftnoir-proto-wine SHARED ${ftnoir-proto-wine-c} ${ftnoir-proto-wine-moc} ${ftnoir-proto-wine-uih} ${ftnoir-proto-wine-rcc})
-    target_link_libraries(ftnoir-proto-wine ${QT_LIBRARIES})
+    target_link_libraries(ftnoir-proto-wine ${QT_LIBRARIES} ftnoir-compat)
     SET_TARGET_PROPERTIES(ftnoir-proto-wine
                           PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
-    SET_TARGET_PROPERTIES(ftnoir-proto-wine PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB -DWINEBINARY=\\\"${WINE_SDK_PATH}/bin/wine\\\"")
+    SET_TARGET_PROPERTIES(ftnoir-proto-wine PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
     add_custom_command( OUTPUT ftnoir-wrapper-wine.exe.so
                         COMMAND
                         "${SDK_WINE_PREFIX}/bin/wineg++" -g -O2 -m32 -o ftnoir-wrapper-wine.exe
