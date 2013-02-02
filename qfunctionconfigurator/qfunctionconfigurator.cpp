@@ -65,7 +65,7 @@ QFunctionConfigurator::~QFunctionConfigurator()
 static const int pointSize = 5;
 
 QFunctionConfigurator::QFunctionConfigurator(QWidget *parent)
-    : QWidget(parent), _mutex(QMutex::Recursive)
+    : QWidget(parent)
 {
 
 	//
@@ -114,7 +114,6 @@ QPointF currentPoint;
 QPointF drawPoint;
 qreal x;
 
-    _mutex.lock();
 	_config = config;
 	_points = config->getPoints();
 	strSettingsFile = settingsFile;													// Remember for Reset()
@@ -141,7 +140,6 @@ qreal x;
 		}
 	}
 	
-    _mutex.unlock();
 	_draw_function = true;
 	this->update();
 }
@@ -154,12 +152,10 @@ void QFunctionConfigurator::loadSettings(QString settingsFile) {
 	QSettings iniFile( settingsFile, QSettings::IniFormat );						// Application settings (in INI-file)
 	strSettingsFile = settingsFile;													// Remember for Reset()
 	qDebug() << "QFunctionConfigurator::loadSettings = " << settingsFile;
-    _mutex.lock();
 	if (_config) {
 		_config->loadSettings(iniFile);
 		setConfig(_config, settingsFile);
 	}
-    _mutex.unlock();
 }
 
 //
@@ -170,11 +166,9 @@ void QFunctionConfigurator::saveSettings(QString settingsFile) {
 	strSettingsFile = settingsFile;													// Remember for Reset()
 	qDebug() << "QFunctionConfigurator::saveSettings = " << settingsFile;
 
-    _mutex.lock();
 	if (_config) {
 		_config->saveSettings(iniFile);
 	}
-    _mutex.unlock();
 }
 
 //
@@ -336,7 +330,6 @@ int i;
 	//
 	// Draw the Points, that make up the Curve
 	//
-    _mutex.lock();
 	if (_config) {
 
 		//
@@ -382,7 +375,6 @@ int i;
 		}
 
 	}
-    _mutex.unlock();
 
 	//
 	// Draw the delimiters
@@ -435,7 +427,6 @@ void QFunctionConfigurator::mousePressEvent(QMouseEvent *e)
 		//
 		bool bTouchingPoint = false;
 		movingPoint = -1;
-        _mutex.lock();
 		if (_config) {
 
 			for (int i = 0; i < _points.size(); i++) {
@@ -458,7 +449,6 @@ void QFunctionConfigurator::mousePressEvent(QMouseEvent *e)
 				}
 			}
 		}
-        _mutex.unlock();
 	}
 
 	//
@@ -471,7 +461,6 @@ void QFunctionConfigurator::mousePressEvent(QMouseEvent *e)
 		//
 		moving = NULL;
 		movingPoint = -1;
-        _mutex.lock();
 		if (_config) {
 
 			for (int i = 0; i < _points.size(); i++) {
@@ -490,7 +479,6 @@ void QFunctionConfigurator::mousePressEvent(QMouseEvent *e)
 				emit CurveChanged( true );
 			}
 		}
-        _mutex.unlock();
 	}
 
 }
@@ -518,7 +506,6 @@ void QFunctionConfigurator::mouseMoveEvent(QMouseEvent *e)
 		// Check to see if the cursor is touching one of the points.
 		//
 		bool bTouchingPoint = false;
-        _mutex.lock();
 		if (_config) {
 
 			for (int i = 0; i < _points.size(); i++) {
@@ -527,7 +514,6 @@ void QFunctionConfigurator::mouseMoveEvent(QMouseEvent *e)
 				}
 			}
 		}
-        _mutex.unlock();
 
 		if ( bTouchingPoint ) {
 			setCursor(Qt::OpenHandCursor);
@@ -548,13 +534,10 @@ void QFunctionConfigurator::mouseReleaseEvent(QMouseEvent *e)
 		//
 		// Update the Point in the _config
 		//
-        _mutex.lock();
 		if (_config) {
 			_config->movePoint(movingPoint, normalizePoint(e->pos()));
 			setConfig(_config, strSettingsFile);
 		}
-        _mutex.unlock();
-
 	}
 	setCursor(Qt::ArrowCursor);		
 	moving = NULL;

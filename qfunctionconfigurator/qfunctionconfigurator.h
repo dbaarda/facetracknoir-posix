@@ -38,7 +38,6 @@
 #include <QtGui>
 #include <QtDesigner/QDesignerExportWidget>
 #include <QPointF>
-#include <QMutex>
 #include "functionconfig.h"
 
 //
@@ -201,7 +200,6 @@ private:
 	FunctionConfig* _config;
 	QList<QPointF> _points;			// Function-points
 	QList<QPointF> _draw_points;	// Curve-points needed for drawing
-    QMutex _mutex;
 };
 
 #endif // QFUNCTIONCONFIGURATOR_H
