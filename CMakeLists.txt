@@ -372,6 +372,7 @@ if(WIN32)
                 LIBRARY DESTINATION faceapi
                 NAMELINK_SKIP
         )
+        install(FILES "${CMAKE_SOURCE_DIR}/bin/cleye.config" DESTINATION faceapi)
         install(FILES
                 "${SDK_SM_FACEAPI_PATH}/bin/computation6.0.dll"
                 "${SDK_SM_FACEAPI_PATH}/bin/foundation6.0.dll"
