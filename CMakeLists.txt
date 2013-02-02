@@ -294,6 +294,8 @@ if(WIN32)
             "${ftnoir-opencv-dir}/bin/libopencv_core*.dll"
             "${ftnoir-opencv-dir}/bin/libopencv_highgui*.dll"
             "${ftnoir-opencv-dir}/bin/libopencv_imgproc*.dll"
+            "${ftnoir-opencv-dir}/bin/libopencv_flann*.dll"
+            "${ftnoir-opencv-dir}/bin/libopencv_features2d*.dll"
         )
         install(FILES ${ftnoir-opencv-files} DESTINATION .)
     endif()
