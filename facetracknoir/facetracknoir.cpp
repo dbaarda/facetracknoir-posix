@@ -481,7 +481,7 @@ void FaceTrackNoIR::loadSettings() {
 	for ( int i = 0; i < iniFileList.size(); i++) {
         ui.iconcomboProfile->addItem(QIcon(":/images/settings16.png"), iniFileList.at(i));
 		if (iniFileList.at(i) == pathInfo.fileName()) {
-            ui.iconcomboProfile->setItemIcon(i, QIcon(":/images/settingsOpen16.png"));
+            ui.iconcomboProfile->setItemIcon(i, QIcon(":/images/settingsopen16.png"));
 			ui.iconcomboProfile->setCurrentIndex( i );
 		}
 	}
@@ -584,7 +584,7 @@ void FaceTrackNoIR::about() {
 
 	aboutDialog.setMinimumWidth(270);
 	aboutDialog.setMinimumHeight(440);
-	aboutDialog.setStyleSheet("background:#fff url(:/UIElements/aboutFaceTrackNoIR.png) no-repeat;");
+    aboutDialog.setStyleSheet("background:#fff url(:/uielements/aboutfacetracknoir.png) no-repeat;");
 }
 
 /** start tracking the face **/

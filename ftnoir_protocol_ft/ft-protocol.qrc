@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/Freetrack.ico</file>
+        <file>images/freetrack.ico</file>
     </qresource>
 </RCC>

@@ -245,8 +245,8 @@ QGroupBox {
 Support FaceTrackNoIR!</string>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>:/UIElements/Donate.png</normaloff>:/UIElements/Donate.png</iconset>
+              <iconset resource="main-facetracknoir.qrc">
+               <normaloff>:/uielements/donate.png</normaloff>:/uielements/donate.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1521,7 +1521,7 @@ background:none;</string>
                 <bool>true</bool>
                </property>
                <property name="styleSheet">
-                <string notr="true">background:  url(&quot;UIElements/bubble_1_small.png&quot;) no-repeat;
+                <string notr="true">background:  url(&quot;uielements/bubble_1_small.png&quot;) no-repeat;
 opacity:100;</string>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -1956,7 +1956,7 @@ background:none;</string>
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>:/UIElements/Tools.png</normaloff>:/UIElements/Tools.png</iconset>
+                   <normaloff>:/uielements/tools.png</normaloff>:uielements/tools.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1997,7 +1997,7 @@ background:none;</string>
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>:/UIElements/Curves.png</normaloff>:/UIElements/Curves.png</iconset>
+                   <normaloff>:/uielements/curves.png</normaloff>:/uielements/curves.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -2240,6 +2240,7 @@ background:none;</string>
   <tabstop>iconcomboProtocol</tabstop>
  </tabstops>
  <resources>
+  <include location="main-facetracknoir.qrc"/>
   <include location="../ftnoir_tracker_pt/ftnoir_tracker_pt.qrc"/>
  </resources>
  <connections/>

@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>images/FaceTrackNoIR.ico</normaloff>images/FaceTrackNoIR.ico</iconset>
+    <normaloff>images/facetracknoir.ico</normaloff>images/facetracknoir.ico</iconset>
   </property>
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
@@ -101,8 +101,8 @@ color: rgb(255, 255, 255);
        </property>
        <widget class="QWidget" name="rotation_tab">
         <attribute name="icon">
-         <iconset resource="FaceTrackNoIR.qrc">
-          <normaloff>:/images/rotation_DOFs.png</normaloff>:/images/rotation_DOFs.png</iconset>
+         <iconset>
+          <normaloff>:/images/rotation_dofs.png</normaloff>:/images/rotation_dofs.png</iconset>
         </attribute>
         <attribute name="title">
          <string>Rotations</string>
@@ -118,7 +118,7 @@ color: rgb(255, 255, 255);
          </property>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="1">
-           <widget class="QFunctionConfigurator" name="qFunctionPitch">
+           <widget class="QFunctionConfigurator" name="qFunctionPitch" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -143,14 +143,14 @@ color: rgb(255, 255, 255);
             <property name="pixPerEGU_Output" stdset="0">
              <number>1</number>
             </property>
-            <property name="colorBezier">
+            <property name="colorBezier" stdset="0">
              <color>
               <red>0</red>
               <green>255</green>
               <blue>255</blue>
              </color>
             </property>
-            <property name="colorBackground">
+            <property name="colorBackground" stdset="0">
              <color>
               <red>192</red>
               <green>192</green>
@@ -166,7 +166,7 @@ color: rgb(255, 255, 255);
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QFunctionConfigurator" name="qFunctionRoll">
+           <widget class="QFunctionConfigurator" name="qFunctionRoll" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -188,14 +188,14 @@ color: rgb(255, 255, 255);
             <property name="pixPerEGU_Output" stdset="0">
              <number>1</number>
             </property>
-            <property name="colorBezier">
+            <property name="colorBezier" stdset="0">
              <color>
               <red>0</red>
               <green>255</green>
               <blue>0</blue>
              </color>
             </property>
-            <property name="colorBackground">
+            <property name="colorBackground" stdset="0">
              <color>
               <red>192</red>
               <green>192</green>
@@ -211,7 +211,7 @@ color: rgb(255, 255, 255);
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QFunctionConfigurator" name="qFunctionYaw">
+           <widget class="QFunctionConfigurator" name="qFunctionYaw" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -233,14 +233,14 @@ color: rgb(255, 255, 255);
             <property name="pixPerEGU_Output" stdset="0">
              <number>1</number>
             </property>
-            <property name="colorBezier">
+            <property name="colorBezier" stdset="0">
              <color>
               <red>255</red>
               <green>170</green>
               <blue>0</blue>
              </color>
             </property>
-            <property name="colorBackground">
+            <property name="colorBackground" stdset="0">
              <color>
               <red>192</red>
               <green>192</green>
@@ -256,7 +256,7 @@ color: rgb(255, 255, 255);
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QFunctionConfigurator" name="qFunctionPitchDown">
+           <widget class="QFunctionConfigurator" name="qFunctionPitchDown" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -281,14 +281,14 @@ color: rgb(255, 255, 255);
             <property name="pixPerEGU_Output" stdset="0">
              <number>2</number>
             </property>
-            <property name="colorBezier">
+            <property name="colorBezier" stdset="0">
              <color>
               <red>0</red>
               <green>255</green>
               <blue>255</blue>
              </color>
             </property>
-            <property name="colorBackground">
+            <property name="colorBackground" stdset="0">
              <color>
               <red>192</red>
               <green>192</green>
@@ -328,7 +328,7 @@ color: rgb(255, 255, 255);
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">image: url(:/images/rotation_DOFs.png);</string>
+             <string notr="true">image: url(:/images/rotation_dofs.png);</string>
             </property>
            </widget>
           </item>
@@ -337,8 +337,8 @@ color: rgb(255, 255, 255);
        </widget>
        <widget class="QWidget" name="translation_tab">
         <attribute name="icon">
-         <iconset resource="FaceTrackNoIR.qrc">
-          <normaloff>:/images/translation_DOFs.png</normaloff>:/images/translation_DOFs.png</iconset>
+         <iconset>
+          <normaloff>:/images/translation_dofs.png</normaloff>:/images/translation_dofs.png</iconset>
         </attribute>
         <attribute name="title">
          <string>Translations</string>
@@ -354,7 +354,7 @@ color: rgb(255, 255, 255);
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
           <item row="0" column="0">
-           <widget class="QFunctionConfigurator" name="qFunctionX">
+           <widget class="QFunctionConfigurator" name="qFunctionX" native="true">
             <property name="minimumSize">
              <size>
               <width>260</width>
@@ -367,14 +367,14 @@ color: rgb(255, 255, 255);
               <height>240</height>
              </size>
             </property>
-            <property name="colorBezier">
+            <property name="colorBezier" stdset="0">
              <color>
               <red>255</red>
               <green>255</green>
               <blue>0</blue>
              </color>
             </property>
-            <property name="colorBackground">
+            <property name="colorBackground" stdset="0">
              <color>
               <red>192</red>
               <green>192</green>
@@ -390,7 +390,7 @@ color: rgb(255, 255, 255);
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QFunctionConfigurator" name="qFunctionY">
+           <widget class="QFunctionConfigurator" name="qFunctionY" native="true">
             <property name="minimumSize">
              <size>
               <width>260</width>
@@ -403,14 +403,14 @@ color: rgb(255, 255, 255);
               <height>240</height>
              </size>
             </property>
-            <property name="colorBezier">
+            <property name="colorBezier" stdset="0">
              <color>
               <red>85</red>
               <green>0</green>
               <blue>255</blue>
              </color>
             </property>
-            <property name="colorBackground">
+            <property name="colorBackground" stdset="0">
              <color>
               <red>192</red>
               <green>192</green>
@@ -426,7 +426,7 @@ color: rgb(255, 255, 255);
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QFunctionConfigurator" name="qFunctionZ">
+           <widget class="QFunctionConfigurator" name="qFunctionZ" native="true">
             <property name="minimumSize">
              <size>
               <width>260</width>
@@ -439,14 +439,14 @@ color: rgb(255, 255, 255);
               <height>240</height>
              </size>
             </property>
-            <property name="colorBezier">
+            <property name="colorBezier" stdset="0">
              <color>
               <red>255</red>
               <green>0</green>
               <blue>0</blue>
              </color>
             </property>
-            <property name="colorBackground">
+            <property name="colorBackground" stdset="0">
              <color>
               <red>192</red>
               <green>192</green>
@@ -486,7 +486,7 @@ color: rgb(255, 255, 255);
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">image: url(:/images/translation_DOFs.png);</string>
+             <string notr="true">image: url(:/images/translation_dofs.png);</string>
             </property>
            </widget>
           </item>
@@ -527,7 +527,7 @@ color: rgb(255, 255, 255);
          </property>
          <property name="minimumSize">
           <size>
-           <width>52</width>
+           <width>54</width>
            <height>0</height>
           </size>
          </property>
@@ -552,7 +552,7 @@ color: rgb(255, 255, 255);
          </property>
          <property name="minimumSize">
           <size>
-           <width>52</width>
+           <width>54</width>
            <height>0</height>
           </size>
          </property>
@@ -596,9 +596,7 @@ color: rgb(255, 255, 255);
    <header>qfunctionconfigurator/qfunctionconfigurator.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="FaceTrackNoIR.qrc"/>
- </resources>
+ <resources/>
  <connections/>
  <slots>
   <slot>startEngineClicked()</slot>
