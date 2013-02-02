@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/FS9.ico</file>
+        <file>images/fs9.ico</file>
     </qresource>
 </RCC>
