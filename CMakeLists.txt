@@ -34,7 +34,7 @@ endif(WIN32)
 
 # main app
 
-file(GLOB ftnoir-bin-c "facetracknoir/*.cpp")
+file(GLOB ftnoir-bin-c "facetracknoir/*.cpp" "facetracknoir/*.rc")
 file(GLOB ftnoir-bin-h "facetracknoir/*.h")
 QT4_WRAP_CPP(ftnoir-bin-moc ${ftnoir-bin-h})
 file(GLOB ftnoir-bin-ui "facetracknoir/*.ui")
