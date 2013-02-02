@@ -29,6 +29,7 @@
 */
 #ifndef FTNOIR_TRACKER_TYPES_H
 #define FTNOIR_TRACKER_TYPES_H
+#include <inttypes.h>
 
 //
 // x,y,z position in centimetres, yaw, pitch and roll in degrees...
@@ -44,7 +45,7 @@ struct THeadPoseData {
 		: x(x), y(y), z(z), yaw(yaw), pitch(pitch), roll(roll), frame_number(0) {}
 
 	double x, y, z, yaw, pitch, roll;
-	long frame_number;
+    int32_t frame_number;
 };
 #pragma pack(pop)
 
