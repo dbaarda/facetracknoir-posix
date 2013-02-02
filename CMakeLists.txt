@@ -297,6 +297,7 @@ if(OpenCV_FOUND)
 endif()
 
 if(WIN32)
+    install(FILES "${CMAKE_SOURCE_DIR}/bin/cleye.config" DESTINATION .)
     if(SDK_SIMCONNECT)
     install(TARGETS ftnoir-proto-simconnect
             RUNTIME DESTINATION .
