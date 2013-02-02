@@ -352,6 +352,7 @@ if(WIN32)
                 "${SDK_SM_FACEAPI_PATH}/bin/QtXml4.dll"
                 "${SDK_SM_FACEAPI_PATH}/bin/smft32.dll"
                 "${SDK_SM_FACEAPI_PATH}/bin/zlib1.dll"
+                "${SDK_SM_FACEAPI_PATH}/doc/RELEASE NOTES.txt"
                 DESTINATION faceapi
         )
         install(DIRECTORY
