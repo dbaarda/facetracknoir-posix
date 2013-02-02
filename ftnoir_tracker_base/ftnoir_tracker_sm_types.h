@@ -5,6 +5,7 @@ static const char* SM_MM_DATA = "SM_SharedMem";
 static const char* SM_FACEAPI = "SM_FaceAPI";
 static const char* SM_MUTEX = "SM_Mutex";
 
+#include "faceapi/stdafx.h"
 #include <sm_api.h>
 
 struct TFaceData {

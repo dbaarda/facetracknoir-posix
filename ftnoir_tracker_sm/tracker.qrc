@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/SeeingMachines.ico</file>
+        <file>images/seeingmachines.ico</file>
     </qresource>
 </RCC>

@@ -153,6 +153,8 @@ file(GLOB ftnoir-tracker-udp-rc "ftnoir_tracker_udp/*.qrc")
 QT4_WRAP_UI(ftnoir-tracker-udp-uih ${ftnoir-tracker-udp-ui})
 QT4_ADD_RESOURCES(ftnoir-tracker-udp-rcc ${ftnoir-tracker-udp-rc})
 
+file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
+
 # compat lib for POSIX/win32
 
 file(GLOB ftnoir-compat-c "compat/*.cpp")
@@ -229,6 +231,9 @@ if(WIN32 AND SDK_SM_FACEAPI_PATH)
     add_library(ftnoir-tracker-faceapi SHARED ${ftnoir-tracker-faceapi-c} ${ftnoir-tracker-faceapi-moc} ${ftnoir-tracker-faceapi-uih} ${ftnoir-tracker-faceapi-rcc})
     target_link_libraries(ftnoir-tracker-faceapi ${QT_LIBRARIES})
     SET_TARGET_PROPERTIES(ftnoir-tracker-faceapi PROPERTIES COMPILE_FLAGS "-DFTNOIR_TRACKER_BASE_LIB")
+    include_directories("${SDK_SM_FACEAPI_PATH}/include")
+    add_executable(ftnoir-faceapi-wrapper ${ftnoir-faceapi-wrapper-c})
+    target_link_libraries(ftnoir-faceapi-wrapper "${SDK_SM_FACEAPI_PATH}/bin/smft32.lib" "${CMAKE_SOURCE_DIR}/bin/msvcrt.lib")
 endif()
 
 add_library(ftnoir-tracker-udp SHARED ${ftnoir-tracker-udp-c} ${ftnoir-tracker-udp-moc} ${ftnoir-tracker-udp-uih} ${ftnoir-tracker-udp-rcc})

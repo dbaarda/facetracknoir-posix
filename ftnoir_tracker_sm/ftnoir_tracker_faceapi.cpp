@@ -50,54 +50,49 @@ FTNoIR_Tracker::~FTNoIR_Tracker()
 	hSMMemMap = 0;
 }
 
-void FTNoIR_Tracker::Initialize( QFrame *videoframe )
+void FTNoIR_Tracker::StartTracker(QFrame *videoframe )
 {
-	qDebug() << "FTNoIR_Tracker::Initialize says: Starting ";
+    qDebug() << "FTNoIR_Tracker::Initialize says: Starting ";
 
-	if (SMCreateMapping()) {
-		qDebug() << "FTNoIR_Tracker::Initialize Mapping created.";
-	}
-	else {
-		QMessageBox::warning(0,"FaceTrackNoIR Error","Memory mapping not created!",QMessageBox::Ok,QMessageBox::NoButton);
-	}
+    if (SMCreateMapping()) {
+        qDebug() << "FTNoIR_Tracker::Initialize Mapping created.";
+    }
+    else {
+        QMessageBox::warning(0,"FaceTrackNoIR Error","Memory mapping not created!",QMessageBox::Ok,QMessageBox::NoButton);
+    }
 
-	loadSettings();
+    loadSettings();
 
-	if ( pMemData != NULL ) {
-		pMemData->command = 0;							// Reset any and all commands
-		if (videoframe != NULL) {
-			pMemData->handle = videoframe->winId();		// Handle of Videoframe widget
-		}
-		else {
-			pMemData->handle = NULL;					// reset Handle of Videoframe widget
-		}
-	}
+    if ( pMemData != NULL ) {
+        pMemData->command = 0;							// Reset any and all commands
+        if (videoframe != NULL) {
+            pMemData->handle = videoframe->winId();		// Handle of Videoframe widget
+        }
+        else {
+            pMemData->handle = NULL;					// reset Handle of Videoframe widget
+        }
+    }
 
-	//
-	// Start FTNoIR_FaceAPI_EXE.exe. The exe contains all faceAPI-stuff and is non-Qt...
-	//
-	QString program = "FTNoIR_FaceAPI_EXE.exe";
-	faceAPI = new QProcess(0);
-	faceAPI->start(program);
+    //
+    // Start FTNoIR_FaceAPI_EXE.exe. The exe contains all faceAPI-stuff and is non-Qt...
+    //
+    // XXX TODO isolate it into separate directory
+    QString program = "ftnoir-faceapi-wrapper.exe";
+    faceAPI = new QProcess(0);
+    faceAPI->start(program);
 
-	// Show the video widget
-	qDebug() << "FTNoIR_Tracker::Initialize says: videoframe = " << videoframe;
+    // Show the video widget
+    qDebug() << "FTNoIR_Tracker::Initialize says: videoframe = " << videoframe;
 
-	if (videoframe != NULL) {
-		videoframe->show();
-	}
-	return;
-}
-
-void FTNoIR_Tracker::StartTracker( HWND parent_window )
-{
+    if (videoframe != NULL) {
+        videoframe->show();
+    }
 	if ( pMemData != NULL ) {
 		pMemData->command = FT_SM_START;				// Start command
 	}
-	return;
 }
 
-void FTNoIR_Tracker::StopTracker( bool exit )
+void FTNoIR_Tracker::WaitForExit()
 {
 
 	qDebug() << "FTNoIR_Tracker::StopTracker says: Starting ";
@@ -110,7 +105,6 @@ void FTNoIR_Tracker::StopTracker( bool exit )
 		//	pMemData->command = FT_SM_STOP;				// Issue 'stop' command
 		//}
 	}
-	return;
 }
 
 bool FTNoIR_Tracker::GiveHeadPoseData(THeadPoseData *data)
