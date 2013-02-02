@@ -319,6 +319,9 @@ if(WIN32)
             LIBRARY DESTINATION .
             NAMELINK_SKIP
     )
+    if(WIN32)
+        install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/tracker-ht" DESTINATION .)
+    endif()
     if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH AND SDK_MSVC80_PATH)
         install(TARGETS ftnoir-tracker-faceapi
                 RUNTIME DESTINATION .
