@@ -1,6 +1,9 @@
 project(facetracknoir)
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/cmake/")
+SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+SET(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX})
+SET(CMAKE_SKIP_RPATH FALSE)
 
 find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork QtDesigner REQUIRED)
 find_package(OpenCV)
@@ -28,6 +31,7 @@ if (WIN32)
     set(SDK_MINGW_PATH "c:/mingw" CACHE STRING "MinGW path")
     SET(SDK_MSVC80_PATH "C:/Program Files (x86)/Microsoft Visual Studio 8/VC" CACHE STRING "Path to MSVC80/VC if you want FaceAPI")
     set(SDK_SIMCONNECT "" CACHE STRING "Path to SimConnect SDK")
+    set(SDK_WINE_PREFIX "" CACHE STRING "Path where Wine is installed")
 endif()
 
 if(WIN32)
@@ -116,6 +120,14 @@ file(GLOB ftnoir-proto-udp-ui "ftnoir_protocol_ftn/*.ui")
 file(GLOB ftnoir-proto-udp-rc "ftnoir_protocol_ftn/*.qrc")
 QT4_WRAP_UI(ftnoir-proto-udp-uih ${ftnoir-proto-udp-ui})
 QT4_ADD_RESOURCES(ftnoir-proto-udp-rcc ${ftnoir-proto-udp-rc})
+
+file(GLOB ftnoir-proto-wine-c "ftnoir_protocol_wine/*.cpp")
+file(GLOB ftnoir-proto-wine-h "ftnoir_protocol_wine/*.h")
+QT4_WRAP_CPP(ftnoir-proto-wine-moc ${ftnoir-proto-wine-h})
+file(GLOB ftnoir-proto-wine-ui "ftnoir_protocol_wine/*.ui")
+file(GLOB ftnoir-proto-wine-rc "ftnoir_protocol_wine/*.qrc")
+QT4_WRAP_UI(ftnoir-proto-wine-uih ${ftnoir-proto-wine-ui})
+QT4_ADD_RESOURCES(ftnoir-proto-wine-rcc ${ftnoir-proto-wine-rc})
 
 file(GLOB ftnoir-proto-win32-mouse-c "ftnoir_protocol_mouse/*.cpp")
 file(GLOB ftnoir-proto-win32-mouse-h "ftnoir_protocol_mouse/*.h")
@@ -244,6 +256,22 @@ SET_TARGET_PROPERTIES(ftnoir-proto-udp
                       PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 SET_TARGET_PROPERTIES(ftnoir-proto-udp PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
 
+if(NOT WIN32 AND SDK_WINE_PREFIX)
+    add_library(ftnoir-proto-wine SHARED ${ftnoir-proto-wine-c} ${ftnoir-proto-wine-moc} ${ftnoir-proto-wine-uih} ${ftnoir-proto-wine-rcc})
+    target_link_libraries(ftnoir-proto-wine ${QT_LIBRARIES})
+    SET_TARGET_PROPERTIES(ftnoir-proto-wine
+                          PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
+    SET_TARGET_PROPERTIES(ftnoir-proto-wine PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB -DWINEBINARY=\\\"${WINE_SDK_PATH}/bin/wine\\\"")
+    add_custom_command( OUTPUT ftnoir-wrapper-wine.exe.so
+                        COMMAND
+                        "${SDK_WINE_PREFIX}/bin/wineg++" -g -O2 -m32 -o ftnoir-wrapper-wine.exe
+                        "${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-main.cxx"
+                        "${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-posix.cxx"
+                        "${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-wine.cxx"
+                        -lrt)
+    add_custom_target(build-wine-wrapper DEPENDS ftnoir-wrapper-wine.exe)
+endif()
+
 SET_TARGET_PROPERTIES(ftnoir-proto-fgfs PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
 SET_TARGET_PROPERTIES(ftnoir-proto-fgfs
                       PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
@@ -291,6 +319,12 @@ if(WIN32)
 endif()
 
 # make install
+
+if(NOT WIN32 AND SDK_WINE_PREFIX)
+    install(FILES "${CMAKE_BINARY_DIR}/ftnoir-wrapper-wine.exe.so"
+            DESTINATION .)
+    install(TARGETS ftnoir-proto-wine DESTINATION .)
+endif()
 
 install(TARGETS
         ftnoir-compat
