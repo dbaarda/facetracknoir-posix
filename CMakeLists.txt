@@ -301,6 +301,7 @@ install(TARGETS
         ftnoir-proto-fgfs
         ftnoir-proto-udp
         ftnoir-tracker-ht
+		ftnoir-tracker-udp
         ftnoir
         RUNTIME DESTINATION .
         LIBRARY DESTINATION .
