@@ -50,6 +50,10 @@
 #include <qxtglobalshortcut.h>
 #include <QDebug>
 
+#if defined(__WIN32) || defined(_WIN32)
+#   include <windows.h>
+#endif
+
 #if defined(__APPLE__)
 #   define SONAME "dylib"
 #elif defined(_WIN32) || defined(__WIN32)
@@ -1816,6 +1820,11 @@ void FaceTrackNoIR::shortcutRecentered()
 {
     if (tracker)
     {
+#if defined(__WIN32) || defined(_WIN32)
+        MessageBeep(MB_OK);
+#else
+        QApplication::beep();
+#endif
         tracker->do_center = true;
     }
 }
