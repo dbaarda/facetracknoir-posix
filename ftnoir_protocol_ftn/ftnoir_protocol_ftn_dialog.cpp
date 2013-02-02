@@ -191,5 +191,5 @@ void FTNControls::save() {
 
 extern "C" FTNOIR_PROTOCOL_BASE_EXPORT void* CALLING_CONVENTION GetDialog( )
 {
-    return (ITrackerDialog*) new FTNControls;
+    return (IProtocolDialog*) new FTNControls;
 }
