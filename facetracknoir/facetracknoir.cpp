@@ -610,6 +610,7 @@ void FaceTrackNoIR::startTracker( ) {
 
     if (!Libraries->correct)
     {
+        QMessageBox::warning(this, "Something went wrong", "Tracking can't be initialized, probably protocol prerequisites missing", QMessageBox::Ok, QMessageBox::NoButton);
         stopTracker();
         return;
     }
