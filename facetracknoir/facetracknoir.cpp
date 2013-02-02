@@ -67,13 +67,13 @@ FaceTrackNoIR::FaceTrackNoIR(QWidget *parent, Qt::WFlags flags) :
     pSecondTrackerDialog(NULL),
     pProtocolDialog(NULL),
     pFilterDialog(NULL),
+    trayIcon(NULL),
+    trayIconMenu(NULL),
     keyCenter(NULL),
     keyZero(NULL),
     keyStartStop(NULL),
     keyInhibit(NULL),
-    looping(false),
-    trayIcon(NULL),
-    trayIconMenu(NULL)
+    looping(false)
 {	
     GlobalPose = new HeadPoseData();
 	cameraDetected = false;
