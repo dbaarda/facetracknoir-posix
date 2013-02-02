@@ -243,7 +243,7 @@ if(OpenCV_FOUND)
     SET_TARGET_PROPERTIES(ftnoir-tracker-pt PROPERTIES COMPILE_FLAGS "-DFTNOIR_TRACKER_BASE_LIB")
 endif()
 
-if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH AND SDK_MSVC80_PATH)
+if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH)
     add_library(ftnoir-tracker-faceapi SHARED ${ftnoir-tracker-faceapi-c} ${ftnoir-tracker-faceapi-moc} ${ftnoir-tracker-faceapi-uih} ${ftnoir-tracker-faceapi-rcc})
     target_link_libraries(ftnoir-tracker-faceapi ${QT_LIBRARIES})
     SET_TARGET_PROPERTIES(ftnoir-tracker-faceapi PROPERTIES COMPILE_FLAGS "-DFTNOIR_TRACKER_BASE_LIB")
@@ -345,7 +345,7 @@ if(WIN32)
     if(WIN32)
         install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/tracker-ht" DESTINATION .)
     endif()
-    if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH AND SDK_MSVC80_PATH)
+    if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH)
         install(TARGETS ftnoir-tracker-faceapi
                 RUNTIME DESTINATION .
                 LIBRARY DESTINATION .
