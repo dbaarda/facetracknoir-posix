@@ -43,6 +43,10 @@ int main(int argc, char *argv[])
     XInitThreads();
 #endif
     QApplication app(argc, argv);
+    QFont font;
+    font.setFamily(font.defaultFamily());
+    font.setPointSize(9);
+    app.setFont(font);
     FaceTrackNoIR w;
 	//
 	// Create the Main Window and DeskTop and Exec!
