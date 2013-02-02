@@ -229,7 +229,7 @@ QPointF newPoint;
 		}
 		points.append(newPoint);
 	}
-	settings.endGroup();
+    settings.endGroup();
     _mutex.lock();
 	_points = points;
 	reload();
@@ -296,7 +296,16 @@ void FunctionConfig::saveSettings(QSettings& settings) {
 	for (int i = 0; i < max; i++) {
 		settings.setValue(QString("point-%1-x").arg(i), _points[i].x());
 		settings.setValue(QString("point-%1-y").arg(i), _points[i].y());
-	}
+    }
+
+    for (int i = max; true; i++)
+    {
+        QString x = QString("point-%1-x").arg(i);
+        if (!settings.contains(x))
+            break;
+        settings.remove(x);
+        settings.remove(QString("point-%1-y").arg(i));
+    }
 	settings.endGroup();
-    _mutex.lock();
+    _mutex.unlock();
 }
