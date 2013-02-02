@@ -479,9 +479,9 @@ void FaceTrackNoIR::loadSettings() {
 	//
 	ui.iconcomboProfile->clear();
 	for ( int i = 0; i < iniFileList.size(); i++) {
-        ui.iconcomboProfile->addItem(QIcon(":/images/Settings16.png"), iniFileList.at(i));
+        ui.iconcomboProfile->addItem(QIcon(":/images/settings16.png"), iniFileList.at(i));
 		if (iniFileList.at(i) == pathInfo.fileName()) {
-			ui.iconcomboProfile->setItemIcon(i, QIcon(":/images/SettingsOpen16.png"));
+            ui.iconcomboProfile->setItemIcon(i, QIcon(":/images/settingsOpen16.png"));
 			ui.iconcomboProfile->setCurrentIndex( i );
 		}
 	}

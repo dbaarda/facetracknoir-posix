@@ -98,7 +98,7 @@ void FTNoIR_Tracker::WaitForExit()
 	// stops the faceapi engine
 	if ( pMemData != NULL ) {
 //		if (exit == true) {
-			pMemData->command = (exit) ? FT_SM_EXIT : FT_SM_STOP;			// Issue 'stop' command
+            pMemData->command = FT_SM_EXIT;
 		//}
 		//else {
 		//	pMemData->command = FT_SM_STOP;				// Issue 'stop' command
