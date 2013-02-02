@@ -273,13 +273,21 @@ install(TARGETS
         ftnoir-filter-ewma
         ftnoir-proto-fgfs
         ftnoir-proto-udp
-        ftnoir-tracker-pt
         ftnoir-tracker-ht
         ftnoir
         RUNTIME DESTINATION .
         LIBRARY DESTINATION .
         NAMELINK_SKIP
 )
+
+if(OpenCV_Found)
+    install(TARGETS
+            ftnoir-tracker-pt
+            RUNTIME DESTINATION .
+            LIBRARY DESTINATION .
+            NAMELINK_SKIP
+    )
+endif()
 
 if(WIN32)
     install(FILES
