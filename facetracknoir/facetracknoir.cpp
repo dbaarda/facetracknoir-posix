@@ -71,7 +71,9 @@ FaceTrackNoIR::FaceTrackNoIR(QWidget *parent, Qt::WFlags flags) :
     keyZero(NULL),
     keyStartStop(NULL),
     keyInhibit(NULL),
-    looping(false)
+    looping(false),
+    trayIcon(NULL),
+    trayIconMenu(NULL)
 {	
     GlobalPose = new HeadPoseData();
 	cameraDetected = false;
@@ -176,11 +178,14 @@ void FaceTrackNoIR::setupFaceTrackNoIR() {
 	createActions();
 	createTrayIcon();
 
-	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+    if (trayIcon)
+        connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 
 	//Load the tracker-settings, from the INI-file
 	loadSettings();
-	trayIcon->show();
+
+    if (trayIcon)
+        trayIcon->show();
 
 	connect(ui.iconcomboProtocol, SIGNAL(currentIndexChanged(int)), this, SLOT(protocolSelected(int)));
 	connect(ui.iconcomboProfile, SIGNAL(currentIndexChanged(int)), this, SLOT(profileSelected(int)));
