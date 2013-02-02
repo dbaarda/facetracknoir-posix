@@ -6,7 +6,6 @@
  */
 
 #include "compat.h"
-#include <exception>
 
 #if defined(_WIN32) || defined(__WIN32)
 
