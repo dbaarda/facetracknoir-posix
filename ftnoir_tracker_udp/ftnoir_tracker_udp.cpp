@@ -76,8 +76,9 @@ quint16 senderPort;
 
 				QByteArray datagram;
 				datagram.resize(inSocket->pendingDatagramSize());
-
+                mutex.lock();
 				inSocket->readDatagram( (char * ) &newHeadPose, sizeof(newHeadPose), &sender, &senderPort);
+                mutex.unlock();
 			}
 		}
 		else {
@@ -112,6 +113,7 @@ void FTNoIR_Tracker::StartTracker(QFrame* videoFrame)
 
 bool FTNoIR_Tracker::GiveHeadPoseData(THeadPoseData *data)
 {
+    mutex.lock();
 	if (bEnableX) {
 		data->x = newHeadPose.x;
 	}
@@ -121,15 +123,16 @@ bool FTNoIR_Tracker::GiveHeadPoseData(THeadPoseData *data)
 	if (bEnableX) {
 		data->z = newHeadPose.z;
 	}
-	if (bEnableX) {
+    if (bEnableYaw) {
 		data->yaw = newHeadPose.yaw;
 	}
-	if (bEnableX) {
+    if (bEnablePitch) {
 		data->pitch = newHeadPose.pitch;
 	}
-	if (bEnableX) {
+    if (bEnableRoll) {
 		data->roll = newHeadPose.roll;
 	}
+    mutex.unlock();
 	return true;
 }
 

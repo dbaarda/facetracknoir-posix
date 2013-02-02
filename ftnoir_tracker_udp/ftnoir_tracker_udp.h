@@ -43,6 +43,7 @@ private:
 	bool bEnableX;
 	bool bEnableY;
 	bool bEnableZ;
+    QMutex mutex;
 };
 
 // Widget that has controls for FTNoIR protocol client-settings.
