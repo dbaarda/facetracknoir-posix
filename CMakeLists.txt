@@ -7,7 +7,7 @@ find_package(OpenCV)
 find_package(OpenGL REQUIRED)
 find_package(Qxt COMPONENTS QxtGui REQUIRED)
 
-if(QXT_QXTGUI_INCLUDE_DIR STREQUAL "QXT_QXTGUI_INCLUDE_DIR-NOTFOUND")
+if(NOT QXT_QXTGUI_INCLUDE_DIR OR QXT_QXTGUI_INCLUDE_DIR STREQUAL "QXT_QXTGUI_INCLUDE_DIR-NOTFOUND")
     message(FATAL_ERROR "Qxt not found, required for keybindings, get from http://libqxt.org")
 endif()
 
