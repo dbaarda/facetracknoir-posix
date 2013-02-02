@@ -68,7 +68,7 @@ void FTNoIR_TrackerDll::getDescription(QString *strToBeFilled)
 
 void FTNoIR_TrackerDll::getIcon(QIcon *icon)
 {
-	*icon = QIcon(":/images/FaceTrackNoIR.ico");
+    *icon = QIcon(":/images/facetracknoir.ico");
 };
 
 ////////////////////////////////////////////////////////////////////////////////

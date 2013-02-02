@@ -213,7 +213,7 @@ void TrackerDll::getDescription(QString *strToBeFilled)
 
 void TrackerDll::getIcon(QIcon *icon)
 {
-	*icon = QIcon(":/images/HT.ico");
+    *icon = QIcon(":/images/ht.ico");
 }
 
 

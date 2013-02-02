@@ -39,8 +39,8 @@
    <string>FaceTrackNoIR</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>UIElements/FaceTrackNoIR.ico</normaloff>UIElements/FaceTrackNoIR.ico</iconset>
+   <iconset resource="../ftnoir_tracker_pt/ftnoir_tracker_pt.qrc">
+    <normaloff>:/resources/icon.ico</normaloff>:/resources/icon.ico</iconset>
   </property>
   <property name="toolTip">
    <string/>
@@ -245,7 +245,7 @@ QGroupBox {
 Support FaceTrackNoIR!</string>
              </property>
              <property name="icon">
-              <iconset resource="facetracknoir.qrc">
+              <iconset>
                <normaloff>:/UIElements/Donate.png</normaloff>:/UIElements/Donate.png</iconset>
              </property>
              <property name="iconSize">
@@ -1955,7 +1955,7 @@ background:none;</string>
                   <string>Shortkeys</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="facetracknoir.qrc">
+                  <iconset>
                    <normaloff>:/UIElements/Tools.png</normaloff>:/UIElements/Tools.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -1996,7 +1996,7 @@ background:none;</string>
                   <string>Curves</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="facetracknoir.qrc">
+                  <iconset>
                    <normaloff>:/UIElements/Curves.png</normaloff>:/UIElements/Curves.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -2240,7 +2240,7 @@ background:none;</string>
   <tabstop>iconcomboProtocol</tabstop>
  </tabstops>
  <resources>
-  <include location="facetracknoir.qrc"/>
+  <include location="../ftnoir_tracker_pt/ftnoir_tracker_pt.qrc"/>
  </resources>
  <connections/>
 </ui>

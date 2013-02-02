@@ -1117,7 +1117,7 @@ void FaceTrackNoIR::createTrayIcon()
 		trayIcon = new QSystemTrayIcon(this);
 		trayIcon->setContextMenu(trayIconMenu);
 
-		trayIcon->setIcon(QIcon(QCoreApplication::applicationDirPath() + "/images/FaceTrackNoIR.ico"));
+        //trayIcon->setIcon(QIcon(QCoreApplication::applicationDirPath() + "/images/FaceTrackNoIR.ico"));
 	}
 }
 
@@ -1158,7 +1158,7 @@ void FaceTrackNoIR::protocolSelected(int index)
 		trayIcon->show();
 		trayIcon->showMessage( "FaceTrackNoIR", ui.iconcomboProtocol->itemText(index));
 	}
-	setWindowIcon(QIcon(":/images/FaceTrackNoIR.ico"));
+    //setWindowIcon(QIcon(":/images/FaceTrackNoIR.ico"));
 	ui.btnShowServerControls->setIcon(icon);
 }
 
