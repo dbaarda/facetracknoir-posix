@@ -463,7 +463,7 @@ void FaceTrackNoIR::loadSettings() {
 	// Put the filename in the window-title.
 	//
     QFileInfo pathInfo ( currentFile );
-    setWindowTitle ( "FaceTrackNoIR (1.7 alpha 10) - " + pathInfo.fileName() );
+    setWindowTitle ( "FaceTrackNoIR (1.8 pre-alpha) - " + pathInfo.fileName() );
 
 	//
 	// Get a List of all the INI-files in the (currently active) Settings-folder.
