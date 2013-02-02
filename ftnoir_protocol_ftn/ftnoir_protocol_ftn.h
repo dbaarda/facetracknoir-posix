@@ -112,7 +112,7 @@ public:
 	void getShortName(QString *strToBeFilled) { *strToBeFilled = QString("FTN Client"); };
 	void getDescription(QString *strToBeFilled) { *strToBeFilled = QString("FaceTrackNoIR Client protocol"); };
 
-	void getIcon(QIcon *icon) { *icon = QIcon(":/images/FaceTrackNoIR.ico"); };
+    void getIcon(QIcon *icon) { *icon = QIcon(":/images/facetracknoir.ico"); };
 };
 
 #endif//INCLUDED_FTNSERVER_H

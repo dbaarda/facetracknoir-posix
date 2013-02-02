@@ -143,7 +143,7 @@ public:
 	void getShortName(QString *strToBeFilled) { *strToBeFilled = QString("Mouse Look"); };
 	void getDescription(QString *strToBeFilled) { *strToBeFilled = QString("Mouse Look protocol"); };
 
-	void getIcon(QIcon *icon) { *icon = QIcon(":/images/Mouse.ico"); };
+    void getIcon(QIcon *icon) { *icon = QIcon(":/images/mouse.ico"); };
 };
 
 

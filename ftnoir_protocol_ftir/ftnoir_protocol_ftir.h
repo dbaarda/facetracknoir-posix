@@ -135,7 +135,7 @@ public:
 	void getShortName(QString *strToBeFilled) { *strToBeFilled = QString("FTIR"); };
 	void getDescription(QString *strToBeFilled) { *strToBeFilled = QString("TrackIR V4 protocol"); };
 
-	void getIcon(QIcon *icon) { *icon = QIcon(":/images/TrackIR.ico"); };
+    void getIcon(QIcon *icon) { *icon = QIcon(":/images/trackir.ico"); };
 };
 
 #endif//INCLUDED_FTIRSERVER_H
