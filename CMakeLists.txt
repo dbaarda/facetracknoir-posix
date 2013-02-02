@@ -1,6 +1,7 @@
 project(facetracknoir)
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_SOURCE_DIR}/cmake/")
+SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 
 find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork QtDesigner REQUIRED)
 find_package(OpenCV)
