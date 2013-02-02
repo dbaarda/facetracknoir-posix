@@ -194,14 +194,20 @@ add_library(ftnoir-filter-accela SHARED ${ftnoir-filter-accela-c} ${ftnoir-filte
 target_link_libraries(ftnoir-filter-accela ${QT_LIBRARIES} ftnoir-spline-widget)
 
 SET_TARGET_PROPERTIES(ftnoir-filter-accela PROPERTIES COMPILE_FLAGS "-DFTNOIR_FILTER_BASE_LIB")
+SET_TARGET_PROPERTIES(ftnoir-filter-accela
+                      PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 
 add_library(ftnoir-filter-ewma SHARED ${ftnoir-filter-ewma-c} ${ftnoir-filter-ewma-moc} ${ftnoir-filter-ewma-uih} ${ftnoir-filter-ewma-rcc})
 target_link_libraries(ftnoir-filter-ewma ${QT_LIBRARIES})
 
 SET_TARGET_PROPERTIES(ftnoir-filter-ewma PROPERTIES COMPILE_FLAGS "-DFTNOIR_FILTER_BASE_LIB")
+SET_TARGET_PROPERTIES(ftnoir-filter-ewma
+                      PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 
 add_library(ftnoir-proto-fgfs SHARED ${ftnoir-proto-fgfs-c} ${ftnoir-proto-fgfs-moc} ${ftnoir-proto-fgfs-uih} ${ftnoir-proto-fgfs-rcc})
 target_link_libraries(ftnoir-proto-fgfs ${QT_LIBRARIES})
+SET_TARGET_PROPERTIES(ftnoir-proto-fgfs
+                      PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 
 if(WIN32)
     #add_library(ftnoir-proto-fsuipc SHARED ${ftnoir-proto-fsuipc-c} ${ftnoir-proto-fsuipc-moc} ${ftnoir-proto-fsuipc-uih} ${ftnoir-proto-fsuipc-rcc})
@@ -230,17 +236,25 @@ endif()
 
 add_library(ftnoir-proto-udp SHARED ${ftnoir-proto-udp-c} ${ftnoir-proto-udp-moc} ${ftnoir-proto-udp-uih} ${ftnoir-proto-udp-rcc})
 target_link_libraries(ftnoir-proto-udp ${QT_LIBRARIES})
+SET_TARGET_PROPERTIES(ftnoir-proto-udp
+                      PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
+SET_TARGET_PROPERTIES(ftnoir-proto-udp PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
 
 SET_TARGET_PROPERTIES(ftnoir-proto-fgfs PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
-SET_TARGET_PROPERTIES(ftnoir-proto-udp PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
+SET_TARGET_PROPERTIES(ftnoir-proto-fgfs
+                      PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 
 add_library(ftnoir-tracker-ht SHARED ${ftnoir-tracker-ht-c} ${ftnoir-tracker-ht-moc} ${ftnoir-tracker-ht-uih} ${ftnoir-tracker-ht-rcc})
 target_link_libraries(ftnoir-tracker-ht ${QT_LIBRARIES} ${OPENGL_gl_LIBRARY} ftnoir-compat)
+SET_TARGET_PROPERTIES(ftnoir-tracker-ht
+                      PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 
 if(OpenCV_FOUND)
     add_library(ftnoir-tracker-pt SHARED ${ftnoir-tracker-pt-c} ${ftnoir-tracker-pt-moc} ${ftnoir-tracker-pt-uih} ${ftnoir-tracker-pt-rcc})
     target_link_libraries(ftnoir-tracker-pt ${QT_LIBRARIES} ${OpenCV_LIBS} ${OPENGL_gl_LIBRARY})
     SET_TARGET_PROPERTIES(ftnoir-tracker-pt PROPERTIES COMPILE_FLAGS "-DFTNOIR_TRACKER_BASE_LIB")
+    SET_TARGET_PROPERTIES(ftnoir-tracker-pt
+                      PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 endif()
 
 if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH)
@@ -256,6 +270,8 @@ endif()
 
 add_library(ftnoir-tracker-udp SHARED ${ftnoir-tracker-udp-c} ${ftnoir-tracker-udp-moc} ${ftnoir-tracker-udp-uih} ${ftnoir-tracker-udp-rcc})
 target_link_libraries(ftnoir-tracker-udp ${QT_LIBRARIES})
+SET_TARGET_PROPERTIES(ftnoir-tracker-udp
+                  PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 
 SET_TARGET_PROPERTIES(ftnoir-tracker-ht PROPERTIES COMPILE_FLAGS "-DFTNOIR_TRACKER_BASE_LIB")
 SET_TARGET_PROPERTIES(ftnoir-tracker-udp PROPERTIES COMPILE_FLAGS "-DFTNOIR_TRACKER_BASE_LIB")
