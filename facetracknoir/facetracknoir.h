@@ -62,7 +62,6 @@ public:
 	FaceTrackNoIR(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~FaceTrackNoIR();
 
-	void getGameProgramName();					// Get the ProgramName from the game and display it.
 	void updateSettings();						// Update the settings (let Tracker read INI-file).
 
     QFrame *get_video_widget();					// Get a pointer to the video-widget, to use in the DLL

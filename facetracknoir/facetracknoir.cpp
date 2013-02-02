@@ -196,7 +196,6 @@ void FaceTrackNoIR::setupFaceTrackNoIR() {
     connect(timUpdateHeadPose, SIGNAL(timeout()), this, SLOT(showHeadPose()));
 	ui.txtTracking->setVisible(false);
 	ui.txtAxisReverse->setVisible(false);
-	ui.gameName->setText("");
     settingsDirty = false;
 }
 
@@ -228,15 +227,6 @@ FaceTrackNoIR::~FaceTrackNoIR() {
 				// should never be reached
 			break;
 		}
-	}
-}
-
-//
-// Get the ProgramName from a connected game and display it.
-//
-void FaceTrackNoIR::getGameProgramName() {
-	if ( tracker != NULL ) {
-		ui.gameName->setText( tracker->getGameProgramName() );
 	}
 }
 
