@@ -21,6 +21,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 if (WIN32)
     SET(SDK_SM_FACEAPI_PATH "" CACHE STRING "SeeingMachines FaceAPI SDK path")
+    set(SDK_MINGW_PATH "c:/mingw" CACHE STRING "MinGW path")
 endif()
 
 # main app
@@ -233,7 +234,9 @@ if(WIN32 AND SDK_SM_FACEAPI_PATH)
     SET_TARGET_PROPERTIES(ftnoir-tracker-faceapi PROPERTIES COMPILE_FLAGS "-DFTNOIR_TRACKER_BASE_LIB")
     include_directories("${SDK_SM_FACEAPI_PATH}/include")
     add_executable(ftnoir-faceapi-wrapper ${ftnoir-faceapi-wrapper-c})
-    target_link_libraries(ftnoir-faceapi-wrapper "${SDK_SM_FACEAPI_PATH}/bin/smft32.lib" "${CMAKE_SOURCE_DIR}/bin/msvcrt.lib")
+    target_link_libraries(ftnoir-faceapi-wrapper "${SDK_SM_FACEAPI_PATH}/bin/smft32.lib")
+    #SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES COMPILE_FLAGS "-specs=${CMAKE_SOURCE_DIR}/faceapi/mingw-gcc.spec")
+    #SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES LINK_FLAGS "-specs=${CMAKE_SOURCE_DIR}/faceapi/mingw-gcc.spec")
 endif()
 
 add_library(ftnoir-tracker-udp SHARED ${ftnoir-tracker-udp-c} ${ftnoir-tracker-udp-moc} ${ftnoir-tracker-udp-uih} ${ftnoir-tracker-udp-rcc})
@@ -271,6 +274,11 @@ install(TARGETS
 )
 
 if(WIN32)
+    install(FILES
+            "${SDK_MINGW_PATH}/bin/libgcc_s_dw2-1.dll"
+            "${SDK_MINGW_PATH}/bin/libstdc++-6.dll"
+            DESTINATION .
+    )
     if(OpenCV_FOUND)
         get_filename_component(ftnoir-opencv-dir "${OpenCV_LIB_DIR_OPT}" PATH)
         file(GLOB ftnoir-opencv-files
