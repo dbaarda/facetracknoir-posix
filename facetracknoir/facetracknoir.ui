@@ -1955,8 +1955,8 @@ background:none;</string>
                   <string>Shortkeys</string>
                  </property>
                  <property name="icon">
-                  <iconset>
-                   <normaloff>:/uielements/tools.png</normaloff>:uielements/tools.png</iconset>
+                  <iconset resource="main-facetracknoir.qrc">
+                   <normaloff>:/uielements/tools.png</normaloff>:/uielements/tools.png</iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1990,13 +1990,13 @@ background:none;</string>
                   <enum>Qt::LeftToRight</enum>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">background:none;</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string>Curves</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="main-facetracknoir.qrc">
                    <normaloff>:/uielements/curves.png</normaloff>:/uielements/curves.png</iconset>
                  </property>
                  <property name="iconSize">
