@@ -32,7 +32,7 @@
 						Also disable combo and buttons after 'Start'.
 		20120917 - WVR: Added Mouse-buttons to ShortKeys.
 		20120717 - WVR: FunctionConfig is now used for the Curves, instead of BezierConfig.
-		20120427 - WVR: The Protocol-code was already in separate DLLs, but the ListBox was still filled ´statically´. Now, a Dir() of the
+        20120427 - WVR: The Protocol-code was already in separate DLLs, but the ListBox was still filled 'statically'. Now, a Dir() of the
 						EXE-folder is done, to locate Protocol-DLLs. The Icons were also moved to the DLLs
 		20120317 - WVR: The Filter and Tracker-code was moved to separate DLLs. The calling-method
 						was changed accordingly. The save() and LoadSettings() functions were adapted.
