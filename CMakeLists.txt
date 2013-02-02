@@ -22,7 +22,15 @@ include_directories(${CMAKE_SOURCE_DIR})
 if (WIN32)
     SET(SDK_SM_FACEAPI_PATH "" CACHE STRING "SeeingMachines FaceAPI SDK path")
     set(SDK_MINGW_PATH "c:/mingw" CACHE STRING "MinGW path")
+    SET(SDK_MSVC80_PATH "C:/Program Files (x86)/Microsoft Visual Studio 8/VC" CACHE STRING "Path to MSVC80/VC if you want FaceAPI")
 endif()
+
+if(WIN32)
+  set(CMAKE_RC_COMPILER_INIT windres)
+  ENABLE_LANGUAGE(RC)
+  SET(CMAKE_RC_COMPILE_OBJECT
+    "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+endif(WIN32)
 
 # main app
 
@@ -154,7 +162,7 @@ file(GLOB ftnoir-tracker-udp-rc "ftnoir_tracker_udp/*.qrc")
 QT4_WRAP_UI(ftnoir-tracker-udp-uih ${ftnoir-tracker-udp-ui})
 QT4_ADD_RESOURCES(ftnoir-tracker-udp-rcc ${ftnoir-tracker-udp-rc})
 
-file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
+file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp" "faceapi/*.rc")
 
 # compat lib for POSIX/win32
 
@@ -228,15 +236,15 @@ if(OpenCV_FOUND)
     SET_TARGET_PROPERTIES(ftnoir-tracker-pt PROPERTIES COMPILE_FLAGS "-DFTNOIR_TRACKER_BASE_LIB")
 endif()
 
-if(WIN32 AND SDK_SM_FACEAPI_PATH)
+if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH AND SDK_MSVC80_PATH)
     add_library(ftnoir-tracker-faceapi SHARED ${ftnoir-tracker-faceapi-c} ${ftnoir-tracker-faceapi-moc} ${ftnoir-tracker-faceapi-uih} ${ftnoir-tracker-faceapi-rcc})
     target_link_libraries(ftnoir-tracker-faceapi ${QT_LIBRARIES})
     SET_TARGET_PROPERTIES(ftnoir-tracker-faceapi PROPERTIES COMPILE_FLAGS "-DFTNOIR_TRACKER_BASE_LIB")
     include_directories("${SDK_SM_FACEAPI_PATH}/include")
     add_executable(ftnoir-faceapi-wrapper ${ftnoir-faceapi-wrapper-c})
-    target_link_libraries(ftnoir-faceapi-wrapper "${SDK_SM_FACEAPI_PATH}/bin/smft32.lib")
-    #SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES COMPILE_FLAGS "-specs=${CMAKE_SOURCE_DIR}/faceapi/mingw-gcc.spec")
-    #SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES LINK_FLAGS "-specs=${CMAKE_SOURCE_DIR}/faceapi/mingw-gcc.spec")
+    target_link_libraries(ftnoir-faceapi-wrapper "${SDK_SM_FACEAPI_PATH}/bin/smft32.lib" "${SDK_MSVC80_PATH}/lib/msvcrt.lib")
+    SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES COMPILE_FLAGS "-nostdlib")
+    SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES LINK_FLAGS "-Wl,-nostdlib")
 endif()
 
 add_library(ftnoir-tracker-udp SHARED ${ftnoir-tracker-udp-c} ${ftnoir-tracker-udp-moc} ${ftnoir-tracker-udp-uih} ${ftnoir-tracker-udp-rcc})
@@ -309,7 +317,7 @@ if(WIN32)
             LIBRARY DESTINATION .
             NAMELINK_SKIP
     )
-    if(SDK_SM_FACEAPI_PATH)
+    if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH AND SDK_MSVC80_PATH)
         install(TARGETS ftnoir-tracker-faceapi
                 RUNTIME DESTINATION .
                 LIBRARY DESTINATION .
