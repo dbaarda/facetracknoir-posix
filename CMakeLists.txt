@@ -251,3 +251,85 @@ endif()
 if(WIN32)
     SET_TARGET_PROPERTIES(ftnoir PROPERTIES LINK_FLAGS "-Wl,--subsystem,windows")
 endif()
+
+# make install
+
+install(TARGETS
+        ftnoir-compat
+        ftnoir-pose-widget
+        ftnoir-spline-widget
+        ftnoir-filter-accela
+        ftnoir-filter-ewma
+        ftnoir-proto-fgfs
+        ftnoir-proto-udp
+        ftnoir-tracker-pt
+        ftnoir-tracker-ht
+        ftnoir
+        RUNTIME DESTINATION .
+        LIBRARY DESTINATION .
+        NAMELINK_SKIP
+)
+
+if(WIN32)
+    if(OpenCV_FOUND)
+        get_filename_component(ftnoir-opencv-dir "${OpenCV_LIB_DIR_OPT}" PATH)
+        file(GLOB ftnoir-opencv-files
+            "${ftnoir-opencv-dir}/bin/libopencv_calib3d*.dll"
+            "${ftnoir-opencv-dir}/bin/libopencv_core*.dll"
+            "${ftnoir-opencv-dir}/bin/libopencv_highgui*.dll"
+            "${ftnoir-opencv-dir}/bin/libopencv_imgproc*.dll"
+        )
+        install(FILES ${ftnoir-opencv-files} DESTINATION .)
+    endif()
+    install(FILES "${QXT_QXTCORE_LIB_RELEASE}" "${QXT_QXTGUI_LIB_RELEASE}" DESTINATION .)
+    get_filename_component(ftnoir-qt-bin "${QT_QMAKE_EXECUTABLE}" PATH)
+    install(FILES
+            "${ftnoir-qt-bin}/QtCore4.dll"
+            "${ftnoir-qt-bin}/QtGui4.dll"
+            "${ftnoir-qt-bin}/QtNetwork4.dll"
+            "${ftnoir-qt-bin}/QtOpenGL4.dll"
+            "${ftnoir-qt-bin}/QtXml4.dll"
+            DESTINATION .
+    )
+    install(TARGETS
+            ftnoir-proto-freetrack
+            ftnoir-proto-tir
+            ftnoir-proto-win32-mouse
+            #ftnoir-proto-fsuipc
+            #ftnoir-proto-simconnect
+            RUNTIME DESTINATION .
+            LIBRARY DESTINATION .
+            NAMELINK_SKIP
+    )
+    if(SDK_SM_FACEAPI_PATH)
+        install(TARGETS ftnoir-tracker-faceapi
+                RUNTIME DESTINATION .
+                LIBRARY DESTINATION .
+                NAMELINK_SKIP
+        )
+        install(TARGETS ftnoir-faceapi-wrapper
+                RUNTIME DESTINATION faceapi
+                LIBRARY DESTINATION faceapi
+                NAMELINK_SKIP
+        )
+        install(FILES
+                "${SDK_SM_FACEAPI_PATH}/bin/computation6.0.dll"
+                "${SDK_SM_FACEAPI_PATH}/bin/foundation6.0.dll"
+                "${SDK_SM_FACEAPI_PATH}/bin/image6.0.dll"
+                "${SDK_SM_FACEAPI_PATH}/bin/libpng13.dll"
+                "${SDK_SM_FACEAPI_PATH}/bin/pgrflycapturegui.dll"
+                "${SDK_SM_FACEAPI_PATH}/bin/QtCore0.dll"
+                "${SDK_SM_FACEAPI_PATH}/bin/qt-mt334.dll"
+                "${SDK_SM_FACEAPI_PATH}/bin/QtXml4.dll"
+                "${SDK_SM_FACEAPI_PATH}/bin/smft32.dll"
+                "${SDK_SM_FACEAPI_PATH}/bin/zlib1.dll"
+                DESTINATION faceapi
+        )
+        install(DIRECTORY
+                "${SDK_SM_FACEAPI_PATH}/bin/cal"
+                "${SDK_SM_FACEAPI_PATH}/bin/resources"
+                DESTINATION faceapi
+        )
+    endif()
+endif()
+

@@ -77,10 +77,9 @@ void FTNoIR_Tracker::StartTracker(QFrame *videoframe )
     // Start FTNoIR_FaceAPI_EXE.exe. The exe contains all faceAPI-stuff and is non-Qt...
     //
     // XXX TODO isolate it into separate directory
-    QString program = "ftnoir-faceapi-wrapper.exe";
-    faceAPI = new QProcess(0);
-    faceAPI->start(program);
-
+    faceAPI = new QProcess();
+    faceAPI->setWorkingDirectory(QCoreApplication::applicationDirPath() + "/faceapi");
+    faceAPI->start("\"" + QCoreApplication::applicationDirPath() + "/faceapi/ftnoir-faceapi-wrapper" + "\"");
     // Show the video widget
     qDebug() << "FTNoIR_Tracker::Initialize says: videoframe = " << videoframe;
 
