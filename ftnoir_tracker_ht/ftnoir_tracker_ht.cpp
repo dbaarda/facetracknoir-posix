@@ -131,7 +131,8 @@ Tracker::Tracker() : lck_shm(HT_SHM_NAME, HT_MUTEX_NAME, sizeof(ht_shm_t))
 Tracker::~Tracker()
 {
     subprocess.kill();
-    shm->terminate = true;
+    if (shm)
+        shm->terminate = true;
 	if (layout)
 		delete layout;
 	if (videoWidget)
