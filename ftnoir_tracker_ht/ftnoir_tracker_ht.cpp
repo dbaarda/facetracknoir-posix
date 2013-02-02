@@ -7,7 +7,7 @@
 #include "facetracknoir/global-settings.h"
 
 #define WIDGET_WIDTH 250
-#define WIDGET_HEIGHT 170
+#define WIDGET_HEIGHT 188
 
 // delicious copypasta
 static QList<QString> get_camera_names(void) {
@@ -101,7 +101,7 @@ static void load_settings(ht_config_t* config, Tracker* tracker)
     config->ransac_abs_max_mean_error = 11.0f;
 	config->debug = 0;
 	config->ransac_min_features = 0.75f;
-	int res = iniFile.value("resolution", 0).toInt();
+    int res = iniFile.value("resolution", 0).toInt() - 1;
     if (res < 0 || res >= (int)(sizeof(*resolution_choices) / sizeof(resolution_tuple)))
 		res = 0;
 	resolution_tuple r = resolution_choices[res];
@@ -313,7 +313,7 @@ void TrackerControls::loadSettings()
 	ui.tx->setCheckState(iniFile.value("enable-tx", true).toBool() ? Qt::Checked : Qt::Unchecked);
 	ui.ty->setCheckState(iniFile.value("enable-ty", true).toBool() ? Qt::Checked : Qt::Unchecked);
 	ui.tz->setCheckState(iniFile.value("enable-tz", true).toBool() ? Qt::Checked : Qt::Unchecked);
-	ui.resolution->setCurrentIndex(iniFile.value("resolution", 0).toInt());
+    ui.resolution->setCurrentIndex(iniFile.value("resolution", 0).toInt());
 	iniFile.endGroup();
 	settingsDirty = false;
 }
