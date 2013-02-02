@@ -280,7 +280,7 @@ install(TARGETS
         NAMELINK_SKIP
 )
 
-if(OpenCV_Found)
+if(OpenCV_FOUND)
     install(TARGETS
             ftnoir-tracker-pt
             RUNTIME DESTINATION .

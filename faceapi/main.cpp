@@ -212,7 +212,6 @@ smCameraHandle createFirstCamera()
 // The main function: setup a tracking engine and show a video window, then loop on the keyboard.
 void run()
 {
-	char msg[100];
 	int state;
 
 	// Capture control-C

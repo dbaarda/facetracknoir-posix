@@ -339,7 +339,7 @@ void TrackerControls::doCommand(int command, int value)
 //   GetTrackerDialog     - Undecorated name, which can be easily used with GetProcAddress
 //                          Win32 API function.
 //   _GetTrackerDialog@0  - Common name decoration for __stdcall functions in C language.
-#pragma comment(linker, "/export:GetTrackerDialog=_GetTrackerDialog@0")
+//#pragma comment(linker, "/export:GetTrackerDialog=_GetTrackerDialog@0")
 
 extern "C" FTNOIR_TRACKER_BASE_EXPORT void* CALLING_CONVENTION GetDialog()
 {
