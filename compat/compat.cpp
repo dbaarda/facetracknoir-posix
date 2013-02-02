@@ -54,7 +54,7 @@ PortableLockedShm::PortableLockedShm(const char *shmName, const char *mutexName,
     //(void) shm_unlink(shm_filename);
 
     fd = shm_open(shm_filename, O_RDWR | O_CREAT, 0600);
-
+    (void) ftruncate(fd, mapSize);
     mem = mmap(NULL, mapSize, PROT_READ|PROT_WRITE, MAP_SHARED, fd, (off_t)0);
 }
 
