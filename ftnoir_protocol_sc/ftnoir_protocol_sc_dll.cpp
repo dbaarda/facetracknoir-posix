@@ -32,7 +32,7 @@
 */
 #include "ftnoir_protocol_SC.h"
 #include <QDebug>
-#include "facetracnoir/global-settings.h"
+#include "facetracknoir/global-settings.h"
 
 FTNoIR_ProtocolDll::FTNoIR_ProtocolDll() {
 }

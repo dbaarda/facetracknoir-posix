@@ -32,7 +32,7 @@
 */
 #include "ftnoir_protocol_SC.h"
 #include <QDebug>
-#include "facetracnoir/global-settings.h"
+#include "facetracknoir/global-settings.h"
 
 //*******************************************************************************************************
 // FaceTrackNoIR Client Settings-dialog.
@@ -154,5 +154,5 @@ void SCControls::save() {
 
 extern "C" FTNOIR_PROTOCOL_BASE_EXPORT void* CALLING_CONVENTION GetDialog( )
 {
-	return new SCControls;
+    return (IProtocolDialog*) new SCControls;
 }

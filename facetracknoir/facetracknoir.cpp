@@ -608,6 +608,12 @@ void FaceTrackNoIR::startTracker( ) {
         delete Libraries;
     Libraries = new SelectedLibraries(this);
 
+    if (!Libraries->correct)
+    {
+        stopTracker();
+        return;
+    }
+
     if (tracker) {
         tracker->wait();
         delete tracker;

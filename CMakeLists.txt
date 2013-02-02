@@ -23,6 +23,7 @@ if (WIN32)
     SET(SDK_SM_FACEAPI_PATH "" CACHE STRING "SeeingMachines FaceAPI SDK path")
     set(SDK_MINGW_PATH "c:/mingw" CACHE STRING "MinGW path")
     SET(SDK_MSVC80_PATH "C:/Program Files (x86)/Microsoft Visual Studio 8/VC" CACHE STRING "Path to MSVC80/VC if you want FaceAPI")
+    set(SDK_SIMCONNECT "" CACHE STRING "Path to SimConnect SDK")
 endif()
 
 if(WIN32)
@@ -120,6 +121,7 @@ file(GLOB ftnoir-proto-win32-mouse-rc "ftnoir_protocol_mouse/*.qrc")
 QT4_WRAP_UI(ftnoir-proto-win32-mouse-uih ${ftnoir-proto-win32-mouse-ui})
 QT4_ADD_RESOURCES(ftnoir-proto-win32-mouse-rcc ${ftnoir-proto-win32-mouse-rc})
 
+# TODO manifest problems :(
 file(GLOB ftnoir-proto-simconnect-c "ftnoir_protocol_sc/*.cpp")
 file(GLOB ftnoir-proto-simconnect-h "ftnoir_protocol_sc/*.h")
 QT4_WRAP_CPP(ftnoir-proto-simconnect-moc ${ftnoir-proto-simconnect-h})
@@ -206,9 +208,14 @@ if(WIN32)
     #target_link_libraries(ftnoir-proto-fsuipc ${QT_LIBRARIES})
     #SET_TARGET_PROPERTIES(ftnoir-proto-fsuipc PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
 
-    #add_library(ftnoir-proto-simconnect SHARED ${ftnoir-proto-simconnect-c} ${ftnoir-proto-simconnect-moc} ${ftnoir-proto-simconnect-uih} ${ftnoir-proto-simconnect-rcc})
-    #target_link_libraries(ftnoir-proto-simconnect ${QT_LIBRARIES})
-    #SET_TARGET_PROPERTIES(ftnoir-proto-simconnect PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
+    if(SDK_SIMCONNECT)
+        add_library(ftnoir-proto-simconnect SHARED ${ftnoir-proto-simconnect-c} ${ftnoir-proto-simconnect-moc} ${ftnoir-proto-simconnect-uih} ${ftnoir-proto-simconnect-rcc})
+        target_link_libraries(ftnoir-proto-simconnect ${QT_LIBRARIES})
+        SET_TARGET_PROPERTIES(ftnoir-proto-simconnect PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
+        include_directories("${SDK_SIMCONNECT}/inc")
+        target_link_libraries(ftnoir-proto-simconnect "${SDK_SIMCONNECT}/lib/simconnect.lib")
+    endif()
+
     add_library(ftnoir-proto-freetrack SHARED ${ftnoir-proto-freetrack-c} ${ftnoir-proto-freetrack-moc} ${ftnoir-proto-freetrack-uih} ${ftnoir-proto-freetrack-rcc})
     target_link_libraries(ftnoir-proto-freetrack ${QT_LIBRARIES})
 
@@ -290,6 +297,12 @@ if(OpenCV_FOUND)
 endif()
 
 if(WIN32)
+    if(SDK_SIMCONNECT)
+    install(TARGETS ftnoir-proto-simconnect
+            RUNTIME DESTINATION .
+            LIBRARY DESTINATION .
+            NAMELINK_SKIP)
+    endif()
     install(FILES
             "${SDK_MINGW_PATH}/bin/libgcc_s_dw2-1.dll"
             "${SDK_MINGW_PATH}/bin/libstdc++-6.dll"

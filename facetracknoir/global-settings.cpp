@@ -35,6 +35,7 @@ SelectedLibraries::~SelectedLibraries()
 SelectedLibraries::SelectedLibraries(IDynamicLibraryProvider* mainApp) :
     pTracker(NULL), pSecondTracker(NULL), pFilter(NULL), pProtocol(NULL)
 {
+    correct = false;
     if (!mainApp)
         return;
     NULLARY_DYNAMIC_FUNCTION ptr;
@@ -68,6 +69,14 @@ SelectedLibraries::SelectedLibraries(IDynamicLibraryProvider* mainApp) :
         pFilter = (IFilter*) ptr();
     }
 
+    // Check if the Protocol-server files were installed OK.
+    // Some servers also create a memory-mapping, for Inter Process Communication.
+    // The handle of the MainWindow is sent to 'The Game', so it can send a message back.
+
+    if (pProtocol)
+        if(!pProtocol->checkServerInstallationOK())
+            return;
+
     // retrieve pointers to the User Interface and the main Application
     if (pTracker) {
         pTracker->StartTracker( mainApp->get_video_widget() );
@@ -82,13 +91,7 @@ SelectedLibraries::SelectedLibraries(IDynamicLibraryProvider* mainApp) :
     if (pProtocol)
         pProtocol->Initialize();
 
-    //
-    // Check if the Protocol-server files were installed OK.
-    // Some servers also create a memory-mapping, for Inter Process Communication.
-    // The handle of the MainWindow is sent to 'The Game', so it can send a message back.
-
-    if (pProtocol)
-        (void) pProtocol->checkServerInstallationOK();
+    correct = true;
 }
 
 DynamicLibrary::DynamicLibrary(const char* filename)

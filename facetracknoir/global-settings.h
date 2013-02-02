@@ -31,6 +31,7 @@ public:
     IProtocol* pProtocol;
     SelectedLibraries(IDynamicLibraryProvider* main = NULL);
     ~SelectedLibraries();
+    bool correct;
 };
 
 extern SelectedLibraries* Libraries;
