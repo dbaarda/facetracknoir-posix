@@ -38,7 +38,7 @@
 #include <QProcess>
 #include <QDebug>
 #include <QFile>
-#include <Windows.h>
+#include <windows.h>
 #include <winable.h>
 #include "facetracknoir/global-settings.h"
 

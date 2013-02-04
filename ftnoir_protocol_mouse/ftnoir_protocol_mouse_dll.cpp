@@ -30,7 +30,7 @@
 						The ProtocolDll class solves this.
 						The functions to get the name(s) and icon were removed from the two other classes.
 */
-#include "ftnoir_protocol_MOUSE.h"
+#include "ftnoir_protocol_mouse.h"
 #include <QDebug>
 #include "facetracknoir/global-settings.h"
 

@@ -1375,9 +1375,6 @@ QWidget( parent , f)
 	// The strings will all be added to the ListBoxes for each Shortkey
 	//
 
-    // XXX TODO use libqxt
-
-    //
 	// Add strings to the Listboxes.
 	//
 

@@ -37,7 +37,7 @@
 #include <QProcess>
 #include <QDebug>
 #include <QFile>
-#include "Windows.h"
+#include <windows.h>
 // todo wine glue
 //#include "math.h"
 #include "facetracknoir/global-settings.h"

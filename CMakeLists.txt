@@ -8,7 +8,11 @@ SET(CMAKE_SKIP_RPATH FALSE)
 find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork QtDesigner REQUIRED)
 find_package(OpenCV)
 find_package(OpenGL REQUIRED)
-find_package(Qxt COMPONENTS QxtGui REQUIRED)
+
+
+if(NOT QXT_QXTGUI_LIB_RELEASE)
+	find_package(Qxt COMPONENTS QxtGui REQUIRED)
+endif()
 
 if(NOT QXT_QXTGUI_INCLUDE_DIR OR QXT_QXTGUI_INCLUDE_DIR STREQUAL "QXT_QXTGUI_INCLUDE_DIR-NOTFOUND")
     message(FATAL_ERROR "Qxt not found, required for keybindings, get from http://libqxt.org")
@@ -352,6 +356,7 @@ if(OpenCV_FOUND)
 endif()
 
 if(WIN32)
+    file(GLOB mingw-libgcc-s "${SDK_MINGW_PATH}/bin/libgcc_s_*.dll")
     install(FILES "${CMAKE_SOURCE_DIR}/bin/cleye.config" DESTINATION .)
     install(FILES "${CMAKE_SOURCE_DIR}/bin/freetrackclient.dll" DESTINATION .)
     if(SDK_SIMCONNECT)
@@ -361,7 +366,7 @@ if(WIN32)
             NAMELINK_SKIP)
     endif()
     install(FILES
-            "${SDK_MINGW_PATH}/bin/libgcc_s_dw2-1.dll"
+	    "${mingw-libgcc-s}"
             "${SDK_MINGW_PATH}/bin/libstdc++-6.dll"
             DESTINATION .
     )
@@ -380,11 +385,11 @@ if(WIN32)
     install(FILES "${QXT_QXTCORE_LIB_RELEASE}" "${QXT_QXTGUI_LIB_RELEASE}" DESTINATION .)
     get_filename_component(ftnoir-qt-bin "${QT_QMAKE_EXECUTABLE}" PATH)
     install(FILES
-            "${ftnoir-qt-bin}/QtCore4.dll"
-            "${ftnoir-qt-bin}/QtGui4.dll"
-            "${ftnoir-qt-bin}/QtNetwork4.dll"
-            "${ftnoir-qt-bin}/QtOpenGL4.dll"
-            "${ftnoir-qt-bin}/QtXml4.dll"
+	    "${QT_QTCORE_LIBRARY_RELEASE}"
+	    "${QT_QTGUI_LIBRARY_RELEASE}"
+	    "${QT_QTNETWORK_LIBRARY_RELEASE}"
+	    "${QT_QTOPENGL_LIBRARY_RELEASE}"
+	    "${QT_QTXML_LIBRARY_RELEASE}"
             DESTINATION .
     )
     install(TARGETS

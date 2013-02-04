@@ -57,54 +57,56 @@ SET(QXT_QXTBERKELEY_DEPENDSON QxtCore)
 
 FOREACH(mod ${QXT_MODULES})
     STRING(TOUPPER ${mod} U_MOD)
-    FIND_PATH(QXT_${U_MOD}_INCLUDE_DIR NAME ${mod}
-        PATH_SUFFIXES ${mod} include/${mod} Qxt/include/${mod} include/Qxt/${mod}
-        PATHS
-        ~/Library/Frameworks/
-        /Library/Frameworks/
-        /sw/
-        /usr/local/
-        /usr
-        /opt/local/
-        /opt/csw
-        /opt
-        "C:/Program Files/libqxt/include"
-        "C:/Program Files (x86)/libqxt/include"
-        NO_DEFAULT_PATH
-    )
-    FIND_LIBRARY(QXT_${U_MOD}_LIB_RELEASE NAME ${mod}
-        PATH_SUFFIXES Qxt/lib64 Qxt/lib lib64 lib
-        PATHS
-        /sw
-        /usr/local
-        /usr
-        /opt/local
-        /opt/csw
-        /opt
-        "C:/Program Files/libqxt"
-        "C:/Program Files (x86)/libqxt"
-        NO_DEFAULT_PATH
-    )
-    FIND_LIBRARY(QXT_${U_MOD}_LIB_DEBUG NAME ${mod}d
-        PATH_SUFFIXES Qxt/lib64 Qxt/lib lib64 lib
-        PATHS
-        /sw
-        /usr/local
-        /usr
-        /opt/local
-        /opt/csw
-        /opt
-        "C:/Program Files/libqxt/"
-        "C:/Program Files (x86)/libqxt/"
-        NO_DEFAULT_PATH
-    )
-    IF (QXT_${U_MOD}_LIB_RELEASE)
-        SET(QXT_FOUND_MODULES "${QXT_FOUND_MODULES} ${mod}")
-    ENDIF (QXT_${U_MOD}_LIB_RELEASE)
+    IF(NOT ${U_MOD}_INCLUDE_DIR)
+	    FIND_PATH(QXT_${U_MOD}_INCLUDE_DIR NAME ${mod}
+		PATH_SUFFIXES ${mod} include/${mod} Qxt/include/${mod} include/Qxt/${mod}
+		PATHS
+		~/Library/Frameworks/
+		/Library/Frameworks/
+		/sw/
+		/usr/local/
+		/usr
+		/opt/local/
+		/opt/csw
+		/opt
+		"C:/Program Files/libqxt/include"
+		"C:/Program Files (x86)/libqxt/include"
+		NO_DEFAULT_PATH
+	    )
+	    FIND_LIBRARY(QXT_${U_MOD}_LIB_RELEASE NAME ${mod}
+		PATH_SUFFIXES Qxt/lib64 Qxt/lib lib64 lib
+		PATHS
+		/sw
+		/usr/local
+		/usr
+		/opt/local
+		/opt/csw
+		/opt
+		"C:/Program Files/libqxt"
+		"C:/Program Files (x86)/libqxt"
+		NO_DEFAULT_PATH
+	    )
+	    FIND_LIBRARY(QXT_${U_MOD}_LIB_DEBUG NAME ${mod}d
+		PATH_SUFFIXES Qxt/lib64 Qxt/lib lib64 lib
+		PATHS
+		/sw
+		/usr/local
+		/usr
+		/opt/local
+		/opt/csw
+		/opt
+		"C:/Program Files/libqxt/"
+		"C:/Program Files (x86)/libqxt/"
+		NO_DEFAULT_PATH
+	    )
+	    IF (QXT_${U_MOD}_LIB_RELEASE)
+		SET(QXT_FOUND_MODULES "${QXT_FOUND_MODULES} ${mod}")
+	    ENDIF (QXT_${U_MOD}_LIB_RELEASE)
 
-    IF (QXT_${U_MOD}_LIB_DEBUG)
-        SET(QXT_FOUND_MODULES "${QXT_FOUND_MODULES} ${mod}")
-    ENDIF (QXT_${U_MOD}_LIB_DEBUG)
+	    IF (QXT_${U_MOD}_LIB_DEBUG)
+		SET(QXT_FOUND_MODULES "${QXT_FOUND_MODULES} ${mod}")
+	    ENDIF (QXT_${U_MOD}_LIB_DEBUG)
+    ENDIF()
 ENDFOREACH(mod)
 
 FOREACH(mod ${QXT_MODULES})
