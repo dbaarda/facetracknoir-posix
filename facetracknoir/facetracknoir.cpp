@@ -127,14 +127,9 @@ void KeybindingWorkerDummy::run() {
             Sleep(1);
             continue;
         }
-        #define PROCESS_KEY(k, s) \
-        if (!k.held && isKeyPressed(&k, keystate)) \
-        { \
-        k.held = true; \
-        window.s(); \
-    } \
-    else \
-        k.held = false;
+#define PROCESS_KEY(k, s) \
+        if (k.timer.restart() > 100 && isKeyPressed(&k, keystate)) \
+            window.s();
     
     PROCESS_KEY(kCenter, shortcutRecentered);
     PROCESS_KEY(kInhibit, shortcutInhibit);
@@ -2003,6 +1998,7 @@ void FaceTrackNoIR::shortcutStartStop()
     if (tracker)
     {
         tracker->do_tracking = !tracker->do_tracking;
+        qDebug() << "do-tracking" << tracker->do_tracking;
     }
 }
 

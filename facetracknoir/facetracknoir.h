@@ -44,6 +44,7 @@
 #endif
 #include <QThread>
 #include <QDebug>
+#include <QElapsedTimer>
 
 #include "ftnoir_posewidget/glwidget.h"
 
@@ -71,10 +72,11 @@ struct Key {
     bool shift;
     bool ctrl;
     bool alt;
-    bool held;
+    QElapsedTimer timer;
 public:
-    Key() : keycode(0), shift(false), ctrl(false), alt(false), held(false)
+    Key() : keycode(0), shift(false), ctrl(false), alt(false)
     {
+        timer.start();
     }
 };
 #else
