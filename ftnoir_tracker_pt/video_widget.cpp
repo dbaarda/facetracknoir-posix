@@ -35,7 +35,7 @@ void VideoWidget::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT);
 	if (!resized_qframe.isNull())
 	{
-		glDrawPixels(resized_qframe.width(), resized_qframe.height(), GL_RGBA, GL_UNSIGNED_BYTE, resized_qframe.bits());
+		glDrawPixels(resized_qframe.width(), resized_qframe.height(), GL_RGB, GL_UNSIGNED_BYTE, resized_qframe.bits());
 		
 		const int crosshair_radius = 10;
 		const int crosshair_thickness = 1;
