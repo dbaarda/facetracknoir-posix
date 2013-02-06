@@ -32,6 +32,7 @@
 * provided that the above copyright notice and this permission					*
 * notice appear in all copies.													*
 ********************************************************************************/
+#if !defined(_WIN32) && !defined(__WIN32)
 #include "qfunctionconfigurator.h"
 
 #include <QtCore/QtPlugin>
@@ -144,3 +145,4 @@ QString QFunctionConfiguratorPlugin::includeFile() const
 }
 
 Q_EXPORT_PLUGIN2(QFunctionConfigurator, QFunctionConfiguratorPlugin)
+#endif

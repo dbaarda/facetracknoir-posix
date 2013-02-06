@@ -37,7 +37,13 @@
 #include <QKeySequence>
 #include <QtGui>
 #include <QString>
-#include <qxtglobalshortcut.h>
+#if !defined(_WIN32) && !defined(__WIN32)
+#	include <qxtglobalshortcut.h>
+#else
+#	include <windows.h>
+#endif
+#include <QThread>
+#include <QDebug>
 
 #include "ftnoir_posewidget/glwidget.h"
 
@@ -53,6 +59,29 @@
 #include "global-settings.h"
 
 class Tracker;				// pre-define class to avoid circular includes
+class FaceTrackNoIR;
+
+class KeybindingWorker;
+
+#if defined(__WIN32) || defined(_WIN32)
+extern QList<int> global_windows_key_sequences;
+#include <dinput.h>
+struct Key {
+    BYTE keycode;
+    bool shift;
+    bool ctrl;
+    bool alt;
+    bool held;
+public:
+    Key() : keycode(0), shift(false), ctrl(false), alt(false), held(false)
+    {
+    }
+};
+#else
+typedef unsigned char BYTE;
+struct Key { int foo; };
+#endif
+static bool isKeyPressed( const Key *key, const BYTE *keystate );
 
 class FaceTrackNoIR : public QMainWindow, IDynamicLibraryProvider
 {
@@ -79,6 +108,19 @@ public:
     DynamicLibrary* current_filter() {
         return dlopen_filters.value(ui.iconcomboFilter->currentIndex(), (DynamicLibrary*) NULL);
     }
+#if defined(_WIN32) || defined(__WIN32)
+    Key keyCenter, keyZero, keyStartStop, keyInhibit;
+    KeybindingWorker* keybindingWorker;
+#else 
+    QxtGlobalShortcut* keyCenter;
+    QxtGlobalShortcut* keyZero;
+    QxtGlobalShortcut* keyStartStop;
+    QxtGlobalShortcut* keyInhibit;
+#endif
+        void shortcutRecentered();
+        void shortcutZero();
+        void shortcutStartStop();
+        void shortcutInhibit();
 
 private:
 	Ui::FaceTrackNoIRClass ui;
@@ -121,11 +163,6 @@ private:
 	void GetCameraNameDX();
 	void loadSettings();
 	void setupFaceTrackNoIR();
-
-    QxtGlobalShortcut* keyCenter;
-    QxtGlobalShortcut* keyZero;
-    QxtGlobalShortcut* keyStartStop;
-    QxtGlobalShortcut* keyInhibit;
 
     QList<DynamicLibrary*> dlopen_filters;
     QList<DynamicLibrary*> dlopen_trackers;
@@ -175,10 +212,6 @@ private:
         void startTracker();
 		void stopTracker();
 
-        void shortcutRecentered();
-        void shortcutZero();
-        void shortcutStartStop();
-        void shortcutInhibit();
 };
 
 // Widget that has controls for FaceTrackNoIR Preferences.
@@ -260,3 +293,34 @@ private slots:
 #endif // FaceTrackNoIR_H
 
 extern QList<QString> global_key_sequences;
+#if defined(__WIN32) || defined(_WIN32)
+class KeybindingWorkerDummy {
+private:
+    LPDIRECTINPUT8 din;
+    LPDIRECTINPUTDEVICE8 dinkeyboard;
+    Key kCenter, kInhibit, kStartStop, kZero;
+    FaceTrackNoIR& window;
+public:
+    volatile bool should_quit;
+    ~KeybindingWorkerDummy();
+    KeybindingWorkerDummy(FaceTrackNoIR& w, Key keyCenter, Key keyInhibit, Key keyStartStop, Key keyZero);
+	void run();
+};
+#else
+class KeybindingWorkerDummy {
+public:
+    KeybindingWorkerDummy(FaceTrackNoIR& w, Key keyCenter, Key keyInhibit, Key keyStartStop, Key keyZero);
+	void run() {}
+};
+#endif
+
+class KeybindingWorker : public QThread, public KeybindingWorkerDummy {
+	Q_OBJECT
+public:
+	KeybindingWorker(FaceTrackNoIR& w, Key keyCenter, Key keyInhibit, Key keyStartStop, Key keyZero) : KeybindingWorkerDummy(w, keyCenter, keyInhibit, keyStartStop, keyZero)
+	{
+	}
+	void run() {
+		KeybindingWorkerDummy::run();
+	}
+};

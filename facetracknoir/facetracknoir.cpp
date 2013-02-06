@@ -47,7 +47,7 @@
 */
 #include "facetracknoir.h"
 #include "tracker.h"
-#include <qxtglobalshortcut.h>
+#include <ftnoir_tracker_ht/ht-api.h>
 #include <QDebug>
 
 #if defined(__WIN32) || defined(_WIN32)
@@ -62,6 +62,101 @@
 #   define SONAME "so"
 #endif
 
+#if defined(__WIN32) || defined(_WIN32)
+
+#include <dshow.h>
+#include <dinput.h>
+
+KeybindingWorkerDummy::~KeybindingWorkerDummy() {
+    dinkeyboard->Unacquire();
+    dinkeyboard->Release();
+    din->Release();
+}
+
+KeybindingWorkerDummy::KeybindingWorkerDummy(FaceTrackNoIR& w, Key keyCenter, Key keyInhibit, Key keyStartStop, Key keyZero)
+: kCenter(keyCenter), kInhibit(keyInhibit), kStartStop(keyStartStop), kZero(keyZero), window(w), should_quit(true), din(0), dinkeyboard(0)
+{
+    if (DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&din, NULL) != DI_OK) {
+        qDebug() << "setup DirectInput8 Creation failed!" << GetLastError();
+        return;
+    }
+    if (din->CreateDevice(GUID_SysKeyboard, &dinkeyboard, NULL) != DI_OK) {
+        din->Release();
+        qDebug() << "setup CreateDevice function failed!" << GetLastError();
+        return;
+    }
+    if (dinkeyboard->SetCooperativeLevel(window.winId(), DISCL_NONEXCLUSIVE | DISCL_BACKGROUND) != DI_OK) {
+        din->Release();
+        dinkeyboard->Release();
+        qDebug() << "setup SetCooperativeLevel function failed!" << GetLastError();
+        return;
+    }
+    if (dinkeyboard->Acquire() != DI_OK)
+    {
+        din->Release();
+        dinkeyboard->Release();
+        qDebug() << "setup dinkeyboard Acquire failed!" << GetLastError();
+        return;
+    }
+    should_quit = false;
+}
+
+void KeybindingWorkerDummy::run() {
+    BYTE keystate[256];
+    while (!should_quit)
+    {
+        if (dinkeyboard->GetDeviceState(256, (LPVOID)keystate) != DI_OK) {
+            qDebug() << "Tracker::run GetDeviceState function failed!" << GetLastError();
+            Sleep(1);
+            continue;
+        }
+        #define PROCESS_KEY(k, s) \
+        if (!k.held && isKeyPressed(&k, keystate)) \
+        { \
+        k.held = true; \
+        window.s(); \
+    } \
+    else \
+        k.held = false;
+    
+    PROCESS_KEY(kCenter, shortcutRecentered);
+    PROCESS_KEY(kInhibit, shortcutInhibit);
+    PROCESS_KEY(kZero, shortcutZero);
+    PROCESS_KEY(kStartStop, shortcutStartStop);
+    
+    Sleep(1);
+    }
+}
+
+
+static bool isKeyPressed( const Key *key, const BYTE *keystate ) {
+    bool shift;
+    bool ctrl;
+    bool alt;
+    
+    if (keystate[key->keycode] & 0x80) {
+        shift = ( (keystate[DIK_LSHIFT] & 0x80) || (keystate[DIK_RSHIFT] & 0x80) );
+        ctrl  = ( (keystate[DIK_LCONTROL] & 0x80) || (keystate[DIK_RCONTROL] & 0x80) );
+        alt   = ( (keystate[DIK_LALT] & 0x80) || (keystate[DIK_RALT] & 0x80) );
+        
+        //
+        // If one of the modifiers is needed and not pressed, return false.
+        //
+        if (key->shift && !shift) return false;
+        if (key->ctrl && !ctrl) return false;
+        if (key->alt && !alt) return false;
+        
+        //
+        // All is well!
+        //
+        return true;
+    }
+    return false;
+}
+#else
+static bool isKeyPressed(const Key *key, const BYTE *keystate) { return false; }
+#endif
+
 //
 // Setup the Main Dialog
 //
@@ -73,10 +168,13 @@ FaceTrackNoIR::FaceTrackNoIR(QWidget *parent, Qt::WFlags flags) :
     pFilterDialog(NULL),
     trayIcon(NULL),
     trayIconMenu(NULL),
-    keyCenter(NULL),
-    keyZero(NULL),
-    keyStartStop(NULL),
-    keyInhibit(NULL),
+#if defined(__WIN32) || defined(_WIN32)
+    keybindingWorker(NULL),
+#endif
+    keyCenter(),
+    keyZero(),
+    keyStartStop(),
+    keyInhibit(),
     looping(false)
 {	
     GlobalPose = new HeadPoseData();
@@ -615,6 +713,10 @@ void FaceTrackNoIR::startTracker( ) {
         stopTracker();
         return;
     }
+    
+#if defined(_WIN32) || defined(__WIN32)
+    keybindingWorker = new KeybindingWorker(*this, keyCenter, keyInhibit, keyStartStop, keyZero);
+#endif
 
     if (tracker) {
         tracker->wait();
@@ -704,6 +806,15 @@ void FaceTrackNoIR::startTracker( ) {
 /** stop tracking the face **/
 void FaceTrackNoIR::stopTracker( ) {	
 
+#if defined(_WIN32) || defined(__WIN32)
+    if (keybindingWorker)
+    {
+        keybindingWorker->should_quit = true;
+        keybindingWorker->wait();
+        delete keybindingWorker;
+        keybindingWorker = NULL;
+    }
+#endif
 	//
 	// Stop displaying the head-pose.
 	//
@@ -1456,7 +1567,8 @@ void FaceTrackNoIR::bindKeyboardShortcuts()
     int idxGameZero = iniFile.value("Key_index_GameZero", 0).toInt();
     int idxStartStop = iniFile.value("Key_index_StartStop", 0).toInt();
     int idxInhibit = iniFile.value("Key_index_Inhibit", 0).toInt();
-
+    
+#if !defined(_WIN32) && !defined(__WIN32)
     if (keyCenter) {
         delete keyCenter;
         keyCenter = NULL;
@@ -1540,6 +1652,37 @@ void FaceTrackNoIR::bindKeyboardShortcuts()
         keyInhibit = new QxtGlobalShortcut(QKeySequence(seq));
         connect(keyInhibit, SIGNAL(activated()), this, SLOT(shortcutInhibit()));
     }
+#else
+    keyCenter.keycode = keyZero.keycode = keyInhibit.keycode = keyStartStop.keycode = 0;
+    keyCenter.shift = keyCenter.alt = keyCenter.ctrl = 0;
+    keyZero.shift = keyZero.alt = keyZero.ctrl = 0;
+    keyInhibit.shift = keyInhibit.alt = keyInhibit.ctrl = 0;
+    keyStartStop.shift = keyStartStop.alt = keyStartStop.ctrl = 0;
+    if (idxCenter > 0 && idxCenter < global_windows_key_sequences.size())
+        keyCenter.keycode = global_windows_key_sequences[idxCenter];
+    if (idxGameZero > 0 && idxCenter < global_windows_key_sequences.size())
+        keyZero.keycode = global_windows_key_sequences[idxGameZero];
+    if (idxInhibit > 0 && idxInhibit < global_windows_key_sequences.size())
+        keyInhibit.keycode = global_windows_key_sequences[idxInhibit];
+    if (idxStartStop > 0 && idxStartStop < global_windows_key_sequences.size())
+        keyStartStop.keycode = global_windows_key_sequences[idxStartStop];
+    
+    keyCenter.shift = iniFile.value("Shift_Center", false).toBool();
+    keyCenter.alt = iniFile.value("Alt_Center", false).toBool();
+    keyCenter.ctrl = iniFile.value("Ctrl_Center", false).toBool();
+    
+    keyInhibit.shift = iniFile.value("Shift_Inhibit", false).toBool();
+    keyInhibit.alt = iniFile.value("Alt_Inhibit", false).toBool();
+    keyInhibit.ctrl = iniFile.value("Ctrl_Inhibit", false).toBool();
+    
+    keyZero.shift = iniFile.value("Shift_GameZero", false).toBool();
+    keyZero.alt = iniFile.value("Alt_GameZero", false).toBool();
+    keyZero.ctrl = iniFile.value("Ctrl_GameZero", false).toBool();
+    
+    keyStartStop.shift = iniFile.value("Shift_StartStop", false).toBool();
+    keyStartStop.alt = iniFile.value("Alt_StartStop", false).toBool();
+    keyStartStop.ctrl = iniFile.value("Ctrl_StartStop", false).toBool();
+#endif
     iniFile.endGroup ();
 }
 

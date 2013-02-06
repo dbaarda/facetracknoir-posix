@@ -36,7 +36,9 @@
 #define QFUNCTIONCONFIGURATOR_H
 
 #include <QtGui>
-#include <QtDesigner/QDesignerExportWidget>
+#if !defined(_WIN32) && !defined(__WIN32)
+#	include <QtDesigner/QDesignerExportWidget>
+#endif
 #include <QPointF>
 #include "functionconfig.h"
 

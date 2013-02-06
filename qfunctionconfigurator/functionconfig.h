@@ -10,7 +10,11 @@
 #include <QPointF>
 #include <QString>
 #include <QSettings>
-#include <QtDesigner/QDesignerExportWidget>
+#if !defined(_WIN32) && !defined(__WIN32)
+#	include <QtDesigner/QDesignerExportWidget>
+#else
+#	define QDESIGNER_WIDGET_EXPORT
+#endif
 #include <QMutex>
 
 #ifndef FUNCTION_CONFIG_H

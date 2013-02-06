@@ -86,6 +86,7 @@ Tracker::Tracker( FaceTrackNoIR *parent ) :
     should_quit(false),
     do_tracking(true),
     do_center(false),
+    // XXX TODO non-functional! restore later -sh 20130206
     do_inhibit(false),
     do_game_zero(false),
     do_axis_reverse(false)

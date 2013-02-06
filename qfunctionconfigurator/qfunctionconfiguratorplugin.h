@@ -1,7 +1,10 @@
 #ifndef QFUNCTIONCONFIGURATORPLUGIN_H
 #define QFUNCTIONCONFIGURATORPLUGIN_H
 
+#if !defined(_WIN32) && !defined(__WIN32)
+
 #include <QDesignerCustomWidgetInterface>
+
 
 class QFunctionConfiguratorPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
@@ -28,3 +31,4 @@ private:
 };
 
 #endif // QFUNCTIONCONFIGURATORPLUGIN_H
+#endif
