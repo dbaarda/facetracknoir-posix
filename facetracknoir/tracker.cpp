@@ -203,7 +203,6 @@ void Tracker::run() {
             else {
                 new_camera = target_camera;
             }
-<<<<<<< HEAD
             if (do_inhibit && inhibit_tx) {
                 if (inhibit_zero) {
                     output_camera.x = 0;
@@ -265,45 +264,6 @@ void Tracker::run() {
             GlobalPose->Z.curvePtr->setTrackingActive( !(do_inhibit && inhibit_tz) );
             GlobalPose->Yaw.curvePtr->setTrackingActive( !(do_inhibit && inhibit_ry) );
             GlobalPose->Roll.curvePtr->setTrackingActive( !(do_inhibit && inhibit_rz) );
-=======
-            if (do_inhibit && inhibit_tx)
-                    output_camera.x = inhibit_zero ? 0 : GlobalPose->X.invert * GlobalPose->X.curvePtr->getValue(new_camera.x);
-            if (do_inhibit && inhibit_ty)
-                output_camera.y = inhibit_zero ? 0 : output_camera.y = GlobalPose->Y.invert * GlobalPose->Y.curvePtr->getValue(new_camera.y);
-            if (do_inhibit && inhibit_tz)
-                output_camera.z = inhibit_zero ? 0 : output_camera.z = GlobalPose->Z.invert * GlobalPose->Z.curvePtr->getValue(new_camera.z);
-
-            //
-            // Determine, which curve (Up or Down) must be used for Pitch
-            //
-            if (do_inhibit && inhibit_ry)
-                if (inhibit_zero)
-                    output_camera.pitch = 0;
-                else {
-                    bool altp = (new_camera.pitch < 0);
-                    if (altp) {
-                        output_camera.pitch = GlobalPose->Pitch.invert * GlobalPose->Pitch.curvePtrAlt->getValue(new_camera.pitch);
-                        GlobalPose->Pitch.curvePtr->setTrackingActive( false );
-                        GlobalPose->Pitch.curvePtrAlt->setTrackingActive( true );
-                    }
-                    else {
-                        output_camera.pitch = GlobalPose->Pitch.invert * GlobalPose->Pitch.curvePtr->getValue(new_camera.pitch);
-                        GlobalPose->Pitch.curvePtr->setTrackingActive( true );
-                        GlobalPose->Pitch.curvePtrAlt->setTrackingActive( false );
-                    }
-                }
-
-            if (do_inhibit && inhibit_rx)
-                output_camera.yaw = inhibit_zero ? 0 : GlobalPose->Yaw.invert * GlobalPose->Yaw.curvePtr->getValue(new_camera.yaw);
-            if (do_inhibit && inhibit_rz)
-                output_camera.roll = inhibit_zero ? 0 : GlobalPose->Roll.invert * GlobalPose->Roll.curvePtr->getValue(new_camera.roll);
-
-            GlobalPose->X.curvePtr->setTrackingActive( true );
-            GlobalPose->Y.curvePtr->setTrackingActive( true );
-            GlobalPose->Z.curvePtr->setTrackingActive( true );
-            GlobalPose->Yaw.curvePtr->setTrackingActive( true );
-            GlobalPose->Roll.curvePtr->setTrackingActive( true );
->>>>>>> 10dfc7c9a2dce14ec4154153a466f63c9d55759a
 
             if (useAxisReverse) {
                 do_axis_reverse = ((fabs(output_camera.yaw) > YawAngle4ReverseAxis) && (output_camera.z < Z_Pos4ReverseAxis));
