@@ -323,23 +323,24 @@ void FaceTrackNoIR::GetCameraNameDX() {
 // If succesfull, the settings in it will be read
 //
 void FaceTrackNoIR::open() {
-	 QFileDialog::Options options;
-
-     options |= QFileDialog::DontUseNativeDialog;
-	 QStringList fileNames = QFileDialog::getOpenFileNames(
+     QFileDialog dialog(this);
+     dialog.setFileMode(QFileDialog::ExistingFile);
+     
+	 QString fileName = dialog.getOpenFileName(
 								this,
                                  tr("Select one FTNoir settings file"),
-								 QCoreApplication::applicationDirPath() + "/Settings",
-                                 tr("Settings file (*.ini);;All Files (*)"));
+								 QCoreApplication::applicationDirPath() + "/Settings/",
+                                 tr("Settings file (*.ini);;All Files (*)"),
+                                               NULL);
 
 	//
 	// If a file was selected, save it's name and read it's contents.
 	//
-	if (! fileNames.isEmpty() ) {
+	if (! fileName.isEmpty() ) {
 		QSettings settings("Abbequerque Inc.", "FaceTrackNoIR");	// Registry settings (in HK_USER)
-        settings.setValue ("SettingsFile", fileNames.value(0, ""));
+        settings.setValue ("SettingsFile", QFileInfo(fileName).absoluteFilePath());
 		loadSettings();
-	}
+    }
 }
 
 //
@@ -456,6 +457,7 @@ void FaceTrackNoIR::loadSettings() {
 	QSettings settings("Abbequerque Inc.", "FaceTrackNoIR");	// Registry settings (in HK_USER)
 
 	QString currentFile = settings.value ( "SettingsFile", QCoreApplication::applicationDirPath() + "/Settings/default.ini" ).toString();
+    qDebug() << "Config file now" << currentFile;
 	QSettings iniFile( currentFile, QSettings::IniFormat );		// Application settings (in INI-file)
 
 	//
