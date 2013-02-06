@@ -127,14 +127,9 @@ void KeybindingWorkerDummy::run() {
             Sleep(1);
             continue;
         }
-        #define PROCESS_KEY(k, s) \
-        if (!k.held && isKeyPressed(&k, keystate)) \
-        { \
-        k.held = true; \
-        window.s(); \
-    } \
-    else \
-        k.held = false;
+#define PROCESS_KEY(k, s) \
+        if (k.timer.restart() > 100 && isKeyPressed(&k, keystate)) \
+            window.s();
     
     PROCESS_KEY(kCenter, shortcutRecentered);
     PROCESS_KEY(kInhibit, shortcutInhibit);
@@ -1487,7 +1482,6 @@ QWidget( parent , f)
 	connect(ui.chkStartStopCtrl, SIGNAL(stateChanged(int)), this, SLOT(keyChanged(int)));
 	connect(ui.chkStartStopAlt, SIGNAL(stateChanged(int)), this, SLOT(keyChanged(int)));
 	connect(ui.radioSetZero, SIGNAL(toggled(bool)), this, SLOT(keyChanged(bool)));
-	connect(ui.radioSetEngineStop, SIGNAL(toggled(bool)), this, SLOT(keyChanged(bool)));
 
 	connect(ui.cbxInhibitKey, SIGNAL(currentIndexChanged(int)), this, SLOT(keyChanged( int )));
 	connect(ui.chkInhibitShift, SIGNAL(stateChanged(int)), this, SLOT(keyChanged(int)));
@@ -1736,8 +1730,6 @@ void KeyboardShortcutDialog::loadSettings() {
 
 	ui.radioSetZero->setChecked (iniFile.value ( "SetZero", 1 ).toBool());
 	ui.radioSetFreeze->setChecked(!ui.radioSetZero->isChecked());
-	ui.radioSetEngineStop->setChecked (iniFile.value ( "SetEngineStop", 1 ).toBool());
-	ui.radioSetKeepTracking->setChecked(!ui.radioSetEngineStop->isChecked());
 
 	ui.chkInhibitShift->setChecked (iniFile.value ( "Shift_Inhibit", 0 ).toBool());
 	ui.chkInhibitCtrl->setChecked (iniFile.value ( "Ctrl_Inhibit", 0 ).toBool());
@@ -1792,7 +1784,6 @@ void KeyboardShortcutDialog::save() {
 	iniFile.setValue ( "Ctrl_StartStop", ui.chkStartStopCtrl->isChecked() );
 	iniFile.setValue ( "Alt_StartStop", ui.chkStartStopAlt->isChecked() );
 	iniFile.setValue ( "SetZero", ui.radioSetZero->isChecked() );
-	iniFile.setValue ( "SetEngineStop", ui.radioSetEngineStop->isChecked() );
 
     iniFile.setValue ( "Key_index_Inhibit", ui.cbxInhibitKey->currentIndex() );
 	iniFile.setValue ( "Shift_Inhibit", ui.chkInhibitShift->isChecked() );
@@ -2003,6 +1994,7 @@ void FaceTrackNoIR::shortcutStartStop()
     if (tracker)
     {
         tracker->do_tracking = !tracker->do_tracking;
+        qDebug() << "do-tracking" << tracker->do_tracking;
     }
 }
 

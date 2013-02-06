@@ -125,13 +125,12 @@ private:
 	// Flags to start/stop/reset tracking
     bool confid;								// Tracker data is OK
 
-    bool setZero;							// Set to zero's, when OFF (one-shot)
-    bool setEngineStop;						// Stop tracker->engine, when OFF
-
     bool useAxisReverse;						// Use Axis Reverse
     float YawAngle4ReverseAxis;				// Axis Reverse settings
     float Z_Pos4ReverseAxis;
     float Z_PosWhenReverseAxis;
+    
+    volatile bool inhibit_rx, inhibit_ry, inhibit_rz, inhibit_tx, inhibit_ty, inhibit_tz, inhibit_zero;
 
     /** Direct Input variables **/
     T6DOF offset_camera;
@@ -179,11 +178,11 @@ public:
     float getRadsFromDegrees ( float degrees ) { return (degrees * 0.017453f); }
     volatile bool should_quit;
     // following are now protected by hTrackMutex
-    bool do_tracking;						// Start/stop tracking, using the shortkey
-    bool do_center;							// Center head-position, using the shortkey
-    bool do_inhibit;							// Inhibit DOF-axis, using the shortkey
-    bool do_game_zero;						// Set in-game zero, using the shortkey
-    bool do_axis_reverse;					// Axis reverse, using the shortkey
+    volatile bool do_tracking;						// Start/stop tracking, using the shortkey
+    volatile bool do_center;							// Center head-position, using the shortkey
+    volatile bool do_inhibit;							// Inhibit DOF-axis, using the shortkey
+    volatile bool do_game_zero;						// Set in-game zero, using the shortkey
+    volatile bool do_axis_reverse;					// Axis reverse, using the shortkey
 };
 
 struct HeadPoseData {

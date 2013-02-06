@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>558</width>
+    <width>591</width>
     <height>438</height>
    </rect>
   </property>
@@ -320,48 +320,6 @@
           </property>
           <property name="text">
            <string>Z</string>
-          </property>
-         </widget>
-        </widget>
-       </item>
-       <item row="3" column="7">
-        <widget class="QGroupBox" name="groupBox_4">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">color: rgb(0, 0, 0);</string>
-         </property>
-         <property name="title">
-          <string>Engine tracker</string>
-         </property>
-         <widget class="QRadioButton" name="radioSetEngineStop">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>20</y>
-            <width>81</width>
-            <height>17</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Stop Engine</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="radioSetKeepTracking">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>40</y>
-            <width>91</width>
-            <height>17</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Keep tracking</string>
           </property>
          </widget>
         </widget>

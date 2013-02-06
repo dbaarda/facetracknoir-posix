@@ -73,8 +73,6 @@ HeadPoseData* GlobalPose = NULL;
 /** constructor **/
 Tracker::Tracker( FaceTrackNoIR *parent ) :
     confid(false),
-    setZero(true),
-    setEngineStop(true),
     useAxisReverse(false),
     YawAngle4ReverseAxis(40),
     Z_Pos4ReverseAxis(-20.0f),
@@ -86,15 +84,26 @@ Tracker::Tracker( FaceTrackNoIR *parent ) :
     should_quit(false),
     do_tracking(true),
     do_center(false),
-    // XXX TODO non-functional! restore later -sh 20130206
     do_inhibit(false),
     do_game_zero(false),
-    do_axis_reverse(false)
+    do_axis_reverse(false),
+    inhibit_rx(false),
+    inhibit_ry(false),
+    inhibit_rz(false),
+    inhibit_tx(false),
+    inhibit_ty(false),
+    inhibit_tz(false)
 {
     // Retieve the pointer to the parent
 	mainApp = parent;
 	// Load the settings from the INI-file
 	loadSettings();
+    GlobalPose->Yaw.headPos = 0;
+    GlobalPose->Pitch.headPos = 0;
+    GlobalPose->Roll.headPos = 0;
+    GlobalPose->X.headPos = 0;
+    GlobalPose->Y.headPos = 0;
+    GlobalPose->Z.headPos = 0;
 }
 
 Tracker::~Tracker()
@@ -167,6 +176,11 @@ void Tracker::run() {
             Tracker::do_center = false;
             bInitialCenter1 = bInitialCenter2 = false;
         }
+        
+        if (do_game_zero) {
+            gamezero_camera = gameoutput_camera;
+            do_game_zero = false;
+        }
 
         if (Tracker::do_tracking && Tracker::confid) {
             // get values
@@ -189,33 +203,67 @@ void Tracker::run() {
             else {
                 new_camera = target_camera;
             }
-            output_camera.x = GlobalPose->X.invert * GlobalPose->X.curvePtr->getValue(new_camera.x);
-            output_camera.y = GlobalPose->Y.invert * GlobalPose->Y.curvePtr->getValue(new_camera.y);
-            output_camera.z = GlobalPose->Z.invert * GlobalPose->Z.curvePtr->getValue(new_camera.z);
-
+            if (do_inhibit && inhibit_tx) {
+                if (inhibit_zero) {
+                    output_camera.x = 0;
+                }
+            } else
+                output_camera.x = GlobalPose->X.invert * GlobalPose->X.curvePtr->getValue(new_camera.x);
+            
+            if (do_inhibit && inhibit_ty) {
+                if (inhibit_zero) {
+                    output_camera.y = 0;
+                }
+            } else {
+                output_camera.y = GlobalPose->Y.invert * GlobalPose->Y.curvePtr->getValue(new_camera.y);
+            }
+            
+            if (do_inhibit && inhibit_tz) {
+                if (inhibit_zero)
+                    output_camera.z = 0;
+            } else
+                output_camera.z = GlobalPose->Z.invert * GlobalPose->Z.curvePtr->getValue(new_camera.z);
+            
             //
             // Determine, which curve (Up or Down) must be used for Pitch
             //
-            bool altp = (new_camera.pitch < 0);
-            if (altp) {
-                output_camera.pitch = GlobalPose->Pitch.invert * GlobalPose->Pitch.curvePtrAlt->getValue(new_camera.pitch);
-                GlobalPose->Pitch.curvePtr->setTrackingActive( false );
-                GlobalPose->Pitch.curvePtrAlt->setTrackingActive( true );
-            }
-            else {
-                output_camera.pitch = GlobalPose->Pitch.invert * GlobalPose->Pitch.curvePtr->getValue(new_camera.pitch);
+            if (do_inhibit && inhibit_ry) {
+                if (inhibit_zero)
+                    output_camera.pitch = 0;
                 GlobalPose->Pitch.curvePtr->setTrackingActive( true );
                 GlobalPose->Pitch.curvePtrAlt->setTrackingActive( false );
             }
+            else {
+                bool altp = (new_camera.pitch < 0);
+                if (altp) {
+                    output_camera.pitch = GlobalPose->Pitch.invert * GlobalPose->Pitch.curvePtrAlt->getValue(new_camera.pitch);
+                    GlobalPose->Pitch.curvePtr->setTrackingActive( false );
+                    GlobalPose->Pitch.curvePtrAlt->setTrackingActive( true );
+                }
+                else {
+                    output_camera.pitch = GlobalPose->Pitch.invert * GlobalPose->Pitch.curvePtr->getValue(new_camera.pitch);
+                    GlobalPose->Pitch.curvePtr->setTrackingActive( true );
+                    GlobalPose->Pitch.curvePtrAlt->setTrackingActive( false );
+                }
+            }
 
-            output_camera.yaw = GlobalPose->Yaw.invert * GlobalPose->Yaw.curvePtr->getValue(new_camera.yaw);
-            output_camera.roll = GlobalPose->Roll.invert * GlobalPose->Roll.curvePtr->getValue(new_camera.roll);
-
-            GlobalPose->X.curvePtr->setTrackingActive( true );
-            GlobalPose->Y.curvePtr->setTrackingActive( true );
-            GlobalPose->Z.curvePtr->setTrackingActive( true );
-            GlobalPose->Yaw.curvePtr->setTrackingActive( true );
-            GlobalPose->Roll.curvePtr->setTrackingActive( true );
+            if (do_inhibit && inhibit_rx) {
+                if (inhibit_zero)
+                    output_camera.yaw = 0;
+            } else
+                output_camera.yaw = GlobalPose->Yaw.invert * GlobalPose->Yaw.curvePtr->getValue(new_camera.yaw);
+                
+            if (do_inhibit && inhibit_rz) {
+                if (inhibit_zero)
+                    output_camera.roll = 0;
+            } else
+                output_camera.roll = GlobalPose->Roll.invert * GlobalPose->Roll.curvePtr->getValue(new_camera.roll);
+                
+            GlobalPose->X.curvePtr->setTrackingActive( !(do_inhibit && inhibit_tx));
+            GlobalPose->Y.curvePtr->setTrackingActive( !(do_inhibit && inhibit_ty) );
+            GlobalPose->Z.curvePtr->setTrackingActive( !(do_inhibit && inhibit_tz) );
+            GlobalPose->Yaw.curvePtr->setTrackingActive( !(do_inhibit && inhibit_ry) );
+            GlobalPose->Roll.curvePtr->setTrackingActive( !(do_inhibit && inhibit_rz) );
 
             if (useAxisReverse) {
                 do_axis_reverse = ((fabs(output_camera.yaw) > YawAngle4ReverseAxis) && (output_camera.z < Z_Pos4ReverseAxis));
@@ -242,7 +290,7 @@ void Tracker::run() {
             //
             // Go to initial position
             //
-            if (Libraries->pProtocol && setZero) {
+            if (Libraries->pProtocol && inhibit_zero) {
                 output_camera.pitch = 0.0f;
                 output_camera.yaw = 0.0f;
                 output_camera.roll = 0.0f;
@@ -354,6 +402,13 @@ void Tracker::loadSettings() {
     YawAngle4ReverseAxis = iniFile.value ( "RA_Yaw", 40 ).toInt();
     Z_Pos4ReverseAxis = iniFile.value ( "RA_ZPos", 50 ).toInt();
     Z_PosWhenReverseAxis = iniFile.value ( "RA_ToZPos", 80 ).toInt();
+    inhibit_rx = iniFile.value("Inhibit_Yaw", false).toBool();
+    inhibit_ry = iniFile.value("Inhibit_Pitch", false).toBool();
+    inhibit_rz = iniFile.value("Inhibit_Roll", false).toBool();
+    inhibit_tx = iniFile.value("Inhibit_X", false).toBool();
+    inhibit_ty = iniFile.value("Inhibit_Y", false).toBool();
+    inhibit_tz = iniFile.value("Inhibit_Z", false).toBool();
+    inhibit_zero = iniFile.value("SetZero", false).toBool(); 
 	iniFile.endGroup ();
 }
 
