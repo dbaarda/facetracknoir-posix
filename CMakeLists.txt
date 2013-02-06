@@ -42,6 +42,8 @@ if (WIN32)
     set(SDK_MINGW_PATH "c:/mingw" CACHE STRING "MinGW path")
     SET(SDK_MSVC80_PATH "C:/Program Files (x86)/Microsoft Visual Studio 8/VC" CACHE STRING "Path to MSVC80/VC if you want FaceAPI")
     set(SDK_SIMCONNECT "" CACHE STRING "Path to SimConnect SDK")
+endif()
+if(NOT WIN32)
     set(SDK_WINE_PREFIX "" CACHE STRING "Path where Wine is installed")
 endif()
 
@@ -279,12 +281,13 @@ if(NOT WIN32 AND SDK_WINE_PREFIX)
     SET_TARGET_PROPERTIES(ftnoir-proto-wine PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
     add_custom_command( OUTPUT ftnoir-wrapper-wine.exe.so
                         COMMAND
-                        "${SDK_WINE_PREFIX}/bin/wineg++" -g -O2 -m32 -o ftnoir-wrapper-wine.exe
+                        "${SDK_WINE_PREFIX}/bin/wineg++" -g -O2 -m32 -o
+			ftnoir-wrapper-wine.exe -I "${CMAKE_SOURCE_DIR}"
                         "${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-main.cxx"
                         "${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-posix.cxx"
-                        "${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-wine.cxx"
+                        "${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-windows.cxx"
                         -lrt)
-    add_custom_target(build-wine-wrapper DEPENDS ftnoir-wrapper-wine.exe)
+    add_custom_target(build-wine-wrapper DEPENDS ftnoir-wrapper-wine.exe.so)
 endif()
 
 SET_TARGET_PROPERTIES(ftnoir-proto-fgfs PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
