@@ -25,10 +25,8 @@ Tracker::Tracker()
     should_quit = false;
 	qDebug()<<"Tracker::Tracker";
 	TrackerSettings settings;
-	settings.load_ini();
+    settings.load_ini();
 	apply(settings);
-	camera.start();
-	start();
 }
 
 Tracker::~Tracker()
@@ -67,6 +65,7 @@ void Tracker::run()
 	forever
 	{
 		{	
+            refreshVideo();
 			QMutexLocker lock(&mutex);
             if (should_quit)
                 break;
@@ -164,11 +163,14 @@ void Tracker::StartTracker(QFrame* videoframe)
 {
     const int VIDEO_FRAME_WIDTH = 252;
     const int VIDEO_FRAME_HEIGHT = 189;
-
+    TrackerSettings settings;
+    settings.load_ini();
+    apply(settings);
+    camera.start();
+    start();
     qDebug("Tracker::Initialize");
     // setup video frame
     videoframe->setAttribute(Qt::WA_NativeWindow);
-    videoframe->show();
     video_widget = new VideoWidget(videoframe);
     QHBoxLayout* layout = new QHBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
@@ -176,6 +178,7 @@ void Tracker::StartTracker(QFrame* videoframe)
     if (videoframe->layout()) delete videoframe->layout();
     videoframe->setLayout(layout);
     video_widget->resize(VIDEO_FRAME_WIDTH, VIDEO_FRAME_HEIGHT);
+    videoframe->show();
 	reset_command(PAUSE);
 }
 

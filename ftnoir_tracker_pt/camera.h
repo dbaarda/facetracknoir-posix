@@ -86,7 +86,7 @@ protected:
 	void _set_fps();
 	void _set_res();
 
-	CvCapture* cap;
+	cv::VideoCapture* cap;
 };
 
 
