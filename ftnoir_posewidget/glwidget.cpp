@@ -28,10 +28,12 @@
 #include <QtOpenGL>
 
 #include "glwidget.h"
+#include <QWidget>
 
 GLWidget::GLWidget(QWidget *parent, QGLWidget *shareWidget)
     : QGLWidget(parent, shareWidget)
 {
+    setAttribute(Qt::WA_NativeWindow, true);
     clearColor = Qt::black;
     xRot = 0;
     yRot = 0;

@@ -13,13 +13,16 @@
 #include <opencv2/opencv.hpp>
 #include <QFrame>
 #include <QImage>
+#include <QWidget>
 // ----------------------------------------------------------------------------
 class VideoWidget : public QGLWidget
 {
 	Q_OBJECT
 
 public:
-	VideoWidget(QWidget *parent) : QGLWidget(parent) {}
+	VideoWidget(QWidget *parent) : QGLWidget(parent) {
+		setAttribute(Qt::WA_NativeWindow, true);
+	}
 
 	void initializeGL();
 	void resizeGL(int w, int h);
