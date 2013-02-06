@@ -17,6 +17,7 @@ QList<int> global_windows_key_sequences =
     << DIK_H
     << DIK_I
     << DIK_J
+    << DIK_K
     << DIK_L
     << DIK_M
     << DIK_N

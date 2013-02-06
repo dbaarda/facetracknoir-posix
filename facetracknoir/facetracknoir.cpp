@@ -68,9 +68,12 @@
 #include <dinput.h>
 
 KeybindingWorkerDummy::~KeybindingWorkerDummy() {
-    dinkeyboard->Unacquire();
-    dinkeyboard->Release();
-    din->Release();
+    if (dinkeyboard) {
+        dinkeyboard->Unacquire();
+        dinkeyboard->Release();
+    }
+    if (din)
+        din->Release();
 }
 
 KeybindingWorkerDummy::KeybindingWorkerDummy(FaceTrackNoIR& w, Key keyCenter, Key keyInhibit, Key keyStartStop, Key keyZero)
@@ -82,12 +85,23 @@ KeybindingWorkerDummy::KeybindingWorkerDummy(FaceTrackNoIR& w, Key keyCenter, Ke
     }
     if (din->CreateDevice(GUID_SysKeyboard, &dinkeyboard, NULL) != DI_OK) {
         din->Release();
+        din = 0;
         qDebug() << "setup CreateDevice function failed!" << GetLastError();
         return;
     }
+    if (dinkeyboard->SetDataFormat(&c_dfDIKeyboard) != DI_OK) {
+        qDebug() << "setup SetDataFormat function failed!" << GetLastError();
+        dinkeyboard->Release();
+        dinkeyboard = 0;
+        din->Release();
+        din = 0;
+    }
+    
     if (dinkeyboard->SetCooperativeLevel(window.winId(), DISCL_NONEXCLUSIVE | DISCL_BACKGROUND) != DI_OK) {
         din->Release();
         dinkeyboard->Release();
+        din = 0;
+        dinkeyboard = 0;
         qDebug() << "setup SetCooperativeLevel function failed!" << GetLastError();
         return;
     }
@@ -95,9 +109,12 @@ KeybindingWorkerDummy::KeybindingWorkerDummy(FaceTrackNoIR& w, Key keyCenter, Ke
     {
         din->Release();
         dinkeyboard->Release();
+        din = 0;
+        dinkeyboard = 0;
         qDebug() << "setup dinkeyboard Acquire failed!" << GetLastError();
         return;
     }
+    qDebug() << "keycodes bound:" << kCenter.keycode << kInhibit.keycode << kStartStop.keycode << kZero.keycode;
     should_quit = false;
 }
 
@@ -716,6 +733,7 @@ void FaceTrackNoIR::startTracker( ) {
     
 #if defined(_WIN32) || defined(__WIN32)
     keybindingWorker = new KeybindingWorker(*this, keyCenter, keyInhibit, keyStartStop, keyZero);
+    keybindingWorker->start();
 #endif
 
     if (tracker) {

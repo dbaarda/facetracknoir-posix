@@ -117,6 +117,7 @@ public:
     QxtGlobalShortcut* keyStartStop;
     QxtGlobalShortcut* keyInhibit;
 #endif
+public slots:
         void shortcutRecentered();
         void shortcutZero();
         void shortcutStartStop();
