@@ -11,7 +11,7 @@ if test "$CURREV" != "$LASTREV"; then
 	cd $HOME/dev/facetracknoir-posix-build-mingw32 || exit 1
 	cmake . || exit 1
 	nice -n 20 make all install || exit 1
-	7z -y a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on ftnoir-posix-20130206-"$CURREV".7z install || exit 1
-	scp -qo BatchMode=yes ftnoir-posix-20130206-"$CURREV".7z ananke.laggygamerz.com:/var/www/ftnoir/
+	7z -y a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on ftnoir-posix-$(date +%Y%m%d)-"$CURREV".7z install || exit 1
+	scp -4qo BatchMode=yes ftnoir-posix-$(date +%Y%m%d)-"$CURREV".7z ananke.laggygamerz.com:/var/www/ftnoir/
 	rm *.7z
 fi

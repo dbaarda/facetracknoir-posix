@@ -22,6 +22,7 @@ public:
 private:
     void *hMutex, *hMapFile;
 };
+#include <windows.h>
 
 int main(void)
 {
@@ -38,6 +39,7 @@ int main(void)
 	WineSHM* shm_posix = (WineSHM*) lck_posix.mem;
 	TFreeTrackData* shm_wine = (TFreeTrackData*) lck_wine.mem;
 	while (1) {
+		(void) Sleep(10);
 		lck_posix.lock();
 		if (shm_posix->stop) {
 			lck_posix.unlock();
@@ -50,6 +52,9 @@ int main(void)
 		shm_wine->X = shm_posix->tx;
 		shm_wine->Y = shm_posix->ty;
 		shm_wine->Z = shm_posix->tz;
+		shm_wine->DataID = 1;
+		shm_wine->CamWidth = 2;
+		shm_wine->CamHeight = 3;
 		lck_wine.unlock();
 		lck_posix.unlock();
 	}

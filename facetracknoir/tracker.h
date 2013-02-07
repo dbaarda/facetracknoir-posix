@@ -137,8 +137,6 @@ private:
     T6DOF gamezero_camera;
     T6DOF gameoutput_camera;
 
-    bool bInitialCenter1;
-    bool bInitialCenter2;
     bool bTracker1Confid;
     bool bTracker2Confid;
 

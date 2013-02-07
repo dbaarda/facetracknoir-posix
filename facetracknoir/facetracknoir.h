@@ -72,11 +72,11 @@ struct Key {
     bool shift;
     bool ctrl;
     bool alt;
+    bool ever_pressed;
     QElapsedTimer timer;
 public:
-    Key() : keycode(0), shift(false), ctrl(false), alt(false)
+    Key() : keycode(0), shift(false), ctrl(false), alt(false), ever_pressed(false)
     {
-        timer.start();
     }
 };
 #else

@@ -77,8 +77,6 @@ Tracker::Tracker( FaceTrackNoIR *parent ) :
     YawAngle4ReverseAxis(40),
     Z_Pos4ReverseAxis(-20.0f),
     Z_PosWhenReverseAxis(50.0),
-    bInitialCenter1(true),
-    bInitialCenter2(true),
     bTracker1Confid(false),
     bTracker2Confid(false),
     should_quit(false),
@@ -134,17 +132,9 @@ void Tracker::run() {
         if (Libraries->pSecondTracker) {
             bTracker2Confid = Libraries->pSecondTracker->GiveHeadPoseData(&newpose);
         }
-        else {
-            bTracker2Confid = false;
-            bInitialCenter2 = false;
-        }
 
         if (Libraries->pTracker) {
             bTracker1Confid = Libraries->pTracker->GiveHeadPoseData(&newpose);
-        }
-        else {
-            bTracker1Confid = false;
-            bInitialCenter1 = false;
         }
 
         confid = (bTracker1Confid || bTracker2Confid);
@@ -160,7 +150,7 @@ void Tracker::run() {
         //
         // If Center is pressed, copy the current values to the offsets.
         //
-        if ((do_center) || ((bInitialCenter1 && bTracker1Confid ) || (bInitialCenter2 && bTracker2Confid)))  {
+        if (do_center)  {
             //
             // Only copy valid values
             //
@@ -174,7 +164,6 @@ void Tracker::run() {
             }
 
             Tracker::do_center = false;
-            bInitialCenter1 = bInitialCenter2 = false;
         }
         
         if (do_game_zero) {

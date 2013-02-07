@@ -72,12 +72,12 @@ void FTNoIR_Protocol::sendHeadposeToGame( THeadPoseData *headpose, THeadPoseData
     if (shm)
     {
         lck_shm.lock();
-        shm->rx = headpose->yaw;
-        shm->ry = headpose->pitch;
-        shm->rz = headpose->roll;
-        shm->tx = headpose->x;
-        shm->ty = headpose->y;
-        shm->tz = headpose->z;
+        shm->rx = headpose->yaw / 57.295781;
+        shm->ry = headpose->pitch / 57.295781;
+        shm->rz = headpose->roll / 57.295781;
+        shm->tx = headpose->x * 10;
+        shm->ty = headpose->y * 10;
+        shm->tz = headpose->z * 10;
         lck_shm.unlock();
     }
 }

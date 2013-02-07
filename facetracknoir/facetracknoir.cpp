@@ -128,7 +128,7 @@ void KeybindingWorkerDummy::run() {
             continue;
         }
 #define PROCESS_KEY(k, s) \
-        if (k.timer.restart() > 100 && isKeyPressed(&k, keystate)) \
+    if (isKeyPressed(&k, keystate) && (!k.ever_pressed ? (k.timer.start(), k.ever_pressed = true) : k.timer.restart() > 100)) \
             window.s();
     
     PROCESS_KEY(kCenter, shortcutRecentered);
