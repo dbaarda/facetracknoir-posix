@@ -53,6 +53,7 @@ FTNoIR_Protocol::~FTNoIR_Protocol()
 
 void FTNoIR_Protocol::Initialize()
 {
+    loadSettings();
 }
 
 //
