@@ -179,11 +179,11 @@ bool Tracker::GiveHeadPoseData(THeadPoseData* data)
     }
     if (shm->result.filled) {
         if (enableRX)
-            data->yaw = shm->result.rotx * 57.295781;
+            data->yaw = shm->result.rotx;
         if (enableRY)
-            data->pitch = shm->result.roty * 57.295781;
+            data->pitch = shm->result.roty;
         if (enableRZ)
-            data->roll = shm->result.rotz * 57.295781;
+            data->roll = shm->result.rotz;
         if (enableTX)
             data->x = shm->result.tx;
         if (enableTY)

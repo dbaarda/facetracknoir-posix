@@ -14,7 +14,7 @@ if test "$CURREV" != "$LASTREV"; then
 	cmake . || exit 1
 	nice -n 20 make all install || exit 1
 	FNAME="ftnoir-posix-$(date +%Y%m%d-%H_%M_%S)"-"$CURREV".7z
-	7z -y a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on "$FNAME" install || exit 1
+	7z -y a -t7z -m0=lzma -mx=9 -mfb=128 -md=8m -ms=on "$FNAME" install || exit 1
 	ssh -4o BatchMode=yes "$USER"@"$BACKUPHOST" find /var/www/ftnoir/ -type f -mtime 60 -delete
 	scp -4vo BatchMode=yes "$FNAME" "$USER"@"$BACKUPHOST":/var/www/ftnoir/
 	rm *.7z
