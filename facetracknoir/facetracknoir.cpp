@@ -98,8 +98,8 @@ KeybindingWorkerDummy::KeybindingWorkerDummy(FaceTrackNoIR& w, Key keyCenter, Ke
     }
     
     if (dinkeyboard->SetCooperativeLevel(window.winId(), DISCL_NONEXCLUSIVE | DISCL_BACKGROUND) != DI_OK) {
-        din->Release();
         dinkeyboard->Release();
+        din->Release();
         din = 0;
         dinkeyboard = 0;
         qDebug() << "setup SetCooperativeLevel function failed!" << GetLastError();
@@ -107,8 +107,8 @@ KeybindingWorkerDummy::KeybindingWorkerDummy(FaceTrackNoIR& w, Key keyCenter, Ke
     }
     if (dinkeyboard->Acquire() != DI_OK)
     {
-        din->Release();
         dinkeyboard->Release();
+        din->Release();
         din = 0;
         dinkeyboard = 0;
         qDebug() << "setup dinkeyboard Acquire failed!" << GetLastError();
