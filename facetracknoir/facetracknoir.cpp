@@ -124,7 +124,7 @@ void KeybindingWorkerDummy::run() {
     {
         if (dinkeyboard->GetDeviceState(256, (LPVOID)keystate) != DI_OK) {
             qDebug() << "Tracker::run GetDeviceState function failed!" << GetLastError();
-            Sleep(1);
+            Sleep(25);
             continue;
         }
 #define PROCESS_KEY(k, s) \
@@ -136,7 +136,7 @@ void KeybindingWorkerDummy::run() {
     PROCESS_KEY(kZero, shortcutZero);
     PROCESS_KEY(kStartStop, shortcutStartStop);
     
-    Sleep(1);
+    Sleep(25);
     }
 }
 
