@@ -107,7 +107,7 @@ void FTNoIR_Tracker::StartTracker(QFrame* videoFrame)
             inSocket = 0;
         }
     }
-	start( QThread::TimeCriticalPriority );
+	start();
 	return;
 }
 
