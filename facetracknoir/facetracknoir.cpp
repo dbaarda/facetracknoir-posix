@@ -118,6 +118,10 @@ KeybindingWorkerDummy::KeybindingWorkerDummy(FaceTrackNoIR& w, Key keyCenter, Ke
     should_quit = false;
 }
 
+#define PROCESS_KEY(k, s) \
+    if (isKeyPressed(&k, keystate) && (!k.ever_pressed ? (k.timer.start(), k.ever_pressed = true) : k.timer.restart() > 100)) \
+        window.s();
+
 void KeybindingWorkerDummy::run() {
     BYTE keystate[256];
     while (!should_quit)
@@ -127,16 +131,13 @@ void KeybindingWorkerDummy::run() {
             Sleep(25);
             continue;
         }
-#define PROCESS_KEY(k, s) \
-    if (isKeyPressed(&k, keystate) && (!k.ever_pressed ? (k.timer.start(), k.ever_pressed = true) : k.timer.restart() > 100)) \
-            window.s();
-    
-    PROCESS_KEY(kCenter, shortcutRecentered);
-    PROCESS_KEY(kInhibit, shortcutInhibit);
-    PROCESS_KEY(kZero, shortcutZero);
-    PROCESS_KEY(kStartStop, shortcutStartStop);
-    
-    Sleep(25);
+        
+        PROCESS_KEY(kCenter, shortcutRecentered);
+        PROCESS_KEY(kInhibit, shortcutInhibit);
+        PROCESS_KEY(kZero, shortcutZero);
+        PROCESS_KEY(kStartStop, shortcutStartStop);
+        
+        Sleep(25);
     }
 }
 
