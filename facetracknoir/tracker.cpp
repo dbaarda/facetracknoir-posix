@@ -77,8 +77,6 @@ Tracker::Tracker( FaceTrackNoIR *parent ) :
     YawAngle4ReverseAxis(40),
     Z_Pos4ReverseAxis(-20.0f),
     Z_PosWhenReverseAxis(50.0),
-    bTracker1Confid(false),
-    bTracker2Confid(false),
     should_quit(false),
     do_tracking(true),
     do_center(false),
@@ -110,6 +108,18 @@ Tracker::~Tracker()
 
 /** QThread run method @override **/
 void Tracker::run() {
+    T6DOF current_camera;                   // Used for filtering
+    T6DOF target_camera;
+    T6DOF new_camera;
+    
+    /** Direct Input variables **/
+    T6DOF offset_camera;
+    T6DOF gamezero_camera;
+    T6DOF gameoutput_camera;
+    
+    bool bTracker1Confid = false;
+    bool bTracker2Confid = false;
+    
     forever
 	{
         if (should_quit)

@@ -117,28 +117,12 @@ class Tracker : public QThread {
 	Q_OBJECT
 
 private:
-    T6DOF current_camera;					// Used for filtering
-    T6DOF target_camera;
-    T6DOF new_camera;
-    T6DOF output_camera;
-
-	// Flags to start/stop/reset tracking
-    bool confid;								// Tracker data is OK
-
     bool useAxisReverse;						// Use Axis Reverse
     float YawAngle4ReverseAxis;				// Axis Reverse settings
     float Z_Pos4ReverseAxis;
     float Z_PosWhenReverseAxis;
     
     volatile bool inhibit_rx, inhibit_ry, inhibit_rz, inhibit_tx, inhibit_ty, inhibit_tz, inhibit_zero;
-
-    /** Direct Input variables **/
-    T6DOF offset_camera;
-    T6DOF gamezero_camera;
-    T6DOF gameoutput_camera;
-
-    bool bTracker1Confid;
-    bool bTracker2Confid;
 
     FaceTrackNoIR *mainApp;
 
@@ -181,6 +165,11 @@ public:
     volatile bool do_inhibit;							// Inhibit DOF-axis, using the shortkey
     volatile bool do_game_zero;						// Set in-game zero, using the shortkey
     volatile bool do_axis_reverse;					// Axis reverse, using the shortkey
+    
+    // Flags to start/stop/reset tracking
+    volatile bool confid;                                // Tracker data is OK;
+    
+    T6DOF output_camera;
 };
 
 struct HeadPoseData {
