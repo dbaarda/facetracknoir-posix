@@ -1,5 +1,7 @@
 #!/bin/sh
 
+BACKUPHOST=ananke.laggygamerz.com
+export LC_ALL=C LANG=C
 cd $HOME/dev/facetracknoir-posix || exit 1
 touch ./last-snapshot.rev
 read line < ./last-snapshot.rev
@@ -11,7 +13,9 @@ if test "$CURREV" != "$LASTREV"; then
 	cd $HOME/dev/facetracknoir-posix-build-mingw32 || exit 1
 	cmake . || exit 1
 	nice -n 20 make all install || exit 1
-	7z -y a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on ftnoir-posix-$(date +%Y%m%d)-"$CURREV".7z install || exit 1
-	scp -4vo BatchMode=yes ftnoir-posix-$(date +%Y%m%d)-"$CURREV".7z ananke.laggygamerz.com:/var/www/ftnoir/
+	FNAME="ftnoir-posix-$(date +%Y%m%d-%H_%M_%S)"-"$CURREV".7z
+	7z -y a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on "$FNAME" install || exit 1
+	ssh -4o BatchMode=yes "$USER"@"$BACKUPHOST" find /var/www/ftnoir/ -type f -mtime 60 -delete
+	scp -4vo BatchMode=yes "$FNAME" "$USER"@"$BACKUPHOST":/var/www/ftnoir/
 	rm *.7z
 fi
