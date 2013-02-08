@@ -369,7 +369,7 @@ QFrame *FaceTrackNoIR::get_video_widget() {
 /** read the name of the first video-capturing device at start up **/
 /** FaceAPI can only use this first one... **/
 void FaceTrackNoIR::GetCameraNameDX() {
-#if defined(_WIN32) || defined(__WIN32)
+#if 0
 ////	ui.widget->setCameraName("No video-capturing device was found in your system: check if it's connected!");
 
 	ui.cameraName->setText("No video-capturing device was found in your system: check if it's connected!");
