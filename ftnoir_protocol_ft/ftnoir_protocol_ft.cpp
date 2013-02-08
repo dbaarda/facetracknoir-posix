@@ -67,7 +67,10 @@ void FTNoIR_Protocol::Release()
 
 void FTNoIR_Protocol::Initialize()
 {
-	return;
+	QSettings settings("NaturalPoint", "NATURALPOINT\\NPClient Location"); 
+	QString aLocation =  QCoreApplication::applicationDirPath() + "/";
+	if (QFile::exists( aLocation + "/npclient.dll" ))
+		settings.setValue( "Path" , aLocation );
 }
 
 //

@@ -122,14 +122,6 @@ file(GLOB ftnoir-proto-freetrack-rc "ftnoir_protocol_ft/*.qrc")
 QT4_WRAP_UI(ftnoir-proto-freetrack-uih ${ftnoir-proto-freetrack-ui})
 QT4_ADD_RESOURCES(ftnoir-proto-freetrack-rcc ${ftnoir-proto-freetrack-rc})
 
-file(GLOB ftnoir-proto-tir-c "ftnoir_protocol_ftir/*.cpp")
-file(GLOB ftnoir-proto-tir-h "ftnoir_protocol_ftir/*.h")
-QT4_WRAP_CPP(ftnoir-proto-tir-moc ${ftnoir-proto-tir-h})
-file(GLOB ftnoir-proto-tir-ui "ftnoir_protocol_ftir/*.ui")
-file(GLOB ftnoir-proto-tir-rc "ftnoir_protocol_ftir/*.qrc")
-QT4_WRAP_UI(ftnoir-proto-tir-uih ${ftnoir-proto-tir-ui})
-QT4_ADD_RESOURCES(ftnoir-proto-tir-rcc ${ftnoir-proto-tir-rc})
-
 file(GLOB ftnoir-proto-udp-c "ftnoir_protocol_ftn/*.cpp")
 file(GLOB ftnoir-proto-udp-h "ftnoir_protocol_ftn/*.h")
 QT4_WRAP_CPP(ftnoir-proto-udp-moc ${ftnoir-proto-udp-h})
@@ -258,9 +250,6 @@ if(WIN32)
     add_library(ftnoir-proto-freetrack SHARED ${ftnoir-proto-freetrack-c} ${ftnoir-proto-freetrack-moc} ${ftnoir-proto-freetrack-uih} ${ftnoir-proto-freetrack-rcc})
     target_link_libraries(ftnoir-proto-freetrack ${QT_LIBRARIES})
 
-    add_library(ftnoir-proto-tir SHARED ${ftnoir-proto-tir-c} ${ftnoir-proto-tir-moc} ${ftnoir-proto-tir-uih} ${ftnoir-proto-tir-rcc})
-    target_link_libraries(ftnoir-proto-tir ${QT_LIBRARIES})
-    SET_TARGET_PROPERTIES(ftnoir-proto-tir PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
     add_library(ftnoir-proto-win32-mouse SHARED ${ftnoir-proto-win32-mouse-c} ${ftnoir-proto-win32-mouse-moc} ${ftnoir-proto-win32-mouse-uih} ${ftnoir-proto-win32-mouse-rcc})
     target_link_libraries(ftnoir-proto-win32-mouse ${QT_LIBRARIES})
     SET_TARGET_PROPERTIES(ftnoir-proto-win32-mouse PROPERTIES COMPILE_FLAGS "-DFTNOIR_PROTOCOL_BASE_LIB")
@@ -416,7 +405,6 @@ if(WIN32)
     )
     install(TARGETS
             ftnoir-proto-freetrack
-            ftnoir-proto-tir
             ftnoir-proto-win32-mouse
             #ftnoir-proto-fsuipc
             #ftnoir-proto-simconnect
