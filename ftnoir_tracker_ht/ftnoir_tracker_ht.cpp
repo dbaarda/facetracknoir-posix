@@ -11,7 +11,7 @@
 
 // delicious copypasta
 static QList<QString> get_camera_names(void) {
-#if 0
+#if defined(_WIN32) || defined(__WIN32)
 	QList<QString> ret;
 	// Create the System Device Enumerator.
 	HRESULT hr;
