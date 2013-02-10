@@ -380,14 +380,14 @@ endif()
 if(WIN32)
     if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 	    file(GLOB mingw-libgcc-s "${SDK_MINGW_PATH}/bin/libgcc_s_*.dll")
-	    install(FILES "${CMAKE_SOURCE_DIR}/bin/cleye.config" DESTINATION .)
-	    install(FILES "${CMAKE_SOURCE_DIR}/bin/freetrackclient.dll" DESTINATION .)
 	    install(FILES
 		    "${mingw-libgcc-s}"
 		    "${SDK_MINGW_PATH}/lib32/libstdc++-6.dll"
 		    DESTINATION .
 	    )
     endif()
+    install(FILES "${CMAKE_SOURCE_DIR}/bin/cleye.config" DESTINATION .)
+    install(FILES "${CMAKE_SOURCE_DIR}/bin/freetrackclient.dll" DESTINATION .)
     if(SDK_SIMCONNECT)
     install(TARGETS ftnoir-proto-simconnect
             RUNTIME DESTINATION .
