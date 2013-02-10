@@ -378,20 +378,22 @@ if(OpenCV_FOUND)
 endif()
 
 if(WIN32)
-    file(GLOB mingw-libgcc-s "${SDK_MINGW_PATH}/bin/libgcc_s_*.dll")
-    install(FILES "${CMAKE_SOURCE_DIR}/bin/cleye.config" DESTINATION .)
-    install(FILES "${CMAKE_SOURCE_DIR}/bin/freetrackclient.dll" DESTINATION .)
+    if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
+	    file(GLOB mingw-libgcc-s "${SDK_MINGW_PATH}/bin/libgcc_s_*.dll")
+	    install(FILES "${CMAKE_SOURCE_DIR}/bin/cleye.config" DESTINATION .)
+	    install(FILES "${CMAKE_SOURCE_DIR}/bin/freetrackclient.dll" DESTINATION .)
+	    install(FILES
+		    "${mingw-libgcc-s}"
+		    "${SDK_MINGW_PATH}/lib32/libstdc++-6.dll"
+		    DESTINATION .
+	    )
+    endif()
     if(SDK_SIMCONNECT)
     install(TARGETS ftnoir-proto-simconnect
             RUNTIME DESTINATION .
             LIBRARY DESTINATION .
             NAMELINK_SKIP)
     endif()
-    install(FILES
-	    "${mingw-libgcc-s}"
-            "${SDK_MINGW_PATH}/lib32/libstdc++-6.dll"
-            DESTINATION .
-    )
     if(OpenCV_FOUND)
         get_filename_component(ftnoir-opencv-dir "${OpenCV_LIB_DIR_OPT}" PATH)
         file(GLOB ftnoir-opencv-files
