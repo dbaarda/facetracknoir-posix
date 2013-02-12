@@ -376,7 +376,7 @@ install(TARGETS
         ftnoir-proto-fgfs
         ftnoir-proto-udp
         ftnoir-tracker-ht
-		ftnoir-tracker-udp
+	ftnoir-tracker-udp
         ftnoir
         RUNTIME DESTINATION .
         LIBRARY DESTINATION .
@@ -422,14 +422,28 @@ if(WIN32)
         install(FILES ${ftnoir-opencv-files} DESTINATION .)
     endif()
     get_filename_component(ftnoir-qt-bin "${QT_QMAKE_EXECUTABLE}" PATH)
-    install(FILES
+    if(MSVC)
+	GET_FILENAME_COMPONENT(qt-dirname "${QT_QTCORE_LIBRARY_RELEASE}/../bin/" PATH)
+	install(FILES
+		"${qt-dirname}/QtCore4.dll"
+		"${qt-dirname}/QtGui4.dll"
+		"${qt-dirname}/QtNetwork4.dll"
+		"${qt-dirname}/QtOpenGL4.dll"
+		"${qt-dirname}/QtSVG4.dll"
+		"${qt-dirname}/QtXml4.dll"
+		DESTINATION .
+	)
+    else()
+	install(FILES
 	    "${QT_QTCORE_LIBRARY_RELEASE}"
 	    "${QT_QTGUI_LIBRARY_RELEASE}"
 	    "${QT_QTNETWORK_LIBRARY_RELEASE}"
 	    "${QT_QTOPENGL_LIBRARY_RELEASE}"
+	    "${QT_SVG_LIBRARY_RELEASE}"
 	    "${QT_QTXML_LIBRARY_RELEASE}"
-            DESTINATION .
-    )
+	    DESTINATION .
+	)
+    endif()
     install(TARGETS
             ftnoir-proto-freetrack
             ftnoir-proto-win32-mouse
