@@ -63,7 +63,6 @@
 #endif
 
 #if defined(__WIN32) || defined(_WIN32)
-#define LIB_PREFIX ""
 #define DIRECTINPUT_VERSION 0x0800
 #include <dshow.h>
 #include <dinput.h>
@@ -169,7 +168,12 @@ static bool isKeyPressed( const Key *key, const BYTE *keystate ) {
 }
 #else
 static bool isKeyPressed(const Key *key, const BYTE *keystate) { return false; }
-#define LIB_PREFIX "lib"
+#endif
+
+#ifdef _MSC_VER
+#   define LIB_PREFIX ""
+#else
+#   define LIB_PREFIX "lib"
 #endif
 
 //
