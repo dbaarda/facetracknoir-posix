@@ -1,9 +1,15 @@
 #pragma once
 
 #if defined(_WIN32) || defined(__WIN32)
-#  define CALLING_CONVENTION_SUFFIX_VOID_FUNCTION "@0"
+#   define CALLING_CONVENTION_SUFFIX_VOID_FUNCTION "@0"
+#   ifdef _MSC_VER
+#       define MAYBE_STDCALL_UNDERSCORE "_"
 #else
-#  define CALLING_CONVENTION_SUFFIX_VOID_FUNCTION ""
+#       define MAYBE_STDCALL_UNDERSCORE ""
+#   endif
+#else
+#   define CALLING_CONVENTION_SUFFIX_VOID_FUNCTION ""
+#   define MAYBE_STDCALL_UNDERSCORE ""
 #endif
 
 #include <QWidget>
@@ -16,7 +22,7 @@
 #include "ftnoir_protocol_base/ftnoir_protocol_base.h"
 
 #if defined(_WIN32) || defined(__WIN32)
-#   define CALLING_CONVENTION __stdcall __declspec(dllexport)
+#   define CALLING_CONVENTION __stdcall
 #else
 #   define CALLING_CONVENTION
 #endif

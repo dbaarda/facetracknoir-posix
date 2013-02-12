@@ -99,9 +99,9 @@ DynamicLibrary::DynamicLibrary(const char* filename)
     this->filename = filename;
 #if defined(__WIN32) || defined(_WIN32)
     handle = new QLibrary(filename);
-    Dialog = (SETTINGS_FUNCTION) handle->resolve("GetDialog" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
-    Constructor = (NULLARY_DYNAMIC_FUNCTION) handle->resolve("GetConstructor" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
-    Metadata = (METADATA_FUNCTION) handle->resolve("GetMetadata" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
+    Dialog = (SETTINGS_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetDialog" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
+    Constructor = (NULLARY_DYNAMIC_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetConstructor" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
+    Metadata = (METADATA_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetMetadata" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
 #else
     handle = dlopen(filename, RTLD_LAZY |
 #   ifdef __linux
