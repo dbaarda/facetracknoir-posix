@@ -412,13 +412,18 @@ if(WIN32)
     endif()
     if(OpenCV_FOUND)
         get_filename_component(ftnoir-opencv-dir "${OpenCV_LIB_DIR_OPT}" PATH)
+	if(MSVC)
+		set(LIB-PREFIX "")
+	else()
+		set(LIB-PREFIX "lib")
+	endif()
         file(GLOB ftnoir-opencv-files
-            "${ftnoir-opencv-dir}/bin/libopencv_calib3d*.dll"
-            "${ftnoir-opencv-dir}/bin/libopencv_core*.dll"
-            "${ftnoir-opencv-dir}/bin/libopencv_highgui*.dll"
-            "${ftnoir-opencv-dir}/bin/libopencv_imgproc*.dll"
-            "${ftnoir-opencv-dir}/bin/libopencv_flann*.dll"
-            "${ftnoir-opencv-dir}/bin/libopencv_features2d*.dll"
+            "${ftnoir-opencv-dir}/bin/${LIB-PREFIX}opencv_calib3d*.dll"
+            "${ftnoir-opencv-dir}/bin/${LIB-PREFIX}opencv_core*.dll"
+            "${ftnoir-opencv-dir}/bin/${LIB-PREFIX}opencv_highgui*.dll"
+            "${ftnoir-opencv-dir}/bin/${LIB-PREFIX}opencv_imgproc*.dll"
+            "${ftnoir-opencv-dir}/bin/${LIB-PREFIX}opencv_flann*.dll"
+            "${ftnoir-opencv-dir}/bin/${LIB-PREFIX}opencv_features2d*.dll"
         )
         install(FILES ${ftnoir-opencv-files} DESTINATION .)
     endif()
