@@ -38,7 +38,7 @@ int main(void)
 	}
 	WineSHM* shm_posix = (WineSHM*) lck_posix.mem;
 	TFreeTrackData* shm_wine = (TFreeTrackData*) lck_wine.mem;
-	while (1) {
+	while (!shm_posix->stop) {
 		(void) Sleep(10);
 		lck_posix.lock();
 		if (shm_posix->stop) {
