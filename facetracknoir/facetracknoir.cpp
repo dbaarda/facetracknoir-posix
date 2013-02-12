@@ -63,7 +63,7 @@
 #endif
 
 #if defined(__WIN32) || defined(_WIN32)
-
+#define LIB_PREFIX ""
 #define DIRECTINPUT_VERSION 0x0800
 #include <dshow.h>
 #include <dinput.h>
@@ -169,6 +169,7 @@ static bool isKeyPressed( const Key *key, const BYTE *keystate ) {
 }
 #else
 static bool isKeyPressed(const Key *key, const BYTE *keystate) { return false; }
+#define LIB_PREFIX "lib"
 #endif
 
 //
@@ -1146,7 +1147,7 @@ void FaceTrackNoIR::createIconGroupBox()
 	QDir settingsDir( QCoreApplication::applicationDirPath() );
 
     {
-        QStringList protocols = settingsDir.entryList( QStringList() << ("libftnoir-proto-*." SONAME), QDir::Files, QDir::Name );
+        QStringList protocols = settingsDir.entryList( QStringList() << (LIB_PREFIX "ftnoir-proto-*." SONAME), QDir::Files, QDir::Name );
         for ( int i = 0; i < protocols.size(); i++) {
             QIcon icon;
             QString longName;
@@ -1168,7 +1169,7 @@ void FaceTrackNoIR::createIconGroupBox()
 
     {
         ui.cbxSecondTrackerSource->addItem(QIcon(), "None");
-        QStringList trackers = settingsDir.entryList( QStringList() << ("libftnoir-tracker-*." SONAME), QDir::Files, QDir::Name );
+        QStringList trackers = settingsDir.entryList( QStringList() << (LIB_PREFIX "ftnoir-tracker-*." SONAME), QDir::Files, QDir::Name );
         for ( int i = 0; i < trackers.size(); i++) {
             QIcon icon;
             QString longName;
@@ -1192,7 +1193,7 @@ void FaceTrackNoIR::createIconGroupBox()
     {
         dlopen_filters.push_back((DynamicLibrary*) NULL);
         ui.iconcomboFilter->addItem(QIcon(), "None");
-        QStringList filters = settingsDir.entryList( QStringList() << ("libftnoir-filter-*." SONAME), QDir::Files, QDir::Name );
+        QStringList filters = settingsDir.entryList( QStringList() << (LIB_PREFIX "ftnoir-filter-*." SONAME), QDir::Files, QDir::Name );
         for ( int i = 0; i < filters.size(); i++) {
             QIcon icon;
             QString fullName;
