@@ -40,7 +40,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../ftnoir_tracker_pt/ftnoir_tracker_pt.qrc">
-    <normaloff>:/resources/icon.ico</normaloff>:/resources/icon.ico</iconset>
+    <normaloff>:/resources/icon.png</normaloff>:/resources/icon.png</iconset>
   </property>
   <property name="toolTip">
    <string/>

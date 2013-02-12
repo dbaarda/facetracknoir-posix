@@ -172,7 +172,7 @@ public:
 	void getShortName(QString *strToBeFilled) { *strToBeFilled = QString("SimConnect"); };
 	void getDescription(QString *strToBeFilled) { *strToBeFilled = QString("Microsoft SimConnect protocol"); };
 
-    void getIcon(QIcon *icon) { *icon = QIcon(":/images/fsx.ico"); };
+    void getIcon(QIcon *icon) { *icon = QIcon(":/images/fsx.png"); };
 };
 
 #endif//INCLUDED_SCSERVER_H

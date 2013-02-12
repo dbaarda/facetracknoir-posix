@@ -91,7 +91,7 @@ public:
     void getShortName(QString *strToBeFilled) { *strToBeFilled = QString("Wine"); }
     void getDescription(QString *strToBeFilled) { *strToBeFilled = QString("Wine glue wrapper"); }
 
-    void getIcon(QIcon *icon) { *icon = QIcon(":/images/wine.ico"); }
+    void getIcon(QIcon *icon) { *icon = QIcon(":/images/wine.png"); }
 };
 
 

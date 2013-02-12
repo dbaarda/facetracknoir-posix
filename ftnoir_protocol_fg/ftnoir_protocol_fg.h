@@ -117,7 +117,7 @@ public:
 	void getShortName(QString *strToBeFilled) { *strToBeFilled = QString("FlightGear"); };
 	void getDescription(QString *strToBeFilled) { *strToBeFilled = QString("FlightGear UDP protocol"); };
 
-    void getIcon(QIcon *icon) { *icon = QIcon(":/images/flightgear.ico"); };
+    void getIcon(QIcon *icon) { *icon = QIcon(":/images/flightgear.png"); };
 };
 
 

@@ -21,7 +21,8 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>images/FaceTrackNoIR.ico</normaloff>images/FaceTrackNoIR.ico</iconset>
+    images/facetracknoir.png
+   </iconset>
   </property>
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>

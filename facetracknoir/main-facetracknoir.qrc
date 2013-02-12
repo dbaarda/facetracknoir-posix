@@ -8,7 +8,7 @@
         <file>images/rotation_dofs.png</file>
         <file>images/translation_dofs.png</file>
         <file>images/330px-6dof_en.png</file>
-        <file>images/facetracknoir.ico</file>
+        <file>images/facetracknoir.png</file>
         <file>uielements/aboutfacetracknoir.png</file>
     </qresource>
 </RCC>

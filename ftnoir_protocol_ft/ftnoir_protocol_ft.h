@@ -123,7 +123,7 @@ public:
 	void getShortName(QString *strToBeFilled) { *strToBeFilled = QString("FreeTrack"); };
 	void getDescription(QString *strToBeFilled) { *strToBeFilled = QString("FreeTrack protocol"); };
 
-    void getIcon(QIcon *icon) { *icon = QIcon(":/images/freetrack.ico"); };
+    void getIcon(QIcon *icon) { *icon = QIcon(":/images/freetrack.png"); };
 };
 
 

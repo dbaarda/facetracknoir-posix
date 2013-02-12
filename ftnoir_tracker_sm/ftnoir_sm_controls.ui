@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>images/sm.ico</normaloff>images/sm.ico</iconset>
+    <normaloff>images/sm.png</normaloff>images/sm.png</iconset>
   </property>
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
