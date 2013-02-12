@@ -22,5 +22,6 @@ struct TFlightGearData {
 	double x, y, z, h, p, r;
 	int status;
 };
+#pragma pack(pop)
 
 #endif//INCLUDED_FGTYPES_H

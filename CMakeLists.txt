@@ -312,10 +312,10 @@ if(OpenCV_FOUND)
 endif()
 
 if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH)
+    include_directories("${SDK_SM_FACEAPI_PATH}/include")
+    add_library(ftnoir-tracker-faceapi SHARED ${ftnoir-tracker-faceapi-c} ${ftnoir-tracker-faceapi-moc} ${ftnoir-tracker-faceapi-uih} ${ftnoir-tracker-faceapi-rcc})
+    target_link_libraries(ftnoir-tracker-faceapi ${QT_LIBRARIES})
     if(MSVC80 OR CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-	    add_library(ftnoir-tracker-faceapi SHARED ${ftnoir-tracker-faceapi-c} ${ftnoir-tracker-faceapi-moc} ${ftnoir-tracker-faceapi-uih} ${ftnoir-tracker-faceapi-rcc})
-	    target_link_libraries(ftnoir-tracker-faceapi ${QT_LIBRARIES})
-	    include_directories("${SDK_SM_FACEAPI_PATH}/include")
 	    add_executable(ftnoir-faceapi-wrapper ${ftnoir-faceapi-wrapper-c})
 	    if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 		    target_link_libraries(ftnoir-faceapi-wrapper "${SDK_SM_FACEAPI_PATH}/bin/smft32.lib" "${SDK_MSVC80_PATH}/lib/msvcrt.lib")
@@ -457,12 +457,12 @@ if(WIN32)
         install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/tracker-ht" DESTINATION .)
     endif()
     if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH)
+	install(TARGETS ftnoir-tracker-faceapi
+		RUNTIME DESTINATION .
+		LIBRARY DESTINATION .
+		NAMELINK_SKIP
+	)
 	if(MSVC80 OR CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-		install(TARGETS ftnoir-tracker-faceapi
-			RUNTIME DESTINATION .
-			LIBRARY DESTINATION .
-			NAMELINK_SKIP
-		)
 		install(TARGETS ftnoir-faceapi-wrapper
 			RUNTIME DESTINATION faceapi
 			LIBRARY DESTINATION faceapi

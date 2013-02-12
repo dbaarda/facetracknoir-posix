@@ -8,7 +8,9 @@ read line < ./last-snapshot.rev
 LASTREV="$line"
 CURREV="$(git rev-parse HEAD)"
 
-export WINEPREFIX=$HOME/dev/msvc
+export WINEPREFIX=$HOME/dev/msvc WINEDEBUG=-all
+
+wineserver -k
 
 if test "$CURREV" != "$LASTREV"; then
 	echo $CURREV > ./last-snapshot.rev
@@ -17,6 +19,11 @@ if test "$CURREV" != "$LASTREV"; then
 	sleep 0.5
 	rm -rf ./install/
 	wine cmd /k $HOME/dev/facetracknoir-posix/compile-msvc.bat
+	pushd $HOME/dev/msvc/drive_c/build/ftnoir-faceapi || exit 1
+	rm -rf ./install/
+	wine cmd /k $HOME/dev/facetracknoir-posix/compile-msvc80.bat
+	rsync -rav ./install/faceapi $HOME/dev/msvc/drive_c/build/ftnoir-posix/install || exit 1
+	popd || exit 1
 	FNAME="ftnoir-posix-$(date +%Y%m%d-%H_%M_%S)"-"$CURREV".7z
 	7z -y a -t7z -m0=lzma -mx=9 -mfb=128 -md=8m -ms=on "$FNAME" install || exit 1
 	ssh -4o BatchMode=yes "$USER"@"$BACKUPHOST" find /var/www/ftnoir/ -type f -mtime 60 -delete
