@@ -8,8 +8,7 @@
 #ifndef POINTTRACKER_H
 #define POINTTRACKER_H
 
-#include <auto_ptr.h>
-
+#include <memory>
 #include <opencv2/opencv.hpp>
 #include <list>
 

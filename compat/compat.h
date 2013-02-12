@@ -18,7 +18,15 @@
 #include <sys/types.h>
 #endif
 
-class PortableLockedShm {
+#include <Qt/qglobal.h>
+
+#ifdef IN_FTNOIR_COMPAT
+#	define COMPAT_EXPORT Q_DECL_EXPORT
+#else
+#	define COMPAT_EXPORT Q_DECL_IMPORT
+#endif
+
+class COMPAT_EXPORT PortableLockedShm {
 public:
     PortableLockedShm(const char *shmName, const char *mutexName, int mapSize);
     ~PortableLockedShm();

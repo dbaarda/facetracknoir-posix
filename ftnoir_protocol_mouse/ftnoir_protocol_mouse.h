@@ -39,7 +39,7 @@
 #include <QDebug>
 #include <QFile>
 #include <windows.h>
-#include <winable.h>
+#include <winuser.h>
 #include "facetracknoir/global-settings.h"
 
 #define MOUSE_AXIS_MIN 0

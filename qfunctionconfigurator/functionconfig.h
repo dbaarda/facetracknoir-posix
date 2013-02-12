@@ -10,19 +10,15 @@
 #include <QPointF>
 #include <QString>
 #include <QSettings>
-#if !defined(_WIN32) && !defined(__WIN32)
-#	include <QtDesigner/QDesignerExportWidget>
-#else
-#	define QDESIGNER_WIDGET_EXPORT
-#endif
 #include <QMutex>
+#include "ftnoir_tracker_base/ftnoir_tracker_base.h"
 
 #ifndef FUNCTION_CONFIG_H
 #define FUNCTION_CONFIG_H
 
 #define MEMOIZE_PRECISION 500
 
-class QDESIGNER_WIDGET_EXPORT FunctionConfig {
+class FTNOIR_TRACKER_BASE_EXPORT FunctionConfig {
 private:
     QMutex _mutex;
 	QList<QPointF> _points;

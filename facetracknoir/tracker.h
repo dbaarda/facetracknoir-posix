@@ -40,9 +40,14 @@
 
 //#define DIRECTINPUT_VERSION 0x0800
 //#include <Dinput.h>
+#undef FTNOIR_PROTOCOL_BASE_LIB
+#undef FTNOIR_TRACKER_BASE_LIB
+#undef FTNOIR_FILTER_BASE_LIB
+#define FTNOIR_PROTOCOL_BASE_EXPORT Q_DECL_IMPORT
+#define FTNOIR_TRACKER_BASE_EXPORT Q_DECL_IMPORT
+#define FTNOIR_FILTER_BASE_EXPORT Q_DECL_IMPORT
 
 #include <qfunctionconfigurator/functionconfig.h>
-
 #include "ftnoir_tracker_base/ftnoir_tracker_base.h"
 #include "ftnoir_protocol_base/ftnoir_protocol_base.h"
 #include "ftnoir_filter_base/ftnoir_filter_base.h"

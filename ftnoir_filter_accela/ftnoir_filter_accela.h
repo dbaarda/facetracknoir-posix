@@ -26,6 +26,9 @@
 #ifndef INCLUDED_FTN_FILTER_H
 #define INCLUDED_FTN_FILTER_H
 
+#undef FTNOIR_TRACKER_BASE_LIB
+#define FTNOIR_TRACKER_BASE_EXPORT Q_DECL_IMPORT
+
 #include "ftnoir_filter_base/ftnoir_filter_base.h"
 #include "ui_ftnoir_accela_filtercontrols.h"
 #include <qfunctionconfigurator/functionconfig.h>
@@ -42,7 +45,7 @@ extern const QList<QPointF> defScaleTranslation;
 //*******************************************************************************************************
 // FaceTrackNoIR Filter class.
 //*******************************************************************************************************
-class FTNoIR_Filter : public IFilter
+class FTNOIR_FILTER_BASE_EXPORT FTNoIR_Filter : public IFilter
 {
 public:
 	FTNoIR_Filter();
@@ -70,7 +73,7 @@ private:
 //*******************************************************************************************************
 
 // Widget that has controls for FTNoIR protocol filter-settings.
-class FilterControls: public QWidget, Ui::AccelaUICFilterControls, public IFilterDialog
+class FTNOIR_FILTER_BASE_EXPORT FilterControls: public QWidget, Ui::AccelaUICFilterControls, public IFilterDialog
 {
     Q_OBJECT
 public:

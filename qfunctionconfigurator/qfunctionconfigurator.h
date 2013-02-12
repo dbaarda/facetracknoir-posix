@@ -35,12 +35,12 @@
 #ifndef QFUNCTIONCONFIGURATOR_H
 #define QFUNCTIONCONFIGURATOR_H
 
+#include <QWidget>
 #include <QtGui>
-#if !defined(_WIN32) && !defined(__WIN32)
-#	include <QtDesigner/QDesignerExportWidget>
-#endif
+#include <QtDesigner/QDesignerExportWidget>
 #include <QPointF>
 #include "functionconfig.h"
+#include "ftnoir_tracker_base/ftnoir_tracker_base.h"
 
 //
 // The FunctionConfigurator Widget is used to display and configure a function (curve).
@@ -49,7 +49,7 @@
 // The Function is coded in a separate Class and can exists, without the Widget. When the widget is displayed (therefore 'created'), the Function can be attached to the
 // Widget and the Widget used to change the Function.
 //
-class QDESIGNER_WIDGET_EXPORT QFunctionConfigurator : public QWidget
+class FTNOIR_TRACKER_BASE_EXPORT QFunctionConfigurator : public QWidget
 {
 	Q_OBJECT
     Q_PROPERTY(int maxInputEGU READ maxInputEGU WRITE setmaxInputEGU);

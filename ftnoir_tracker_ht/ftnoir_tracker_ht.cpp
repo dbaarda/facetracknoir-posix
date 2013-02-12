@@ -9,6 +9,10 @@
 #define WIDGET_WIDTH 250
 #define WIDGET_HEIGHT 188
 
+#if defined(_WIN32) || defined(__WIN32)
+#include <dshow.h>
+#endif
+
 // delicious copypasta
 static QList<QString> get_camera_names(void) {
 #if defined(_WIN32) || defined(__WIN32)

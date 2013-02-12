@@ -25,6 +25,13 @@
 #ifndef FaceTrackNoIR_H
 #define FaceTrackNoIR_H
 
+#undef FTNOIR_PROTOCOL_BASE_LIB
+#undef FTNOIR_TRACKER_BASE_LIB
+#undef FTNOIR_FILTER_BASE_LIB
+#define FTNOIR_PROTOCOL_BASE_EXPORT Q_DECL_IMPORT
+#define FTNOIR_TRACKER_BASE_EXPORT Q_DECL_IMPORT
+#define FTNOIR_FILTER_BASE_EXPORT Q_DECL_IMPORT
+
 #include <QtGui/QMainWindow>
 #include <QApplication>
 #include <QFileDialog>

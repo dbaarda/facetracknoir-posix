@@ -26,7 +26,7 @@
 #include "math.h"
 #include <QDebug>
 #include "facetracknoir/global-settings.h"
-
+#include <algorithm>
 //#define LOG_OUTPUT
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@ void FTNoIR_Filter::FilterHeadPoseData(THeadPoseData *current_camera_position, T
 	//normalise the deltas
 	for (i=0;i<6;i++)
 	{
-        norm_output_delta[i]=std::min(std::max(fabs(output_delta[i])/scale[i],0.0),1.0);
+        norm_output_delta[i]=std::min<double>(std::max<double>(fabs(output_delta[i])/scale[i],0.0),1.0);
 	}
 
 	//calculate the alphas

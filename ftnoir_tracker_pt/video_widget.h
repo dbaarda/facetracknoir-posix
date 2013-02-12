@@ -11,7 +11,7 @@
 #include <QGLWidget>
 #include <QTime>
 #include <opencv2/opencv.hpp>
-#include <auto_ptr.h>
+#include <memory>
 #include <QWidget>
 
 // ----------------------------------------------------------------------------

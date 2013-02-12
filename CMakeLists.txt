@@ -40,21 +40,26 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_SOURCE_DIR})
 
 if (WIN32)
-	SET(SDK_SM_FACEAPI_PATH "" CACHE DIRPATH "SeeingMachines FaceAPI SDK path")
-	set(SDK_MINGW_PATH "" CACHE DIRPATH"MinGW path")
+	SET(SDK_SM_FACEAPI_PATH "" CACHE PATH "SeeingMachines FaceAPI SDK path")
+	set(SDK_MINGW_PATH "" CACHE PATH "MinGW path")
     SET(SDK_MSVC80_PATH "C:/Program Files (x86)/Microsoft Visual Studio 8/VC"
-	    CACHE DIRPATH "Path to MSVC80/VC if you want FaceAPI")
-    set(SDK_SIMCONNECT "" CACHE DIRPATH "Path to SimConnect SDK")
+	    CACHE PATH "Path to MSVC80/VC if you want FaceAPI")
+    set(SDK_SIMCONNECT "" CACHE PATH "Path to SimConnect SDK")
+    set(SDK_DIRECTX "" CACHE PATH "Path to DirectX SDK")
+    if(SDK_DIRECTX)
+	    include_directories("${SDK_DIRECTX}/Include")
+    endif()
 endif()
 if(NOT WIN32)
-	set(SDK_WINE_PREFIX "" CACHE DIRPATH "Path where Wine is installed")
+	set(SDK_WINE_PREFIX "" CACHE PATH "Path where Wine is installed")
 endif()
 
 if(WIN32)
   set(CMAKE_RC_COMPILER_INIT windres)
   ENABLE_LANGUAGE(RC)
-  SET(CMAKE_RC_COMPILE_OBJECT
-    "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+  if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
+	SET(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+  endif()
 endif(WIN32)
 
 # main app
@@ -74,11 +79,7 @@ file(GLOB ftnoir-pose-widget-rc "ftnoir_posewidget/*.qrc")
 QT4_ADD_RESOURCES(ftnoir-pose-widget-rcc ${ftnoir-pose-widget-rc})
 
 file(GLOB ftnoir-spline-widget-c "qfunctionconfigurator/*.cpp")
-if(WIN32)
-	file(GLOB ftnoir-spline-widget-h "qfunctionconfigurator/functionconfig.cpp" "qfunctionconfigurator/qfunctionconfigurator.cpp")
-else(WIN32)
-	file(GLOB ftnoir-spline-widget-h "qfunctionconfigurator/*.h")
-endif(WIN32)
+file(GLOB ftnoir-spline-widget-h "qfunctionconfigurator/*.h")
 QT4_WRAP_CPP(ftnoir-spline-widget-moc ${ftnoir-spline-widget-h})
 
 # filters
@@ -192,7 +193,7 @@ file(GLOB ftnoir-tracker-udp-rc "ftnoir_tracker_udp/*.qrc")
 QT4_WRAP_UI(ftnoir-tracker-udp-uih ${ftnoir-tracker-udp-ui})
 QT4_ADD_RESOURCES(ftnoir-tracker-udp-rcc ${ftnoir-tracker-udp-rc})
 
-file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp" "faceapi/*.rc")
+file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
 
 # compat lib for POSIX/win32
 
@@ -294,6 +295,13 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 			      PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 endif()
 
+if(MSVC)
+	target_link_libraries(ftnoir-tracker-ht
+			      "${CMAKE_SOURCE_DIR}/dinput/dinput8.lib"
+			      "${CMAKE_SOURCE_DIR}/dinput/dxguid.lib"
+			      "${CMAKE_SOURCE_DIR}/dinput/strmiids.lib")
+endif()
+
 if(OpenCV_FOUND)
     add_library(ftnoir-tracker-pt SHARED ${ftnoir-tracker-pt-c} ${ftnoir-tracker-pt-moc} ${ftnoir-tracker-pt-uih} ${ftnoir-tracker-pt-rcc})
     target_link_libraries(ftnoir-tracker-pt ${QT_LIBRARIES} ${OpenCV_LIBS} ${OPENGL_gl_LIBRARY})
@@ -304,15 +312,23 @@ if(OpenCV_FOUND)
 endif()
 
 if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH)
-    add_library(ftnoir-tracker-faceapi SHARED ${ftnoir-tracker-faceapi-c} ${ftnoir-tracker-faceapi-moc} ${ftnoir-tracker-faceapi-uih} ${ftnoir-tracker-faceapi-rcc})
-    target_link_libraries(ftnoir-tracker-faceapi ${QT_LIBRARIES})
-    include_directories("${SDK_SM_FACEAPI_PATH}/include")
-    add_executable(ftnoir-faceapi-wrapper ${ftnoir-faceapi-wrapper-c})
-    target_link_libraries(ftnoir-faceapi-wrapper "${SDK_SM_FACEAPI_PATH}/bin/smft32.lib" "${SDK_MSVC80_PATH}/lib/msvcrt.lib")
+    if(MSVC80 OR CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+	    add_library(ftnoir-tracker-faceapi SHARED ${ftnoir-tracker-faceapi-c} ${ftnoir-tracker-faceapi-moc} ${ftnoir-tracker-faceapi-uih} ${ftnoir-tracker-faceapi-rcc})
+	    target_link_libraries(ftnoir-tracker-faceapi ${QT_LIBRARIES})
+	    include_directories("${SDK_SM_FACEAPI_PATH}/include")
+	    add_executable(ftnoir-faceapi-wrapper ${ftnoir-faceapi-wrapper-c})
+	    if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+		    target_link_libraries(ftnoir-faceapi-wrapper "${SDK_SM_FACEAPI_PATH}/bin/smft32.lib" "${SDK_MSVC80_PATH}/lib/msvcrt.lib")
+	    else()
+		    target_link_libraries(ftnoir-faceapi-wrapper "${SDK_SM_FACEAPI_PATH}/bin/smft32.lib")
+	    endif()
 
-    if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
-	    SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES COMPILE_FLAGS "-nostdlib")
-	    SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES LINK_FLAGS "-Wl,-nostdlib")
+	    if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
+		    SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES COMPILE_FLAGS "-nostdlib")
+		    SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES LINK_FLAGS "-Wl,-nostdlib")
+	    endif()
+    else()
+	    MESSAGE(WARNING "Cannot build FaceAPI without MinGW GNU CC or MSVC 2005!")
     endif()
 endif()
 
@@ -329,9 +345,8 @@ if(WIN32)
 			      "${CMAKE_SOURCE_DIR}/dinput/dinput8.lib"
 			      "${CMAKE_SOURCE_DIR}/dinput/dxguid.lib"
 			      "${CMAKE_SOURCE_DIR}/dinput/strmiids.lib")
-else(WIN32)
-	target_link_libraries(ftnoir ftnoir-pose-widget ftnoir-spline-widget ${QT_LIBRARIES} ${QXT_QXTCORE_LIB_RELEASE} ${QXT_QXTGUI_LIB_RELEASE})
 endif()
+target_link_libraries(ftnoir ftnoir-pose-widget ftnoir-spline-widget ${QT_LIBRARIES} ${QXT_QXTCORE_LIB_RELEASE} ${QXT_QXTGUI_LIB_RELEASE})
 if(NOT WIN32)
     target_link_libraries(ftnoir dl)
 endif()
@@ -428,36 +443,38 @@ if(WIN32)
         install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/tracker-ht" DESTINATION .)
     endif()
     if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH)
-        install(TARGETS ftnoir-tracker-faceapi
-                RUNTIME DESTINATION .
-                LIBRARY DESTINATION .
-                NAMELINK_SKIP
-        )
-        install(TARGETS ftnoir-faceapi-wrapper
-                RUNTIME DESTINATION faceapi
-                LIBRARY DESTINATION faceapi
-                NAMELINK_SKIP
-        )
-        install(FILES "${CMAKE_SOURCE_DIR}/bin/cleye.config" DESTINATION faceapi)
-        install(FILES
-                "${SDK_SM_FACEAPI_PATH}/bin/computation6.0.dll"
-                "${SDK_SM_FACEAPI_PATH}/bin/foundation6.0.dll"
-                "${SDK_SM_FACEAPI_PATH}/bin/image6.0.dll"
-                "${SDK_SM_FACEAPI_PATH}/bin/libpng13.dll"
-                "${SDK_SM_FACEAPI_PATH}/bin/pgrflycapturegui.dll"
-                "${SDK_SM_FACEAPI_PATH}/bin/QtCore0.dll"
-                "${SDK_SM_FACEAPI_PATH}/bin/qt-mt334.dll"
-                "${SDK_SM_FACEAPI_PATH}/bin/QtXml4.dll"
-                "${SDK_SM_FACEAPI_PATH}/bin/smft32.dll"
-                "${SDK_SM_FACEAPI_PATH}/bin/zlib1.dll"
-                "${SDK_SM_FACEAPI_PATH}/doc/RELEASE NOTES.txt"
-                DESTINATION faceapi
-        )
-        install(DIRECTORY
-                "${SDK_SM_FACEAPI_PATH}/bin/cal"
-                "${SDK_SM_FACEAPI_PATH}/bin/resources"
-                DESTINATION faceapi
-        )
+	if(MSVC80 OR CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+		install(TARGETS ftnoir-tracker-faceapi
+			RUNTIME DESTINATION .
+			LIBRARY DESTINATION .
+			NAMELINK_SKIP
+		)
+		install(TARGETS ftnoir-faceapi-wrapper
+			RUNTIME DESTINATION faceapi
+			LIBRARY DESTINATION faceapi
+			NAMELINK_SKIP
+		)
+		install(FILES "${CMAKE_SOURCE_DIR}/bin/cleye.config" DESTINATION faceapi)
+		install(FILES
+			"${SDK_SM_FACEAPI_PATH}/bin/computation6.0.dll"
+			"${SDK_SM_FACEAPI_PATH}/bin/foundation6.0.dll"
+			"${SDK_SM_FACEAPI_PATH}/bin/image6.0.dll"
+			"${SDK_SM_FACEAPI_PATH}/bin/libpng13.dll"
+			"${SDK_SM_FACEAPI_PATH}/bin/pgrflycapturegui.dll"
+			"${SDK_SM_FACEAPI_PATH}/bin/QtCore0.dll"
+			"${SDK_SM_FACEAPI_PATH}/bin/qt-mt334.dll"
+			"${SDK_SM_FACEAPI_PATH}/bin/QtXml4.dll"
+			"${SDK_SM_FACEAPI_PATH}/bin/smft32.dll"
+			"${SDK_SM_FACEAPI_PATH}/bin/zlib1.dll"
+			"${SDK_SM_FACEAPI_PATH}/doc/RELEASE NOTES.txt"
+			DESTINATION faceapi
+		)
+		install(DIRECTORY
+			"${SDK_SM_FACEAPI_PATH}/bin/cal"
+			"${SDK_SM_FACEAPI_PATH}/bin/resources"
+			DESTINATION faceapi
+		)
+	endif()
     endif()
 endif()
 

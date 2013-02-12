@@ -4,7 +4,7 @@
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
  */
-
+#define IN_FTNOIR_COMPAT
 #include "compat.h"
 
 #if defined(_WIN32) || defined(__WIN32)
