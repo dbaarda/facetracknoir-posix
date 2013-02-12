@@ -246,7 +246,7 @@ bool Tracker::GiveHeadPoseData(THeadPoseData *data)
 //-----------------------------------------------------------------------------
 //#pragma comment(linker, "/export:GetTracker=_GetTracker@0")
 
-extern "C" FTNOIR_TRACKER_BASE_EXPORT void* CALLING_CONVENTION GetConstructor()
+extern "C" DECLSPEC FTNOIR_TRACKER_BASE_EXPORT void* CALLING_CONVENTION GetConstructor()
 {
     return (ITracker*) new Tracker;
 }

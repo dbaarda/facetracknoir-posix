@@ -65,7 +65,7 @@ void FTControls::doCancel() {
     this->close();
 }
 
-extern "C" FTNOIR_PROTOCOL_BASE_EXPORT void* CALLING_CONVENTION GetDialog( )
+extern "C" DECLSPEC FTNOIR_PROTOCOL_BASE_EXPORT void* CALLING_CONVENTION GetDialog( )
 {
     return (IProtocolDialog*) new FTControls;
 }
