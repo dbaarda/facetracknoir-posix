@@ -308,10 +308,10 @@ void FaceTrackNoIR::setupFaceTrackNoIR() {
     if (trayIcon)
         trayIcon->show();
 
-	connect(ui.pngncomboProtocol, SIGNAL(currentIndexChanged(int)), this, SLOT(protocolSelected(int)));
-	connect(ui.pngncomboProfile, SIGNAL(currentIndexChanged(int)), this, SLOT(profileSelected(int)));
-	connect(ui.pngncomboTrackerSource, SIGNAL(currentIndexChanged(int)), this, SLOT(trackingSourceSelected(int)));
-	connect(ui.pngncomboFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(filterSelected(int)));
+	connect(ui.iconcomboProtocol, SIGNAL(currentIndexChanged(int)), this, SLOT(protocolSelected(int)));
+	connect(ui.iconcomboProfile, SIGNAL(currentIndexChanged(int)), this, SLOT(profileSelected(int)));
+	connect(ui.iconcomboTrackerSource, SIGNAL(currentIndexChanged(int)), this, SLOT(trackingSourceSelected(int)));
+	connect(ui.iconcomboFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(filterSelected(int)));
 
 	//Setup the timer for automatically minimizing after StartTracker.
 	timMinimizeFTN = new QTimer(this);
@@ -481,14 +481,14 @@ void FaceTrackNoIR::save() {
 
 	iniFile.beginGroup ( "GameProtocol" );
     {
-        DynamicLibrary* proto = dlopen_protocols.value( ui.pngncomboProtocol->currentIndex(), (DynamicLibrary*) NULL);
+        DynamicLibrary* proto = dlopen_protocols.value( ui.iconcomboProtocol->currentIndex(), (DynamicLibrary*) NULL);
         iniFile.setValue ( "DLL",  proto == NULL ? "" : proto->filename);
     }
 	iniFile.endGroup ();
 
 	iniFile.beginGroup ( "TrackerSource" );
     {
-        DynamicLibrary* tracker = dlopen_trackers.value( ui.pngncomboTrackerSource->currentIndex(), (DynamicLibrary*) NULL);
+        DynamicLibrary* tracker = dlopen_trackers.value( ui.iconcomboTrackerSource->currentIndex(), (DynamicLibrary*) NULL);
         iniFile.setValue ( "DLL",  tracker == NULL ? "" : tracker->filename);
     }
     {
@@ -502,7 +502,7 @@ void FaceTrackNoIR::save() {
 	//
 	iniFile.beginGroup ( "Filter" );
     {
-        DynamicLibrary* filter = dlopen_filters.value( ui.pngncomboFilter->currentIndex(), (DynamicLibrary*) NULL);
+        DynamicLibrary* filter = dlopen_filters.value( ui.iconcomboFilter->currentIndex(), (DynamicLibrary*) NULL);
         iniFile.setValue ( "DLL",  filter == NULL ? "" : filter->filename);
     }
 	iniFile.endGroup ();
@@ -595,12 +595,12 @@ void FaceTrackNoIR::loadSettings() {
 	//
 	// Add strings to the Listbox.
 	//
-	ui.pngncomboProfile->clear();
+	ui.iconcomboProfile->clear();
 	for ( int i = 0; i < iniFileList.size(); i++) {
-        ui.pngncomboProfile->addItem(QIcon(":/images/settings16.png"), iniFileList.at(i));
+        ui.iconcomboProfile->addItem(QIcon(":/images/settings16.png"), iniFileList.at(i));
 		if (iniFileList.at(i) == pathInfo.fileName()) {
-            ui.pngncomboProfile->setItemIcon(i, QIcon(":/images/settingsopen16.png"));
-			ui.pngncomboProfile->setCurrentIndex( i );
+            ui.iconcomboProfile->setItemIcon(i, QIcon(":/images/settingsopen16.png"));
+			ui.iconcomboProfile->setCurrentIndex( i );
 		}
 	}
 
@@ -628,7 +628,7 @@ void FaceTrackNoIR::loadSettings() {
 	//
     for ( int i = 0; i < dlopen_protocols.size(); i++) {
         if (dlopen_protocols.at(i)->filename.compare( selectedProtocolName, Qt::CaseInsensitive ) == 0) {
-			ui.pngncomboProtocol->setCurrentIndex( i );
+			ui.iconcomboProtocol->setCurrentIndex( i );
 			break;
 		}
 	}
@@ -647,7 +647,7 @@ void FaceTrackNoIR::loadSettings() {
     for ( int i = 0; i < dlopen_trackers.size(); i++) {
         DynamicLibrary* foo = dlopen_trackers.at(i);
         if (foo && foo->filename.compare( selectedTrackerName, Qt::CaseInsensitive ) == 0) {
-			ui.pngncomboTrackerSource->setCurrentIndex( i );
+			ui.iconcomboTrackerSource->setCurrentIndex( i );
 		}
         if (foo && foo->filename.compare( secondTrackerName, Qt::CaseInsensitive ) == 0) {
             ui.cbxSecondTrackerSource->setCurrentIndex( i + 1 );
@@ -668,7 +668,7 @@ void FaceTrackNoIR::loadSettings() {
     for ( int i = 0; i < dlopen_filters.size(); i++) {
         DynamicLibrary* foo = dlopen_filters.at(i);
         if (foo && foo->filename.compare( selectedFilterName, Qt::CaseInsensitive ) == 0) {
-            ui.pngncomboFilter->setCurrentIndex( i );
+            ui.iconcomboFilter->setCurrentIndex( i );
 			break;
 		}
 	}
@@ -712,7 +712,7 @@ void FaceTrackNoIR::startTracker( ) {
 	// 
 	// Disable buttons
 	//
-	ui.pngncomboProfile->setEnabled ( false );
+	ui.iconcomboProfile->setEnabled ( false );
 	ui.btnLoad->setEnabled ( false );
 	ui.btnSave->setEnabled ( false );
 	ui.btnSaveAs->setEnabled ( false );
@@ -772,11 +772,11 @@ void FaceTrackNoIR::startTracker( ) {
 	ui.btnStopTracker->setEnabled ( true );
 
 	// Enable/disable Protocol-server Settings
-	ui.pngncomboTrackerSource->setEnabled ( false );
+	ui.iconcomboTrackerSource->setEnabled ( false );
 	ui.cbxSecondTrackerSource->setEnabled ( false );
-	ui.pngncomboProtocol->setEnabled ( false );
+	ui.iconcomboProtocol->setEnabled ( false );
     ui.btnShowServerControls->setEnabled ( false );
-	ui.pngncomboFilter->setEnabled ( false );
+	ui.iconcomboFilter->setEnabled ( false );
 
 	//
 	// Update the camera-name, FaceAPI can only use the 1st one found!
@@ -887,17 +887,17 @@ void FaceTrackNoIR::stopTracker( ) {
 	ui.btnStartTracker->setEnabled ( true );
 	ui.btnStopTracker->setEnabled ( false );
 //	ui.btnShowEngineControls->setEnabled ( false );
-	ui.pngncomboProtocol->setEnabled ( true );
-	ui.pngncomboTrackerSource->setEnabled ( true );
+	ui.iconcomboProtocol->setEnabled ( true );
+	ui.iconcomboTrackerSource->setEnabled ( true );
 	ui.cbxSecondTrackerSource->setEnabled ( true );
-	ui.pngncomboFilter->setEnabled ( true );
+	ui.iconcomboFilter->setEnabled ( true );
 
 	// Enable/disable Protocol-server Settings
 	ui.btnShowServerControls->setEnabled ( true );
 	ui.video_frame->hide();
 
 	// 
-	ui.pngncomboProfile->setEnabled ( true );
+	ui.iconcomboProfile->setEnabled ( true );
 	ui.btnLoad->setEnabled ( true );
 	ui.btnSave->setEnabled ( true );
 	ui.btnSaveAs->setEnabled ( true );
@@ -1025,7 +1025,7 @@ void FaceTrackNoIR::showTrackerSettings() {
 		pTrackerDialog = NULL;
 	}
 
-    DynamicLibrary* lib = dlopen_trackers.value(ui.pngncomboTrackerSource->currentIndex(), (DynamicLibrary*) NULL);
+    DynamicLibrary* lib = dlopen_trackers.value(ui.iconcomboTrackerSource->currentIndex(), (DynamicLibrary*) NULL);
 
     if (lib) {
         pTrackerDialog = (ITrackerDialog*) lib->Dialog();
@@ -1063,7 +1063,7 @@ void FaceTrackNoIR::showServerControls() {
         pProtocolDialog = NULL;
     }
 
-    DynamicLibrary* lib = dlopen_protocols.value(ui.pngncomboProtocol->currentIndex(), (DynamicLibrary*) NULL);
+    DynamicLibrary* lib = dlopen_protocols.value(ui.iconcomboProtocol->currentIndex(), (DynamicLibrary*) NULL);
 
     if (lib && lib->Dialog) {
         pProtocolDialog = (IProtocolDialog*) lib->Dialog();
@@ -1080,7 +1080,7 @@ void FaceTrackNoIR::showFilterControls() {
         pFilterDialog = NULL;
     }
 
-    DynamicLibrary* lib = dlopen_filters.value(ui.pngncomboFilter->currentIndex(), (DynamicLibrary*) NULL);
+    DynamicLibrary* lib = dlopen_filters.value(ui.iconcomboFilter->currentIndex(), (DynamicLibrary*) NULL);
 
     if (lib && lib->Dialog) {
         pFilterDialog = (IFilterDialog*) lib->Dialog();
@@ -1167,7 +1167,7 @@ void FaceTrackNoIR::createIconGroupBox()
             meta->getIcon(&icon);
             delete meta;
             dlopen_protocols.push_back(lib);
-            ui.pngncomboProtocol->addItem(icon, longName);
+            ui.iconcomboProtocol->addItem(icon, longName);
         }
     }
 
@@ -1189,14 +1189,14 @@ void FaceTrackNoIR::createIconGroupBox()
             meta->getIcon(&icon);
             delete meta;
             dlopen_trackers.push_back(lib);
-            ui.pngncomboTrackerSource->addItem(icon, longName);
+            ui.iconcomboTrackerSource->addItem(icon, longName);
             ui.cbxSecondTrackerSource->addItem(icon, longName);
         }
     }
 
     {
         dlopen_filters.push_back((DynamicLibrary*) NULL);
-        ui.pngncomboFilter->addItem(QIcon(), "None");
+        ui.iconcomboFilter->addItem(QIcon(), "None");
         QStringList filters = settingsDir.entryList( QStringList() << (LIB_PREFIX "ftnoir-filter-*." SONAME), QDir::Files, QDir::Name );
         for ( int i = 0; i < filters.size(); i++) {
             QIcon icon;
@@ -1213,13 +1213,13 @@ void FaceTrackNoIR::createIconGroupBox()
             meta->getIcon(&icon);
             delete meta;
             dlopen_filters.push_back(lib);
-            ui.pngncomboFilter->addItem(icon, fullName);
+            ui.iconcomboFilter->addItem(icon, fullName);
         }
     }
 
-	connect(ui.pngncomboProtocol, SIGNAL(currentIndexChanged(int)), this, SLOT(protocolSelected(int)));
-    connect(ui.pngncomboTrackerSource, SIGNAL(currentIndexChanged(int)), this, SLOT(trackingSourceSelected(int)));
-    connect(ui.pngncomboFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(filterSelected(int)));
+	connect(ui.iconcomboProtocol, SIGNAL(currentIndexChanged(int)), this, SLOT(protocolSelected(int)));
+    connect(ui.iconcomboTrackerSource, SIGNAL(currentIndexChanged(int)), this, SLOT(trackingSourceSelected(int)));
+    connect(ui.iconcomboFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(filterSelected(int)));
 	connect(ui.cbxSecondTrackerSource, SIGNAL(currentIndexChanged(int)), this, SLOT(trackingSourceSelected(int)));
 }
 
@@ -1268,8 +1268,8 @@ void FaceTrackNoIR::iconActivated(QSystemTrayIcon::ActivationReason reason)
      switch (reason) {
      case QSystemTrayIcon::Trigger:
      case QSystemTrayIcon::DoubleClick:
-         //ui.pngncomboProtocol->setCurrentIndex((ui.pngncomboProtocol->currentIndex() + 1)
-         //                              % ui.pngncomboProtocol->count());
+         //ui.iconcomboProtocol->setCurrentIndex((ui.iconcomboProtocol->currentIndex() + 1)
+         //                              % ui.iconcomboProtocol->count());
          break;
      ////case QSystemTrayIcon::MiddleClick:
      ////    showMessage();
@@ -1290,12 +1290,12 @@ void FaceTrackNoIR::protocolSelected(int index)
 	//
 	// Set the Icon for the tray and update the Icon for the Settings button.
 	//
-	QIcon icon = ui.pngncomboProtocol->itemIcon(index);
+	QIcon icon = ui.iconcomboProtocol->itemIcon(index);
 	if (trayIcon != 0) {
 		trayIcon->setIcon(icon);
-	    trayIcon->setToolTip(ui.pngncomboProtocol->itemText(index));
+	    trayIcon->setToolTip(ui.iconcomboProtocol->itemText(index));
 		trayIcon->show();
-		trayIcon->showMessage( "FaceTrackNoIR", ui.pngncomboProtocol->itemText(index));
+		trayIcon->showMessage( "FaceTrackNoIR", ui.iconcomboProtocol->itemText(index));
 	}
     //setWindowIcon(QIcon(":/images/FaceTrackNoIR.png"));
     //breaks with transparency -sh
@@ -1326,7 +1326,7 @@ void FaceTrackNoIR::profileSelected(int index)
 	//
 	// Save the name of the INI-file in the Registry.
 	//
-    settings.setValue ("SettingsFile", pathInfo.absolutePath() + "/" + iniFileList.value(ui.pngncomboProfile->currentIndex(), ""));
+    settings.setValue ("SettingsFile", pathInfo.absolutePath() + "/" + iniFileList.value(ui.iconcomboProfile->currentIndex(), ""));
 	loadSettings();
 }
 

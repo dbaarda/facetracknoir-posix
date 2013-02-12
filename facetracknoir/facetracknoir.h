@@ -106,16 +106,16 @@ public:
     Tracker *tracker;
     void bindKeyboardShortcuts();
     DynamicLibrary* current_tracker1() {
-        return dlopen_trackers.value(ui.pngncomboTrackerSource->currentIndex(), (DynamicLibrary*) NULL);
+        return dlopen_trackers.value(ui.iconcomboTrackerSource->currentIndex(), (DynamicLibrary*) NULL);
     }
     DynamicLibrary* current_tracker2() {
         return dlopen_trackers.value(ui.cbxSecondTrackerSource->currentIndex() - 1, (DynamicLibrary*) NULL);
     }
     DynamicLibrary* current_protocol() {
-        return dlopen_protocols.value(ui.pngncomboProtocol->currentIndex(), (DynamicLibrary*) NULL);
+        return dlopen_protocols.value(ui.iconcomboProtocol->currentIndex(), (DynamicLibrary*) NULL);
     }
     DynamicLibrary* current_filter() {
-        return dlopen_filters.value(ui.pngncomboFilter->currentIndex(), (DynamicLibrary*) NULL);
+        return dlopen_filters.value(ui.iconcomboFilter->currentIndex(), (DynamicLibrary*) NULL);
     }
 #if defined(_WIN32) || defined(__WIN32)
     Key keyCenter, keyZero, keyStartStop, keyInhibit;
