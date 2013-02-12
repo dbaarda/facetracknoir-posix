@@ -360,6 +360,7 @@ endif()
 # make install
 
 install(FILES "${CMAKE_SOURCE_DIR}/bin/npclient.dll" "${CMAKE_SOURCE_DIR}/bin/npclient64.dll" DESTINATION .)
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/settings" DESTINATION .)
 
 if(NOT WIN32 AND SDK_WINE_PREFIX)
     install(FILES "${CMAKE_BINARY_DIR}/ftnoir-wrapper-wine.exe.so"
