@@ -16,7 +16,7 @@
 #include "ftnoir_protocol_base/ftnoir_protocol_base.h"
 
 #if defined(_WIN32) || defined(__WIN32)
-#   define CALLING_CONVENTION __stdcall
+#   define CALLING_CONVENTION __stdcall __declspec(dllexport)
 #else
 #   define CALLING_CONVENTION
 #endif
