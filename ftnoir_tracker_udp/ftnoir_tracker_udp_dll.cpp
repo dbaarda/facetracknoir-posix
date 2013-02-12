@@ -80,7 +80,7 @@ void FTNoIR_TrackerDll::getIcon(QIcon *icon)
 //   _GetTrackerDll@0  - Common name decoration for __stdcall functions in C language.
 //#pragma comment(linker, "/export:GetTrackerDll=_GetTrackerDll@0")
 
-extern "C" DECLSPEC FTNOIR_TRACKER_BASE_EXPORT Metadata* CALLING_CONVENTION GetMetadata()
+extern "C" FTNOIR_TRACKER_BASE_EXPORT Metadata* CALLING_CONVENTION GetMetadata()
 {
 	return new FTNoIR_TrackerDll;
 }

@@ -31,7 +31,7 @@
 					is called from run() of Tracker.cpp
 */
 #include "ftnoir_protocol_fsuipc.h"
-#include "facetracknoir/global-settings.h"
+#include "facetracnoir/global-settings.h"
 
 /** constructor **/
 FTNoIR_Protocol::FTNoIR_Protocol()
@@ -225,7 +225,7 @@ void FTNoIR_Protocol::getNameFromGame( char *dest )
 //   _GetProtocol@0  - Common name decoration for __stdcall functions in C language.
 #pragma comment(linker, "/export:GetProtocol=_GetProtocol@0")
 
-extern "C" DECLSPEC FTNOIR_PROTOCOL_BASE_EXPORT void* CALLING_CONVENTION GetConstructor()
+extern "C" FTNOIR_PROTOCOL_BASE_EXPORT void* CALLING_CONVENTION GetConstructor()
 {
 	return new FTNoIR_Protocol;
 }

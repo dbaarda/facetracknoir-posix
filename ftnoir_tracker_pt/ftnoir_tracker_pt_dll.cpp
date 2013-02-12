@@ -34,7 +34,7 @@ void TrackerDll::getIcon(QIcon *icon)
 //-----------------------------------------------------------------------------
 //#pragma comment(linker, "/export:GetTrackerDll=_GetTrackerDll@0")
 
-extern "C" DECLSPEC FTNOIR_TRACKER_BASE_EXPORT Metadata* CALLING_CONVENTION GetMetadata()
+extern "C" FTNOIR_TRACKER_BASE_EXPORT Metadata* CALLING_CONVENTION GetMetadata()
 {
 	return new TrackerDll;
 }

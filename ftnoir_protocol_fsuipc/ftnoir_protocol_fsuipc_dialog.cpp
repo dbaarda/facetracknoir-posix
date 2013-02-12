@@ -31,7 +31,7 @@
 						The functions to get the name(s) and icon were removed from the two other classes.
 */
 #include "ftnoir_protocol_fsuipc.h"
-#include "facetracknoir/global-settings.h"
+#include "facetracnoir/global-settings.h"
 
 //*******************************************************************************************************
 // FaceTrackNoIR Client Settings-dialog.
@@ -192,7 +192,7 @@ void FSUIPCControls::getLocationOfDLL()
 //   _GetProtocolDialog@0  - Common name decoration for __stdcall functions in C language.
 #pragma comment(linker, "/export:GetProtocolDialog=_GetProtocolDialog@0")
 
-extern "C" DECLSPEC FTNOIR_PROTOCOL_BASE_EXPORT void* CALLING_CONVENTION GetDialog( )
+extern "C" FTNOIR_PROTOCOL_BASE_EXPORT void* CALLING_CONVENTION GetDialog( )
 {
 	return new FSUIPCControls;
 }

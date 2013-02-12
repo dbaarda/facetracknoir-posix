@@ -51,7 +51,7 @@ FTNoIR_FilterDll::~FTNoIR_FilterDll()
 //   _GetFilterDll@0  - Common name decoration for __stdcall functions in C language.
 //#pragma comment(linker, "/export:GetFilterDll=_GetFilterDll@0")
 
-extern "C" DECLSPEC FTNOIR_FILTER_BASE_EXPORT Metadata* CALLING_CONVENTION GetMetadata()
+extern "C" FTNOIR_FILTER_BASE_EXPORT Metadata* CALLING_CONVENTION GetMetadata()
 {
 	return new FTNoIR_FilterDll;
 }
