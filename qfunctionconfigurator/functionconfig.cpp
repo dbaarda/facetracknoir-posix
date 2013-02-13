@@ -54,7 +54,7 @@ FunctionConfig::FunctionConfig(QString title, int intMaxInput, int intMaxOutput)
 // The return-value is also stored internally, so the Widget can show the current value, when the Tracker is running.
 //
 double FunctionConfig::getValue(double x) {
-	int x2 = (int) (x * MEMOIZE_PRECISION);
+	int x2 = (int) (std::min<double>(std::max<double>(x, -360), 360) * MEMOIZE_PRECISION);
     _mutex.lock();
 	double ret = getValueInternal(x2);
 	lastValueTracked.setX(x);
@@ -85,7 +85,7 @@ double FunctionConfig::getValueInternal(int x) {
 		ret = 0;
 	else if (x < 0)
 		ret = 0;
-	else if (x < _size)
+	else if (x < _size && x >= 0)
 		ret = _data[x];
 	else
 		ret = _data[_size - 1];
