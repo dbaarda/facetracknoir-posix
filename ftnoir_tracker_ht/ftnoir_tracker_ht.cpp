@@ -11,12 +11,14 @@
 
 #if defined(_WIN32) || defined(__WIN32)
 #include <dshow.h>
+#else
+#include <unistd.h>
 #endif
 
 // delicious copypasta
 static QList<QString> get_camera_names(void) {
+    QList<QString> ret;
 #if defined(_WIN32) || defined(__WIN32)
-	QList<QString> ret;
 	// Create the System Device Enumerator.
 	HRESULT hr;
 	ICreateDevEnum *pSysDevEnum = NULL;
@@ -62,9 +64,18 @@ static QList<QString> get_camera_names(void) {
 		pEnumCat->Release();
 	}
 	pSysDevEnum->Release();
-	return ret;
- #endif
-    return QList<QString>();
+#else
+    for (int i = 0; i < 16; i++) {
+        char buf[128];
+        sprintf(buf, "/dev/video%d", i);
+        if (access(buf, R_OK | W_OK) == 0) {
+            ret.append(buf);
+        } else {
+            break;
+        }
+    }
+#endif
+    return ret;
 }
 
 typedef struct {
