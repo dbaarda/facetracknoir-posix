@@ -1992,6 +1992,7 @@ void FaceTrackNoIR::shortcutRecentered()
 #else
         QApplication::beep();
 #endif
+        qDebug() << "Center";
         tracker->do_center = true;
     }
 }

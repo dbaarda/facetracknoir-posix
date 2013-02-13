@@ -21,11 +21,14 @@ public:
     FTNoIR_Filter();
     void Initialize();
     void FilterHeadPoseData(THeadPoseData *current_camera_position, THeadPoseData *target_camera_position, THeadPoseData *new_camera_position, bool newTarget);
-    
-private:
     std::vector<cv::KalmanFilter> kalman_dims;
     //std::vector<double> velocities;
+    double process_noise_covariance_matrix_all_values;
+    double posteriori_error_covariance_matrix_all_values;
 };
+
+void kalman_load_settings(FTNoIR_Filter& self);
+void kalman_save_settings(FTNoIR_Filter& self);
 
 class FTNOIR_FILTER_BASE_EXPORT FTNoIR_FilterDll : public Metadata
 {
@@ -40,24 +43,40 @@ class FTNOIR_FILTER_BASE_EXPORT FilterControls: public QWidget, Ui::KalmanUICFil
 {
     Q_OBJECT
 public:
-    
-    explicit FilterControls() {
+    explicit FilterControls() : settingsDirty(false) {
         ui.setupUi(this);
+        QSettings settings("Abbequerque Inc.", "FaceTrackNoIR");    // Registry settings (in HK_USER)
+        
+        QString currentFile = settings.value ( "SettingsFile", QCoreApplication::applicationDirPath() + "/Settings/default.ini" ).toString();
+        QSettings iniFile( currentFile, QSettings::IniFormat );     // Application settings (in INI-file)
+        
+        iniFile.beginGroup("ftnoir-filter-kalman");
+        ui.post->setValue(iniFile.value("posteriori-error-covariance-matrix-all-values", 1e-1).toDouble());
+        ui.pnoise->setValue(iniFile.value("process-noise-covariance-matrix-all-values", 1e-5).toDouble());
+        iniFile.endGroup();
         show();
+        connect(ui.btnOk, SIGNAL(clicked()), this, SLOT(doOK()));
+        connect(ui.btnCancel, SIGNAL(clicked()), this, SLOT(doCancel()));
+        connect(ui.post, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
+        connect(ui.pnoise, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
     }
     virtual ~FilterControls() {}
     void showEvent ( QShowEvent * event ) {
         show();
     }
     
-    void Initialize(QWidget *parent, IFilter* ptr) {}
+    void Initialize(QWidget *parent, IFilter* ptr) {
+    }
     
-private:
+    bool settingsDirty;
     Ui::KalmanUICFilterControls ui;
     
-private slots:
+public slots:
     void doOK();
     void doCancel();
+    void settingsChanged(double unused) {
+        settingsDirty = true;
+    }
 };
 
 #endif

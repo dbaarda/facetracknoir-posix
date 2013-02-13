@@ -151,16 +151,15 @@ void Tracker::run() {
         
         confid = (bTracker1Confid || bTracker2Confid);
         
-        bool newp = confid && (last.yaw != newpose.yaw ||
+        bool newp = last.yaw != newpose.yaw ||
                                last.pitch != newpose.pitch ||
                                last.roll != newpose.roll ||
                                last.x != newpose.x ||
                                last.y != newpose.y ||
-                               last.z != newpose.z);
+                               last.z != newpose.z;
         
-        if (newp) {
+        if (newp)
             last = newpose;
-        }
                     
         if ( confid ) {
             GlobalPose->Yaw.headPos = newpose.yaw;
@@ -188,6 +187,12 @@ void Tracker::run() {
             }
 
             Tracker::do_center = false;
+            
+            // for kalman
+            if (Libraries->pFilter)
+                Libraries->pFilter->Initialize();
+            
+            last = newpose;
         }
         
         if (do_game_zero) {

@@ -9,15 +9,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>153</width>
-    <height>51</height>
+    <width>438</width>
+    <height>107</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Filter settings</string>
   </property>
   <property name="windowIcon">
    <iconset>
+    <normaloff>
+    images/facetracknoir.png</normaloff>
     images/facetracknoir.png</iconset>
   </property>
   <property name="layoutDirection">
@@ -29,49 +37,141 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <layout class="QVBoxLayout" name="_vertical_layout">
-   <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>No settings necessary!</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnOK">
-       <property name="text">
-        <string>OK</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnCancel">
-       <property name="text">
-        <string>Cancel</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-  </layout>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>281</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>process-noise-covariance-matrix (all values)</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <property name="margin">
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="pnoise">
+   <property name="geometry">
+    <rect>
+     <x>289</x>
+     <y>6</y>
+     <width>141</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <property name="decimals">
+    <number>12</number>
+   </property>
+   <property name="maximum">
+    <double>1.000000000000000</double>
+   </property>
+   <property name="singleStep">
+    <double>0.000001000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>181</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>post-error-matrix (all values)</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="post">
+   <property name="geometry">
+    <rect>
+     <x>289</x>
+     <y>26</y>
+     <width>141</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <property name="decimals">
+    <number>12</number>
+   </property>
+   <property name="maximum">
+    <double>1.000000000000000</double>
+   </property>
+   <property name="singleStep">
+    <double>0.000001000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>57</y>
+     <width>411</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>If you know Kalman filters, please send diffs to sthalik@misaki.pl</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnOk">
+   <property name="geometry">
+    <rect>
+     <x>283</x>
+     <y>81</y>
+     <width>73</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnCancel">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>81</y>
+     <width>73</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
+ <designerdata>
+  <property name="gridDeltaX">
+   <number>10</number>
+  </property>
+  <property name="gridDeltaY">
+   <number>10</number>
+  </property>
+  <property name="gridSnapX">
+   <bool>false</bool>
+  </property>
+  <property name="gridSnapY">
+   <bool>false</bool>
+  </property>
+  <property name="gridVisible">
+   <bool>true</bool>
+  </property>
+ </designerdata>
  <slots>
   <slot>startEngineClicked()</slot>
   <slot>stopEngineClicked()</slot>
