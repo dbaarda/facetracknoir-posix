@@ -189,18 +189,18 @@ void Tracker::StartTracker(QFrame* videoframe)
 void Tracker::paint_widget() {
     if (fresh) {
         fresh = false;
-        video_widget->paintGL();
+        video_widget->update();
     }
 }
 
 bool Tracker::GiveHeadPoseData(THeadPoseData *data)
 {
+    refreshVideo();
 	const float rad2deg = 180.0/3.14159265;
 	const float deg2rad = 1.0/rad2deg;
 	{
 		QMutexLocker lock(&mutex);
 
-        refreshVideo();
 		if (!tracking_valid) return false;
 
 		FrameTrafo X_CM = point_tracker.get_pose();
