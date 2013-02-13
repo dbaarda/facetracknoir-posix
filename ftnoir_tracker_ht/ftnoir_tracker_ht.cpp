@@ -124,7 +124,7 @@ static void load_settings(ht_config_t* config, Tracker* tracker)
 	iniFile.endGroup();
 }
 
-Tracker::Tracker() : lck_shm(HT_SHM_NAME, HT_MUTEX_NAME, sizeof(ht_shm_t))
+Tracker::Tracker() : lck_shm(HT_SHM_NAME, HT_MUTEX_NAME, sizeof(ht_shm_t)), fresh(false)
 {
 	videoWidget = NULL;
 	layout = NULL;
@@ -169,6 +169,15 @@ void Tracker::StartTracker(QFrame* videoframe)
 #else
     subprocess.start(QCoreApplication::applicationDirPath() + "/tracker-ht/headtracker-ftnoir");
 #endif
+    connect(&timer, SIGNAL(timeout()), this, SLOT(paint_widget()));
+    timer.start(15);
+}
+
+void Tracker::paint_widget() {
+    if (fresh) {
+        fresh = false;
+        videoWidget->update();
+    }
 }
 
 bool Tracker::GiveHeadPoseData(THeadPoseData* data)
@@ -179,8 +188,9 @@ bool Tracker::GiveHeadPoseData(THeadPoseData* data)
     shm->timer = 0;
     if (shm->frame.width > 0)
     {
+        videoWidget->updateImage(shm->frame.frame, shm->frame.width, shm->frame.height);
         //memcpy(foo, shm->frame.frame, shm->frame.width * shm->frame.height * 3);
-        videoWidget->update(shm->frame.frame, shm->frame.width, shm->frame.height);
+        fresh = true;
     }
     if (shm->result.filled) {
         if (enableRX)

@@ -70,7 +70,13 @@ void VideoWidget::resize_frame()
 		resized_qframe = qframe.scaled(this->size(), Qt::KeepAspectRatio);
 }
 
-void VideoWidget::update(Mat frame, std::auto_ptr< vector<Vec2f> > points)
+void VideoWidget::update()
+{
+    updateGL();
+}
+
+
+void VideoWidget::update_image(Mat frame, std::auto_ptr< vector<Vec2f> > points)
 {
 	this->frame = frame;
 	this->points = points;
@@ -81,5 +87,4 @@ void VideoWidget::update(Mat frame, std::auto_ptr< vector<Vec2f> > points)
 	else if (frame.channels() == 1)
 		qframe = QImage((const unsigned char*)(frame.data), frame.cols, frame.rows, frame.cols, QImage::Format_Indexed8);
 	resize_frame();
-	updateGL();
 }

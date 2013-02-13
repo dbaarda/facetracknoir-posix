@@ -20,7 +20,7 @@ class VideoWidget : public QGLWidget
 	Q_OBJECT
 
 public:
-	VideoWidget(QWidget *parent) : QGLWidget(parent) {
+	VideoWidget(QWidget *parent) : QGLWidget(parent){
 		//setAttribute(Qt::WA_NativeWindow, true);
 	}
 
@@ -28,8 +28,8 @@ public:
 	void resizeGL(int w, int h);
 	void paintGL();
 
-    void update(unsigned char* frame, int width, int height);
-
+    void updateImage(unsigned char* frame, int width, int height);
+    void update();
 private:
     void resize_frame(QImage& qframe);
     QImage resized_qframe;

@@ -28,7 +28,8 @@ public:
 	void resizeGL(int w, int h);
 	void paintGL();
 
-    void update(cv::Mat frame, std::auto_ptr< std::vector<cv::Vec2f> > points);
+    void update_image(cv::Mat frame, std::auto_ptr< std::vector<cv::Vec2f> > points);
+    void update();
 
 private:
 	void resize_frame();

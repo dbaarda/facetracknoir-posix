@@ -45,9 +45,12 @@ void VideoWidget::resize_frame(QImage& qframe)
 }
 
 
-void VideoWidget::update(unsigned char *frame, int width, int height)
+void VideoWidget::updateImage(unsigned char *frame, int width, int height)
 {
     QImage foo = QImage(frame, width, height, 3 * width, QImage::Format_RGB888).rgbSwapped().mirrored();
     resize_frame(foo);
-	updateGL();
+}
+
+void VideoWidget::update() {
+    updateGL();
 }

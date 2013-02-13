@@ -20,7 +20,7 @@ using namespace cv;
 
 //-----------------------------------------------------------------------------
 Tracker::Tracker()
-    : tracking_valid(false), frame_count(0), commands(0), video_widget(NULL)
+    : tracking_valid(false), frame_count(0), commands(0), video_widget(NULL), fresh(false)
 {
     should_quit = false;
 	qDebug()<<"Tracker::Tracker";
@@ -65,6 +65,7 @@ void Tracker::run()
 	forever
 	{
 		{	
+            
             refreshVideo();
 			QMutexLocker lock(&mutex);
             if (should_quit)
@@ -155,7 +156,8 @@ void Tracker::refreshVideo()
 			points = std::auto_ptr< vector<Vec2f> >(new vector<Vec2f>(point_extractor.get_points()));
 		}
 		
-		video_widget->update(frame_copy, points);
+		video_widget->update_image(frame_copy, points);
+        fresh = true;
 	}
 }
 
@@ -180,6 +182,15 @@ void Tracker::StartTracker(QFrame* videoframe)
     video_widget->resize(VIDEO_FRAME_WIDTH, VIDEO_FRAME_HEIGHT);
     videoframe->show();
 	reset_command(PAUSE);
+    connect(&timer, SIGNAL(timeout()), this, SLOT(paint_widget()));
+    timer.start(15);
+}
+
+void Tracker::paint_widget() {
+    if (fresh) {
+        fresh = false;
+        video_widget->paintGL();
+    }
 }
 
 bool Tracker::GiveHeadPoseData(THeadPoseData *data)
@@ -189,6 +200,7 @@ bool Tracker::GiveHeadPoseData(THeadPoseData *data)
 	{
 		QMutexLocker lock(&mutex);
 
+        refreshVideo();
 		if (!tracking_valid) return false;
 
 		FrameTrafo X_CM = point_tracker.get_pose();

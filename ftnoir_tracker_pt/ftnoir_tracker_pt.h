@@ -21,10 +21,12 @@
 #include <QTime>
 #include <opencv2/opencv.hpp>
 #include <QFrame>
+#include <QTimer>
 
 //-----------------------------------------------------------------------------
-class Tracker : public ITracker, public QThread
+class Tracker : public QThread, public ITracker
 {
+    Q_OBJECT
 public:
 	Tracker();
 	~Tracker();
@@ -84,6 +86,11 @@ protected:
 	Timer time;
     QMutex mutex;
     volatile bool should_quit;
+    volatile bool fresh;
+    QTimer timer;
+    
+protected slots:
+    void paint_widget();
 };
 
 #endif // FTNOIR_TRACKER_PT_H

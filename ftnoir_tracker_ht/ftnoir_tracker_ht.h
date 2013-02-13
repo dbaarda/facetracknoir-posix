@@ -14,9 +14,12 @@
 #include "ui_trackercontrols.h"
 #include "video_widget.h"
 #include "compat/compat.h"
+#include <QObject>
+#include <QTimer>
 
-class Tracker : public ITracker
+class Tracker : public QObject, public ITracker
 {
+    Q_OBJECT
 public:
 	Tracker();
 	~Tracker();
@@ -35,10 +38,14 @@ public:
         subprocess.kill();
     }
 private:
+    QTimer timer;
     PortableLockedShm lck_shm;
 	QProcess subprocess;
 	VideoWidget* videoWidget;
 	QHBoxLayout* layout;
+    volatile bool fresh;
+private slots:
+    void paint_widget();
 };
 
 // Widget that has controls for FTNoIR protocol client-settings.
