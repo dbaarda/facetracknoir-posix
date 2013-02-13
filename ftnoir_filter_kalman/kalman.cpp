@@ -46,9 +46,9 @@ static void setup(cv::KalmanFilter& f, double proc, double post) {
                       <<1, 0, 0, 0, 0, 0,
                         0, 1, 0, 0, 0, 0,
                         0, 0, 1, 0, 0, 0,
-                        1, 0, 0, 0, 0, 0,
-                        0, 1, 0, 0, 0, 0,
-                        0, 0, 1, 0, 0, 0);
+                        0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0);
 }
 
 void FTNoIR_Filter::Initialize() {
