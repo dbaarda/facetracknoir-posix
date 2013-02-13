@@ -103,7 +103,7 @@ DynamicLibrary::DynamicLibrary(const char* filename)
     Constructor = (NULLARY_DYNAMIC_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetConstructor" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
     Metadata = (METADATA_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetMetadata" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
 #else
-    handle = dlopen(filename, RTLD_LAZY |
+    handle = dlopen(filename, RTLD_NOW |
 #   ifdef __linux
                     RTLD_DEEPBIND
 #   else
@@ -113,8 +113,17 @@ DynamicLibrary::DynamicLibrary(const char* filename)
     if (handle)
     {
         Dialog = (SETTINGS_FUNCTION) dlsym(handle, "GetDialog");
+        fprintf(stderr, "Error, if any: %s\n", dlerror());
+        fflush(stderr);
         Constructor = (NULLARY_DYNAMIC_FUNCTION) dlsym(handle, "GetConstructor");
+        fprintf(stderr, "Error, if any: %s\n", dlerror());
+        fflush(stderr);
         Metadata = (METADATA_FUNCTION) dlsym(handle, "GetMetadata");
+        fprintf(stderr, "Error, if any: %s\n", dlerror());
+        fflush(stderr);
+    } else {
+        fprintf(stderr, "Error, if any: %s\n", dlerror());
+        fflush(stderr);
     }
 #endif
 }

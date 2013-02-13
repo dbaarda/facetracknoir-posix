@@ -62,6 +62,8 @@
 #   define SONAME "so"
 #endif
 
+#include <iostream>
+
 #if defined(__WIN32) || defined(_WIN32)
 #define DIRECTINPUT_VERSION 0x0800
 #include <dshow.h>
@@ -1157,6 +1159,8 @@ void FaceTrackNoIR::createIconGroupBox()
             QString longName;
             QString str = QCoreApplication::applicationDirPath() + "/" + protocols.at(i);
             DynamicLibrary* lib = new DynamicLibrary(str.toLatin1().constData());
+            qDebug() << "Loading" << str;
+            std::cout.flush();
             Metadata* meta;
             if (!lib->Metadata || ((meta = lib->Metadata()), !meta))
             {
@@ -1179,6 +1183,8 @@ void FaceTrackNoIR::createIconGroupBox()
             QString longName;
             QString str = QCoreApplication::applicationDirPath() + "/" + trackers.at(i);
             DynamicLibrary* lib = new DynamicLibrary(str.toLatin1().constData());
+            qDebug() << "Loading" << str;
+            std::cout.flush();
             Metadata* meta;
             if (!lib->Metadata || ((meta = lib->Metadata()), !meta))
             {
@@ -1203,6 +1209,8 @@ void FaceTrackNoIR::createIconGroupBox()
             QString fullName;
             QString str = QCoreApplication::applicationDirPath() + "/" + filters.at(i);
             DynamicLibrary* lib = new DynamicLibrary(str.toLatin1().constData());
+            qDebug() << "Loading" << str;
+            std::cout.flush();
             Metadata* meta;
             if (!lib->Metadata || ((meta = lib->Metadata()), !meta))
             {

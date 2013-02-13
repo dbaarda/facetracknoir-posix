@@ -96,6 +96,14 @@ file(GLOB ftnoir-filter-accela-rc "ftnoir_filter_accela/*.qrc")
 QT4_WRAP_UI(ftnoir-filter-accela-uih ${ftnoir-filter-accela-ui})
 QT4_ADD_RESOURCES(ftnoir-filter-accela-rcc ${ftnoir-filter-accela-rc})
 
+file(GLOB ftnoir-filter-kalman-c "ftnoir_filter_kalman/*.cpp")
+file(GLOB ftnoir-filter-kalman-h "ftnoir_filter_kalman/*.h")
+QT4_WRAP_CPP(ftnoir-filter-kalman-moc ${ftnoir-filter-kalman-h})
+file(GLOB ftnoir-filter-kalman-ui "ftnoir_filter_kalman/*.ui")
+file(GLOB ftnoir-filter-kalman-rc "ftnoir_filter_kalman/*.qrc")
+QT4_WRAP_UI(ftnoir-filter-kalman-uih ${ftnoir-filter-kalman-ui})
+QT4_ADD_RESOURCES(ftnoir-kalman-accela-rcc ${ftnoir-filter-kalman-rc})
+
 file(GLOB ftnoir-filter-ewma-c "ftnoir_filter_ewma2/*.cpp")
 file(GLOB ftnoir-filter-ewma-h "ftnoir_filter_ewma2/*.h")
 QT4_WRAP_CPP(ftnoir-filter-ewma-moc ${ftnoir-filter-ewma-h})
@@ -209,7 +217,12 @@ if(QT_USE_FILE)
 	INCLUDE(${QT_USE_FILE})
 endif()
 
-# building modules
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+    SET (CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS_INIT} -rdynamic CACHE STRING "Flags used by the linker during the creation of dll's.")
+    SET (CMAKE_MODULE_LINKER_FLAGS ${CMAKE_MODULE_LINKER_FLAGS_INIT} -rdynamic CACHE STRING "Flags used by the linker during the creation of modules.")
+    SET (CMAKE_MODULE_LINKER_FLAGS ${CMAKE_MODULE_LINKER_FLAGS_INIT} -rdynamic CACHE STRING "Flags used by the linker during the creation of modules.")
+endif()
+
 
 add_library(ftnoir-compat SHARED ${ftnoir-compat-c})
 if(NOT WIN32)
@@ -225,11 +238,19 @@ add_library(ftnoir-filter-accela SHARED ${ftnoir-filter-accela-c} ${ftnoir-filte
 target_link_libraries(ftnoir-filter-accela ${QT_LIBRARIES} ftnoir-spline-widget)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
-	SET_TARGET_PROPERTIES(ftnoir-filter-accela
-			      PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
+    SET_TARGET_PROPERTIES(ftnoir-filter-accela
+    PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 endif()
 
-add_library(ftnoir-filter-ewma SHARED ${ftnoir-filter-ewma-c} ${ftnoir-filter-ewma-moc} ${ftnoir-filter-ewma-uih} ${ftnoir-filter-ewma-rcc})
+add_library(ftnoir-filter-kalman SHARED ${ftnoir-filter-kalman-c} ${ftnoir-filter-kalman-moc} ${ftnoir-filter-kalman-uih} ${ftnoir-filter-kalman-rcc})
+target_link_libraries(ftnoir-filter-kalman ${QT_LIBRARIES} ${OpenCV_LIBS})
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
+    SET_TARGET_PROPERTIES(ftnoir-filter-kalman
+    PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
+    endif()
+
+add_library(ftnoir-filter-ewma SHARED ${ftnoir-filter-ewma-uih} ${ftnoir-filter-ewma-c} ${ftnoir-filter-ewma-moc} ${ftnoir-filter-ewma-rcc})
 target_link_libraries(ftnoir-filter-ewma ${QT_LIBRARIES})
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
@@ -376,6 +397,7 @@ install(TARGETS
         ftnoir-pose-widget
         ftnoir-spline-widget
         ftnoir-filter-accela
+        ftnoir-filter-kalman
         ftnoir-filter-ewma
         ftnoir-proto-fgfs
         ftnoir-proto-udp
@@ -500,4 +522,3 @@ if(WIN32)
 	endif()
     endif()
 endif()
-

@@ -25,6 +25,7 @@
 #include "ftnoir_filter_ewma2.h"
 #include "math.h"
 #include <QDebug>
+#include <QWidget>
 #include "facetracknoir/global-settings.h"
 #include <algorithm>
 //#define LOG_OUTPUT

@@ -66,6 +66,7 @@ private:
 
 struct Metadata
 {
+    Metadata() {}
     virtual ~Metadata() {}
 
     virtual void getFullName(QString *strToBeFilled) = 0;

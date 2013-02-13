@@ -120,6 +120,8 @@ void Tracker::run() {
     bool bTracker1Confid = false;
     bool bTracker2Confid = false;
     
+    THeadPoseData last;
+    
     forever
 	{
         if (should_quit)
@@ -146,8 +148,20 @@ void Tracker::run() {
         if (Libraries->pTracker) {
             bTracker1Confid = Libraries->pTracker->GiveHeadPoseData(&newpose);
         }
-
+        
         confid = (bTracker1Confid || bTracker2Confid);
+        
+        bool newp = confid && (last.yaw != newpose.yaw ||
+                               last.pitch != newpose.pitch ||
+                               last.roll != newpose.roll ||
+                               last.x != newpose.x ||
+                               last.y != newpose.y ||
+                               last.z != newpose.z);
+        
+        if (newp) {
+            last = newpose;
+        }
+                    
         if ( confid ) {
             GlobalPose->Yaw.headPos = newpose.yaw;
             GlobalPose->Pitch.headPos = newpose.pitch;
@@ -197,7 +211,7 @@ void Tracker::run() {
             // Use advanced filtering, when a filter was selected.
             //
             if (Libraries->pFilter) {
-                Libraries->pFilter->FilterHeadPoseData(&current_camera, &target_camera, &new_camera, true);
+                Libraries->pFilter->FilterHeadPoseData(&current_camera, &target_camera, &new_camera, newp);
             }
             else {
                 new_camera = target_camera;
@@ -306,6 +320,8 @@ void Tracker::run() {
             GlobalPose->Pitch.curvePtr->setTrackingActive( false );
             GlobalPose->Pitch.curvePtrAlt->setTrackingActive( false );
             GlobalPose->Roll.curvePtr->setTrackingActive( false );
+            if (Libraries->pFilter)
+                Libraries->pFilter->Initialize();
         }
 
         //for lower cpu load

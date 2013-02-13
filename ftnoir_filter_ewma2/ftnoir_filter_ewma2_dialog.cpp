@@ -26,6 +26,7 @@
 #include "math.h"
 #include <QDebug>
 #include "facetracknoir/global-settings.h"
+#include "ui_ftnoir_ewma_filtercontrols.h"
 
 //*******************************************************************************************************
 // FaceTrackNoIR Filter Settings-dialog.

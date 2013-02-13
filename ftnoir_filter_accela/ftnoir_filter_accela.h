@@ -52,7 +52,6 @@ public:
 	~FTNoIR_Filter();
 
     void Initialize();
-    void StartFilter();
 	void FilterHeadPoseData(THeadPoseData *current_camera_position, THeadPoseData *target_camera_position, THeadPoseData *new_camera_position, bool newTarget);
 
 private:

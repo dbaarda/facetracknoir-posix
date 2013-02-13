@@ -27,8 +27,9 @@
 #define INCLUDED_FTN_FILTER_H
 
 #include "ftnoir_filter_base/ftnoir_filter_base.h"
-#include "ui_ftnoir_filtercontrols.h"
 #include "facetracknoir/global-settings.h"
+#include "ui_ftnoir_ewma_filtercontrols.h"
+#include <QWidget>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -42,7 +43,6 @@ public:
     ~FTNoIR_Filter();
 
     void Initialize();
-    void StartFilter();
 	void FilterHeadPoseData(THeadPoseData *current_camera_position, THeadPoseData *target_camera_position, THeadPoseData *new_camera_position, bool newTarget);
 
 private:
