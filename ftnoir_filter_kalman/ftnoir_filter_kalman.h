@@ -24,6 +24,7 @@ public:
     
 private:
     std::vector<cv::KalmanFilter> kalman_dims;
+    //std::vector<double> velocities;
 };
 
 class FTNOIR_FILTER_BASE_EXPORT FTNoIR_FilterDll : public Metadata
@@ -42,6 +43,7 @@ public:
     
     explicit FilterControls() {
         ui.setupUi(this);
+        show();
     }
     virtual ~FilterControls() {}
     void showEvent ( QShowEvent * event ) {

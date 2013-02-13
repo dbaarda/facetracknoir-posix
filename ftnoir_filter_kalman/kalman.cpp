@@ -8,11 +8,13 @@ FTNoIR_Filter::FTNoIR_Filter() {
 
 void FTNoIR_Filter::Initialize() {
     kalman_dims = std::vector<cv::KalmanFilter>(6);
+    //velocities = std::vector<double>(6);
     for (int i = 0; i < 6; i++) {
+        //velocities[i] = 0;
         cv::KalmanFilter kalman(2, 1, 0, CV_64F);
         kalman.transitionMatrix = *(cv::Mat_<double>(2, 2) << 1, 1, 0, 1);
         cv::setIdentity(kalman.measurementMatrix);
-        cv::setIdentity(kalman.processNoiseCov, cv::Scalar::all(1e-4));
+        cv::setIdentity(kalman.processNoiseCov, cv::Scalar::all(1e-5));
         cv::setIdentity(kalman.measurementNoiseCov, cv::Scalar::all(1e-1));
         cv::setIdentity(kalman.errorCovPost, cv::Scalar::all(1));
         kalman_dims[i] = kalman;
@@ -32,13 +34,17 @@ void FTNoIR_Filter::FilterHeadPoseData(THeadPoseData *current_camera_position, T
     
 
     for (int i = 0; i < 6; i++) {
+        //double velocity = in[i] - velocities[i];
         cv::Mat pred = kalman_dims[i].predict();
+        //out[i] = in[i] + pred.at<double>(0, 0);
         out[i] = pred.at<double>(0, 0);
         if (newTarget) {
             cv::Mat measurement(1, 1, CV_64F);
+            //measurement.at<double>(0, 0) = velocity;
             measurement.at<double>(0, 0) = in[i];
             kalman_dims[i].correct(measurement);
         }
+        //velocities[i] = out[i] - in[i];
     }
     
     new_camera_position->x = out[0];
