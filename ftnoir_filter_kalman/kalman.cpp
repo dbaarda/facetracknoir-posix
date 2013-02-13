@@ -27,63 +27,50 @@ void kalman_save_settings(FilterControls& self) {
 }
 
 FTNoIR_Filter::FTNoIR_Filter() {
-    Initialize();
     kalman_load_settings(*this);
+    Initialize();
+}
+
+static void setup(cv::KalmanFilter& f, FTNoIR_Filter& self) {
+    f.init(6, 3, 0, CV_64F);
+    f.transitionMatrix = *(cv::Mat_<double>(6, 6) <<1, 0, 0, 0, 0, 0,
+                                                    0, 1, 0, 0, 0, 0,
+                                                    0, 0, 1, 0, 0, 0,
+                                                    1, 0, 0, 1, 0, 0,
+                                                    0, 1, 0, 0, 1, 0,
+                                                    0, 0, 1, 0, 0, 1);
+    cv::setIdentity(f.measurementMatrix);
+    cv::setIdentity(f.processNoiseCov, cv::Scalar::all(self.process_noise_covariance_matrix_all_values));
+    cv::setIdentity(f.measurementNoiseCov, cv::Scalar::all(self.posteriori_error_covariance_matrix_all_values));
+    cv::setIdentity(f.errorCovPost, cv::Scalar::all(1));
 }
 
 void FTNoIR_Filter::Initialize() {
-    kalman_dims = std::vector<cv::KalmanFilter>(6);
-    //velocities = std::vector<double>(6);
-    for (int i = 0; i < 6; i++) {
-        //velocities[i] = 0;
-        cv::KalmanFilter kalman(2, 1, 0, CV_64F);
-        kalman.transitionMatrix = *(cv::Mat_<double>(2, 2) << 1, 1, 0, 1);
-        cv::setIdentity(kalman.measurementMatrix);
-        cv::setIdentity(kalman.processNoiseCov, cv::Scalar::all(process_noise_covariance_matrix_all_values));
-        cv::setIdentity(kalman.measurementNoiseCov, cv::Scalar::all(posteriori_error_covariance_matrix_all_values));
-        cv::setIdentity(kalman.errorCovPost, cv::Scalar::all(1));
-        kalman_dims[i] = kalman;
+    setup(kalman_r, *this);
+    setup(kalman_t, *this);
+}
+
+static void run(cv::KalmanFilter& f, bool newp, double v1, double v2, double v3, double& o1, double& o2, double& o3) {
+    cv::Mat pred = f.predict();
+    o1 = pred.at<double>(0);
+    o2 = pred.at<double>(1);
+    o3 = pred.at<double>(2);
+    if (newp) {
+        cv::Mat measurement(3, 1, CV_64F);
+        measurement.at<double>(0) = v1;
+        measurement.at<double>(1) = v2;
+        measurement.at<double>(2) = v3;
+        f.correct(measurement);
     }
 }
 
 void FTNoIR_Filter::FilterHeadPoseData(THeadPoseData *current_camera_position, THeadPoseData *target_camera_position, THeadPoseData *new_camera_position, bool newTarget) {
-    std::vector<double> in(6);
-    std::vector<double> out(6);
-    
-    in[0] = target_camera_position->x;
-    in[1] = target_camera_position->y;
-    in[2] = target_camera_position->z;
-    in[3] = target_camera_position->yaw;
-    in[4] = target_camera_position->pitch;
-    in[5] = target_camera_position->roll;
-    
-    for (int i = 0; i < 6; i++) {
-        //double velocity = in[i] - velocities[i];
-        cv::Mat pred = kalman_dims[i].predict();
-        //out[i] = in[i] + pred.at<double>(0, 0);
-        out[i] = pred.at<double>(0, 0);
-        if (newTarget) {
-            cv::Mat measurement(1, 1, CV_64F);
-            //measurement.at<double>(0, 0) = velocity;
-            measurement.at<double>(0, 0) = in[i];
-            kalman_dims[i].correct(measurement);
-        }
-        //velocities[i] = out[i] - in[i];
-    }
-    
-    new_camera_position->x = out[0];
-    new_camera_position->y = out[1];
-    new_camera_position->z = out[2];
-    new_camera_position->yaw = out[3];
-    new_camera_position->pitch = out[4];
-    new_camera_position->roll = out[5];
-    
-    current_camera_position->x = out[0];
-    current_camera_position->y = out[1];
-    current_camera_position->z = out[2];
-    current_camera_position->yaw = out[3];
-    current_camera_position->pitch = out[4];
-    current_camera_position->roll = out[5];
+    run(kalman_r, newTarget,
+        target_camera_position->yaw, target_camera_position->pitch, target_camera_position->roll,
+        new_camera_position->yaw, new_camera_position->pitch, new_camera_position->roll);
+    run(kalman_t, newTarget,
+        target_camera_position->x, target_camera_position->y, target_camera_position->z,
+        new_camera_position->x, new_camera_position->y, new_camera_position->z);
 }
 
 void FilterControls::doOK() {

@@ -19,10 +19,11 @@ class FTNOIR_FILTER_BASE_EXPORT FTNoIR_Filter : public IFilter
 {
 public:
     FTNoIR_Filter();
+    virtual ~FTNoIR_Filter() {
+    }
     void Initialize();
     void FilterHeadPoseData(THeadPoseData *current_camera_position, THeadPoseData *target_camera_position, THeadPoseData *new_camera_position, bool newTarget);
-    std::vector<cv::KalmanFilter> kalman_dims;
-    //std::vector<double> velocities;
+    cv::KalmanFilter kalman_r, kalman_t;
     double process_noise_covariance_matrix_all_values;
     double posteriori_error_covariance_matrix_all_values;
 };

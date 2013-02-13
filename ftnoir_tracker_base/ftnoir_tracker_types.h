@@ -43,7 +43,7 @@ struct THeadPoseData {
 		double yaw, double pitch, double roll ) 
 		: x(x), y(y), z(z), yaw(yaw), pitch(pitch), roll(roll), frame_number(0) {}
 
-	volatile double x, y, z, yaw, pitch, roll;
+	double x, y, z, yaw, pitch, roll;
     unsigned char frame_number;
 };
 #pragma pack(pop)
