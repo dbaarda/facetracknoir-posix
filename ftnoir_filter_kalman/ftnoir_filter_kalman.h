@@ -24,8 +24,8 @@ public:
     void Initialize();
     void FilterHeadPoseData(THeadPoseData *current_camera_position, THeadPoseData *target_camera_position, THeadPoseData *new_camera_position, bool newTarget);
     cv::KalmanFilter kalman_r, kalman_t;
-    double process_noise_covariance_matrix_all_values;
-    double posteriori_error_covariance_matrix_all_values;
+    double process_noise_covariance_matrix_all_values_r, process_noise_covariance_matrix_all_values_t;
+    double posteriori_error_covariance_matrix_all_values_r, posteriori_error_covariance_matrix_all_values_t;
 };
 
 void kalman_load_settings(FTNoIR_Filter& self);
@@ -52,14 +52,18 @@ public:
         QSettings iniFile( currentFile, QSettings::IniFormat );     // Application settings (in INI-file)
         
         iniFile.beginGroup("ftnoir-filter-kalman");
-        ui.post->setValue(iniFile.value("posteriori-error-covariance-matrix-all-values", 1e-1).toDouble());
-        ui.pnoise->setValue(iniFile.value("process-noise-covariance-matrix-all-values", 1e-5).toDouble());
+        ui.postr->setValue(iniFile.value("posteriori-error-covariance-matrix-all-values-r", 1e-10).toDouble());
+        ui.pnoiser->setValue(iniFile.value("process-noise-covariance-matrix-all-values-r", 1e-08).toDouble());
+        ui.postt->setValue(iniFile.value("posteriori-error-covariance-matrix-all-values-t", 5e-08).toDouble());
+        ui.pnoiset->setValue(iniFile.value("process-noise-covariance-matrix-all-values-t", 5e-06).toDouble());
         iniFile.endGroup();
-        show();
         connect(ui.btnOk, SIGNAL(clicked()), this, SLOT(doOK()));
         connect(ui.btnCancel, SIGNAL(clicked()), this, SLOT(doCancel()));
-        connect(ui.post, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
-        connect(ui.pnoise, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
+        connect(ui.postr, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
+        connect(ui.pnoiser, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
+        connect(ui.postt, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
+        connect(ui.pnoiset, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
+        show();
     }
     virtual ~FilterControls() {}
     void showEvent ( QShowEvent * event ) {

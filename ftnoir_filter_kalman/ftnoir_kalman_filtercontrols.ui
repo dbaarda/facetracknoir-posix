@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>438</width>
-    <height>107</height>
+    <width>434</width>
+    <height>220</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -37,87 +37,11 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>281</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>process-noise-covariance-matrix (all values)</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-   </property>
-   <property name="margin">
-    <number>0</number>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="pnoise">
-   <property name="geometry">
-    <rect>
-     <x>289</x>
-     <y>6</y>
-     <width>141</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-   </property>
-   <property name="decimals">
-    <number>12</number>
-   </property>
-   <property name="maximum">
-    <double>1.000000000000000</double>
-   </property>
-   <property name="singleStep">
-    <double>0.000001000000000</double>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>30</y>
-     <width>181</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>post-error-matrix (all values)</string>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="post">
-   <property name="geometry">
-    <rect>
-     <x>289</x>
-     <y>26</y>
-     <width>141</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-   </property>
-   <property name="decimals">
-    <number>12</number>
-   </property>
-   <property name="maximum">
-    <double>1.000000000000000</double>
-   </property>
-   <property name="singleStep">
-    <double>0.000001000000000</double>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>57</y>
+     <x>9</x>
+     <y>164</y>
      <width>411</width>
      <height>16</height>
     </rect>
@@ -129,8 +53,8 @@
   <widget class="QPushButton" name="btnOk">
    <property name="geometry">
     <rect>
-     <x>283</x>
-     <y>81</y>
+     <x>262</x>
+     <y>188</y>
      <width>73</width>
      <height>25</height>
     </rect>
@@ -142,8 +66,8 @@
   <widget class="QPushButton" name="btnCancel">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>81</y>
+     <x>339</x>
+     <y>188</y>
      <width>73</width>
      <height>25</height>
     </rect>
@@ -151,6 +75,196 @@
    <property name="text">
     <string>Cancel</string>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>2</x>
+     <y>4</y>
+     <width>431</width>
+     <height>75</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Rotation</string>
+   </property>
+   <widget class="QDoubleSpinBox" name="postr">
+    <property name="geometry">
+     <rect>
+      <x>268</x>
+      <y>45</y>
+      <width>150</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="decimals">
+     <number>14</number>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.000001000000000</double>
+    </property>
+    <property name="value">
+     <double>0.500000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>8</x>
+      <y>29</y>
+      <width>281</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>process-noise-covariance-matrix identity</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="pnoiser">
+    <property name="geometry">
+     <rect>
+      <x>268</x>
+      <y>25</y>
+      <width>150</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="decimals">
+     <number>14</number>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.000001000000000</double>
+    </property>
+    <property name="value">
+     <double>0.500000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>8</x>
+      <y>49</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>post-error-matrix identity</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>2</x>
+     <y>87</y>
+     <width>431</width>
+     <height>75</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Translation</string>
+   </property>
+   <widget class="QDoubleSpinBox" name="pnoiset">
+    <property name="geometry">
+     <rect>
+      <x>267</x>
+      <y>21</y>
+      <width>150</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="decimals">
+     <number>14</number>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.000001000000000</double>
+    </property>
+    <property name="value">
+     <double>0.500000000000000</double>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="postt">
+    <property name="geometry">
+     <rect>
+      <x>267</x>
+      <y>41</y>
+      <width>150</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="decimals">
+     <number>14</number>
+    </property>
+    <property name="maximum">
+     <double>10000.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.000001000000000</double>
+    </property>
+    <property name="value">
+     <double>0.500000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>7</x>
+      <y>25</y>
+      <width>281</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>process-noise-covariance-matrix identity</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>7</x>
+      <y>45</y>
+      <width>181</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>post-error-matrix identity</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

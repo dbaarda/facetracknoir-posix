@@ -1,6 +1,7 @@
 #include "ftnoir_filter_kalman.h"
 #include "facetracknoir/global-settings.h"
 #include <QDebug>
+#include <math.h>
 
 void kalman_load_settings(FTNoIR_Filter& self) {
     QSettings settings("Abbequerque Inc.", "FaceTrackNoIR");    // Registry settings (in HK_USER)
@@ -9,8 +10,10 @@ void kalman_load_settings(FTNoIR_Filter& self) {
     QSettings iniFile( currentFile, QSettings::IniFormat );     // Application settings (in INI-file)
     
     iniFile.beginGroup("ftnoir-filter-kalman");
-    self.process_noise_covariance_matrix_all_values = iniFile.value("process-noise-covariance-matrix-all-values", 1e-5).toDouble();
-    self.posteriori_error_covariance_matrix_all_values = iniFile.value("posteriori-error-covariance-matrix-all-values", 1e-1).toDouble();
+    self.process_noise_covariance_matrix_all_values_r = iniFile.value("process-noise-covariance-matrix-all-values-r", 1e-10).toDouble();
+    self.posteriori_error_covariance_matrix_all_values_r = iniFile.value("posteriori-error-covariance-matrix-all-values-r", 1e-08).toDouble();
+    self.process_noise_covariance_matrix_all_values_t = iniFile.value("process-noise-covariance-matrix-all-values-t", 5e-08).toDouble();
+    self.posteriori_error_covariance_matrix_all_values_t = iniFile.value("posteriori-error-covariance-matrix-all-values-t", 5e-06).toDouble();
     iniFile.endGroup();
 }
 
@@ -21,8 +24,10 @@ void kalman_save_settings(FilterControls& self) {
     QSettings iniFile( currentFile, QSettings::IniFormat );     // Application settings (in INI-file)
     
     iniFile.beginGroup("ftnoir-filter-kalman");
-    iniFile.setValue("process-noise-covariance-matrix-all-values", self.ui.pnoise->value());
-    iniFile.setValue("posteriori-error-covariance-matrix-all-values", self.ui.post->value());
+    iniFile.setValue("process-noise-covariance-matrix-all-values-r", self.ui.pnoiser->value());
+    iniFile.setValue("posteriori-error-covariance-matrix-all-values-r", self.ui.postr->value());
+    iniFile.setValue("process-noise-covariance-matrix-all-values-t", self.ui.pnoiset->value());
+    iniFile.setValue("posteriori-error-covariance-matrix-all-values-t", self.ui.postt->value());
     iniFile.endGroup();
 }
 
@@ -31,23 +36,24 @@ FTNoIR_Filter::FTNoIR_Filter() {
     Initialize();
 }
 
-static void setup(cv::KalmanFilter& f, FTNoIR_Filter& self) {
+static void setup(cv::KalmanFilter& f, double proc, double post) {
     f.init(6, 3, 0, CV_64F);
-    f.transitionMatrix = *(cv::Mat_<double>(6, 6) <<1, 0, 0, 0, 0, 0,
-                                                    0, 1, 0, 0, 0, 0,
-                                                    0, 0, 1, 0, 0, 0,
-                                                    1, 0, 0, 1, 0, 0,
-                                                    0, 1, 0, 0, 1, 0,
-                                                    0, 0, 1, 0, 0, 1);
     cv::setIdentity(f.measurementMatrix);
-    cv::setIdentity(f.processNoiseCov, cv::Scalar::all(self.process_noise_covariance_matrix_all_values));
-    cv::setIdentity(f.measurementNoiseCov, cv::Scalar::all(self.posteriori_error_covariance_matrix_all_values));
+    cv::setIdentity(f.processNoiseCov, cv::Scalar::all(proc));
+    cv::setIdentity(f.measurementNoiseCov, cv::Scalar::all(post));
     cv::setIdentity(f.errorCovPost, cv::Scalar::all(1));
+    f.transitionMatrix = *(cv::Mat_<double>(6, 6)
+                      <<1, 0, 0, 0, 0, 0,
+                        0, 1, 0, 0, 0, 0,
+                        0, 0, 1, 0, 0, 0,
+                        1, 0, 0, 0, 0, 0,
+                        0, 1, 0, 0, 0, 0,
+                        0, 0, 1, 0, 0, 0);
 }
 
 void FTNoIR_Filter::Initialize() {
-    setup(kalman_r, *this);
-    setup(kalman_t, *this);
+    setup(kalman_r, process_noise_covariance_matrix_all_values_r, posteriori_error_covariance_matrix_all_values_r);
+    setup(kalman_t, process_noise_covariance_matrix_all_values_t, posteriori_error_covariance_matrix_all_values_t);
 }
 
 static void run(cv::KalmanFilter& f, bool newp, double v1, double v2, double v3, double& o1, double& o2, double& o3) {
