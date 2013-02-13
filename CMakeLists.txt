@@ -242,13 +242,14 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 endif()
 
-add_library(ftnoir-filter-kalman SHARED ${ftnoir-filter-kalman-c} ${ftnoir-filter-kalman-moc} ${ftnoir-filter-kalman-uih} ${ftnoir-filter-kalman-rcc})
-target_link_libraries(ftnoir-filter-kalman ${QT_LIBRARIES} ${OpenCV_LIBS})
-
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
-    SET_TARGET_PROPERTIES(ftnoir-filter-kalman
-    PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
-    endif()
+if(OpenCV_FOUND)
+	add_library(ftnoir-filter-kalman SHARED ${ftnoir-filter-kalman-c} ${ftnoir-filter-kalman-moc} ${ftnoir-filter-kalman-uih} ${ftnoir-filter-kalman-rcc})
+	target_link_libraries(ftnoir-filter-kalman ${QT_LIBRARIES} ${OpenCV_LIBS})
+	if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
+	    SET_TARGET_PROPERTIES(ftnoir-filter-kalman
+	    PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
+	endif()
+endif()
 
 add_library(ftnoir-filter-ewma SHARED ${ftnoir-filter-ewma-uih} ${ftnoir-filter-ewma-c} ${ftnoir-filter-ewma-moc} ${ftnoir-filter-ewma-rcc})
 target_link_libraries(ftnoir-filter-ewma ${QT_LIBRARIES})
@@ -397,7 +398,6 @@ install(TARGETS
         ftnoir-pose-widget
         ftnoir-spline-widget
         ftnoir-filter-accela
-        ftnoir-filter-kalman
         ftnoir-filter-ewma
         ftnoir-proto-fgfs
         ftnoir-proto-udp
@@ -412,6 +412,7 @@ install(TARGETS
 if(OpenCV_FOUND)
     install(TARGETS
             ftnoir-tracker-pt
+	    ftnoir-filter-kalman
             RUNTIME DESTINATION .
             LIBRARY DESTINATION .
             NAMELINK_SKIP
