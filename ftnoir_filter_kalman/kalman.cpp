@@ -32,7 +32,6 @@ FTNoIR_Filter::FTNoIR_Filter() {
 }
 
 void FTNoIR_Filter::Initialize() {
-    qDebug() << "kalman init";
     kalman_dims = std::vector<cv::KalmanFilter>(6);
     //velocities = std::vector<double>(6);
     for (int i = 0; i < 6; i++) {
@@ -79,14 +78,12 @@ void FTNoIR_Filter::FilterHeadPoseData(THeadPoseData *current_camera_position, T
     new_camera_position->pitch = out[4];
     new_camera_position->roll = out[5];
     
-#if 1
     current_camera_position->x = out[0];
     current_camera_position->y = out[1];
     current_camera_position->z = out[2];
     current_camera_position->yaw = out[3];
     current_camera_position->pitch = out[4];
     current_camera_position->roll = out[5];
-#endif
 }
 
 void FilterControls::doOK() {
