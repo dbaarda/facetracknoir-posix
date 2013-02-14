@@ -33,15 +33,9 @@
 #include <QDesktopWidget>
 #include <QDebug>
 #include <QList>
-#if !defined(_WIN32) && !defined(__WIN32)
-#include <X11/Xlib.h>
-#endif
 
 int main(int argc, char *argv[])
 {
-#if !defined(_WIN32) && !defined(__WIN32)
-    XInitThreads();
-#endif
     QApplication app(argc, argv);
     QFont font;
     font.setFamily(font.defaultFamily());
