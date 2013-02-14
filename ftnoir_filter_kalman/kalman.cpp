@@ -47,7 +47,6 @@ void FTNoIR_Filter::Initialize() {
     const double proc = process_noise_covariance_matrix_all_values;
     const double post = posteriori_error_covariance_matrix_all_values;
     kalman.init(12, 6, 0, CV_64F);
-    cv::setIdentity(kalman.errorCovPost, cv::Scalar::all(1));
     kalman.transitionMatrix = *(cv::Mat_<double>(12, 12) <<
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
