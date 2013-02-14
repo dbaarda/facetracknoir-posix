@@ -10,10 +10,8 @@ void kalman_load_settings(FTNoIR_Filter& self) {
     QSettings iniFile( currentFile, QSettings::IniFormat );     // Application settings (in INI-file)
     
     iniFile.beginGroup("ftnoir-filter-kalman");
-    self.process_noise_covariance_matrix_all_values_r = iniFile.value("process-noise-covariance-matrix-all-values-r", 1e-10).toDouble();
-    self.posteriori_error_covariance_matrix_all_values_r = iniFile.value("posteriori-error-covariance-matrix-all-values-r", 1e-08).toDouble();
-    self.process_noise_covariance_matrix_all_values_t = iniFile.value("process-noise-covariance-matrix-all-values-t", 5e-08).toDouble();
-    self.posteriori_error_covariance_matrix_all_values_t = iniFile.value("posteriori-error-covariance-matrix-all-values-t", 5e-06).toDouble();
+    self.process_noise_covariance_matrix_all_values = iniFile.value("process-noise-covariance-matrix-all-values", DEFAULT_PROC).toDouble();
+    self.posteriori_error_covariance_matrix_all_values = iniFile.value("posteriori-error-covariance-matrix-all-values", DEFAULT_POST).toDouble();
     iniFile.endGroup();
 }
 
@@ -24,10 +22,8 @@ void kalman_save_settings(FilterControls& self) {
     QSettings iniFile( currentFile, QSettings::IniFormat );     // Application settings (in INI-file)
     
     iniFile.beginGroup("ftnoir-filter-kalman");
-    iniFile.setValue("process-noise-covariance-matrix-all-values-r", self.ui.pnoiser->value());
-    iniFile.setValue("posteriori-error-covariance-matrix-all-values-r", self.ui.postr->value());
-    iniFile.setValue("process-noise-covariance-matrix-all-values-t", self.ui.pnoiset->value());
-    iniFile.setValue("posteriori-error-covariance-matrix-all-values-t", self.ui.postt->value());
+    iniFile.setValue("process-noise-covariance-matrix-all-values", self.ui.pnoise->value());
+    iniFile.setValue("posteriori-error-covariance-matrix-all-values", self.ui.post->value());
     iniFile.endGroup();
 }
 
@@ -36,47 +32,57 @@ FTNoIR_Filter::FTNoIR_Filter() {
     Initialize();
 }
 
-static void setup(cv::KalmanFilter& f, double proc, double post) {
-    f.init(6, 3, 0, CV_64F);
-    cv::setIdentity(f.measurementMatrix);
-    cv::setIdentity(f.processNoiseCov, cv::Scalar::all(proc));
-    cv::setIdentity(f.measurementNoiseCov, cv::Scalar::all(post));
-    cv::setIdentity(f.errorCovPost, cv::Scalar::all(1));
-    f.transitionMatrix = *(cv::Mat_<double>(6, 6)
-                      <<1, 0, 0, 0, 0, 0,
-                        0, 1, 0, 0, 0, 0,
-                        0, 0, 1, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0);
-}
-
+// the following was written by Donovan Baarda <abo@minkirri.apana.org.au>
+// https://sourceforge.net/p/facetracknoir/discussion/1150909/thread/418615e1/?limit=25#af75/084b
+// minor changes to fix bugs, though -sh
 void FTNoIR_Filter::Initialize() {
-    setup(kalman_r, process_noise_covariance_matrix_all_values_r, posteriori_error_covariance_matrix_all_values_r);
-    setup(kalman_t, process_noise_covariance_matrix_all_values_t, posteriori_error_covariance_matrix_all_values_t);
-}
-
-static void run(cv::KalmanFilter& f, bool newp, double v1, double v2, double v3, double& o1, double& o2, double& o3) {
-    cv::Mat pred = f.predict();
-    o1 = pred.at<double>(0);
-    o2 = pred.at<double>(1);
-    o3 = pred.at<double>(2);
-    if (newp) {
-        cv::Mat measurement(3, 1, CV_64F);
-        measurement.at<double>(0) = v1;
-        measurement.at<double>(1) = v2;
-        measurement.at<double>(2) = v3;
-        f.correct(measurement);
-    }
+    const double proc = process_noise_covariance_matrix_all_values;
+    const double post = posteriori_error_covariance_matrix_all_values;
+    kalman.init(12, 6, 0, CV_64F);
+    cv::setIdentity(kalman.errorCovPost, cv::Scalar::all(1));
+    kalman.transitionMatrix = *(cv::Mat_<double>(12, 12) <<
+    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+    cv::setIdentity(kalman.measurementMatrix);
+    cv::setIdentity(kalman.processNoiseCov, cv::Scalar::all(proc));
+    cv::setIdentity(kalman.measurementNoiseCov, cv::Scalar::all(post));
+    cv::setIdentity(kalman.errorCovPost, cv::Scalar::all(1));
 }
 
 void FTNoIR_Filter::FilterHeadPoseData(THeadPoseData *current_camera_position, THeadPoseData *target_camera_position, THeadPoseData *new_camera_position, bool newTarget) {
-    run(kalman_r, newTarget,
-        target_camera_position->yaw, target_camera_position->pitch, target_camera_position->roll,
-        new_camera_position->yaw, new_camera_position->pitch, new_camera_position->roll);
-    run(kalman_t, newTarget,
-        target_camera_position->x, target_camera_position->y, target_camera_position->z,
-        new_camera_position->x, new_camera_position->y, new_camera_position->z);
+    cv::Mat output = kalman.predict();
+    if (newTarget) {
+        cv::Mat measurement(6, 1, CV_64F);
+        measurement.at<double>(0) = target_camera_position->yaw;
+        measurement.at<double>(1) = target_camera_position->pitch;
+        measurement.at<double>(2) = target_camera_position->roll;
+        measurement.at<double>(3) = target_camera_position->x;
+        measurement.at<double>(4) = target_camera_position->y;
+        measurement.at<double>(5) = target_camera_position->z;
+        kalman.correct(measurement);
+    }
+    new_camera_position->yaw = output.at<double>(0);
+    new_camera_position->pitch = output.at<double>(1);
+    new_camera_position->roll = output.at<double>(2);
+    new_camera_position->x = output.at<double>(3);
+    new_camera_position->y = output.at<double>(4);
+    new_camera_position->z = output.at<double>(5);
+    target_camera_position->yaw = output.at<double>(0);
+    target_camera_position->pitch = output.at<double>(1);
+    target_camera_position->roll = output.at<double>(2);
+    target_camera_position->x = output.at<double>(3);
+    target_camera_position->y = output.at<double>(4);
+    target_camera_position->z = output.at<double>(5);
 }
 
 void FilterControls::doOK() {

@@ -15,6 +15,9 @@
 #include <QWidget>
 #include <QObject>
 
+#define DEFAULT_POST 1e-03
+#define DEFAULT_PROC 1e-05
+
 class FTNOIR_FILTER_BASE_EXPORT FTNoIR_Filter : public IFilter
 {
 public:
@@ -23,9 +26,9 @@ public:
     }
     void Initialize();
     void FilterHeadPoseData(THeadPoseData *current_camera_position, THeadPoseData *target_camera_position, THeadPoseData *new_camera_position, bool newTarget);
-    cv::KalmanFilter kalman_r, kalman_t;
-    double process_noise_covariance_matrix_all_values_r, process_noise_covariance_matrix_all_values_t;
-    double posteriori_error_covariance_matrix_all_values_r, posteriori_error_covariance_matrix_all_values_t;
+    cv::KalmanFilter kalman;
+    double process_noise_covariance_matrix_all_values;
+    double posteriori_error_covariance_matrix_all_values;
 };
 
 void kalman_load_settings(FTNoIR_Filter& self);
@@ -52,17 +55,13 @@ public:
         QSettings iniFile( currentFile, QSettings::IniFormat );     // Application settings (in INI-file)
         
         iniFile.beginGroup("ftnoir-filter-kalman");
-        ui.postr->setValue(iniFile.value("posteriori-error-covariance-matrix-all-values-r", 1e-10).toDouble());
-        ui.pnoiser->setValue(iniFile.value("process-noise-covariance-matrix-all-values-r", 1e-08).toDouble());
-        ui.postt->setValue(iniFile.value("posteriori-error-covariance-matrix-all-values-t", 5e-08).toDouble());
-        ui.pnoiset->setValue(iniFile.value("process-noise-covariance-matrix-all-values-t", 5e-06).toDouble());
+        ui.post->setValue(iniFile.value("posteriori-error-covariance-matrix-all-values", DEFAULT_POST).toDouble());
+        ui.pnoise->setValue(iniFile.value("process-noise-covariance-matrix-all-values", DEFAULT_PROC).toDouble());
         iniFile.endGroup();
         connect(ui.btnOk, SIGNAL(clicked()), this, SLOT(doOK()));
         connect(ui.btnCancel, SIGNAL(clicked()), this, SLOT(doCancel()));
-        connect(ui.postr, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
-        connect(ui.pnoiser, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
-        connect(ui.postt, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
-        connect(ui.pnoiset, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
+        connect(ui.post, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
+        connect(ui.pnoise, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
         show();
     }
     virtual ~FilterControls() {}
