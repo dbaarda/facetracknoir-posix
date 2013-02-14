@@ -21,9 +21,9 @@
 #include <QWidget>
 #include <QObject>
 
-#define DEFAULT_POST 1e-04
-#define DEFAULT_PROC 1e-06
-#define DEFAULT_ACCL 1.5
+#define DEFAULT_POST 1e-14
+#define DEFAULT_PROC 1e-14
+#define DEFAULT_ACCL 50000
 
 class FTNOIR_FILTER_BASE_EXPORT FTNoIR_Filter : public IFilter
 {

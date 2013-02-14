@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>331</width>
+    <width>334</width>
     <height>100</height>
    </rect>
   </property>
@@ -171,10 +171,10 @@
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
    </property>
    <property name="decimals">
-    <number>14</number>
+    <number>10</number>
    </property>
    <property name="maximum">
-    <double>9.999999000000001</double>
+    <double>99999.999999000006937</double>
    </property>
    <property name="singleStep">
     <double>0.000001000000000</double>
