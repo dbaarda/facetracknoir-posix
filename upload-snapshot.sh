@@ -8,7 +8,7 @@ read line < ./last-snapshot.rev
 LASTREV="$line"
 CURREV="$(git rev-parse HEAD)"
 
-export WINEPREFIX=$HOME/dev/msvc WINEDEBUG=-all
+export PATH=/opt/wine.git/bin:"$PATH" WINEPREFIX=$HOME/dev/msvc WINEDEBUG=-all
 
 wineserver -k
 

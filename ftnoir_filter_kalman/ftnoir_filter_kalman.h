@@ -21,7 +21,7 @@
 #include <QWidget>
 #include <QObject>
 
-#define DEFAULT_ACCL 500
+#define DEFAULT_ACCL 750
 
 class FTNOIR_FILTER_BASE_EXPORT FTNoIR_Filter : public IFilter
 {

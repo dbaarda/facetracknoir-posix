@@ -57,6 +57,7 @@ if (WIN32)
 endif()
 if(NOT WIN32)
 	set(SDK_WINE_PREFIX "" CACHE PATH "Path where Wine is installed")
+	set(SDK_WINE_NO_WRAPPER FALSE CACHE BOOL "Don't build wrapper, for instance X-Plane is native Linux app")
 endif()
 IF("${CMAKE_SYSTEM}" MATCHES "Linux")
 	set(SDK_XPLANE "" CACHE PATH "Path to X-Plane SDK")
@@ -220,7 +221,7 @@ file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
 file(GLOB ftnoir-compat-c "compat/*.cpp")
 
 # x-plane plugin
-file(GLOB ftnoir-xplane-plugin-c "x-plane-plugin/*.cpp")
+file(GLOB ftnoir-xplane-plugin-c "x-plane-plugin/*.c")
 
 if(SDK_XPLANE)
 	# probably librt already included
@@ -229,7 +230,7 @@ if(SDK_XPLANE)
 		SET_TARGET_PROPERTIES(ftnoir-xplane-plugin
 			PROPERTIES LINK_FLAGS
 			"-Wl,--version-script=${CMAKE_SOURCE_DIR}/x-plane-plugin/version-script.txt -shared -rdynamic -nodefaultlibs -undefined_warning -fPIC"
-			COMPILE_FLAGS "-Wall -O2 -pipe -fPIC -DLIN"
+			COMPILE_FLAGS "-Wall -O2 -pipe -fPIC -DLIN -DXPLM210"
 			LIBRARY_OUTPUT_NAME "facetracknoir.xpl"
 			PREFIX "" SUFFIX "")
 	endif()
@@ -322,14 +323,16 @@ if(NOT WIN32 AND SDK_WINE_PREFIX)
 	    SET_TARGET_PROPERTIES(ftnoir-proto-wine
 				  PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
     endif()
-    add_custom_command( TARGET ftnoir-proto-wine
-                        COMMAND
-                        "${SDK_WINE_PREFIX}/bin/wineg++" -g -O2 -m32 -o
-			ftnoir-wrapper-wine.exe -I "${CMAKE_SOURCE_DIR}"
-                        "${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-main.cxx"
-                        "${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-posix.cxx"
-                        "${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-windows.cxx"
-                        -lrt)
+    if(NOT SDK_WINE_NO_WRAPPER)
+	    add_custom_command( TARGET ftnoir-proto-wine
+				COMMAND
+				"${SDK_WINE_PREFIX}/bin/wineg++" -g -O2 -m32 -o
+				ftnoir-wrapper-wine.exe -I "${CMAKE_SOURCE_DIR}"
+				"${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-main.cxx"
+				"${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-posix.cxx"
+				"${CMAKE_SOURCE_DIR}/ftnoir_protocol_wine/ftnoir-wrapper-wine-windows.cxx"
+				-lrt)
+    endif()
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
