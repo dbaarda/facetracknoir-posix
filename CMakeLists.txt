@@ -40,6 +40,7 @@ endif()
 if(NOT WIN32)
 	INCLUDE_DIRECTORIES(${QT_QTDESIGNER_INCLUDE_DIR})
 endif()
+
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_SOURCE_DIR})
 
@@ -56,6 +57,13 @@ if (WIN32)
 endif()
 if(NOT WIN32)
 	set(SDK_WINE_PREFIX "" CACHE PATH "Path where Wine is installed")
+endif()
+IF("${CMAKE_SYSTEM}" MATCHES "Linux")
+	set(SDK_XPLANE "" CACHE PATH "Path to X-Plane SDK")
+endif()
+
+if(SDK_XPLANE)
+	INCLUDE_DIRECTORIES("${SDK_XPLANE}/CHeaders" "${SDK_XPLANE}/CHeaders/XPLM")
 endif()
 
 if(WIN32)
@@ -210,6 +218,22 @@ file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
 # compat lib for POSIX/win32
 
 file(GLOB ftnoir-compat-c "compat/*.cpp")
+
+# x-plane plugin
+file(GLOB ftnoir-xplane-plugin-c "x-plane-plugin/*.cpp")
+
+if(SDK_XPLANE)
+	# probably librt already included
+	add_library(ftnoir-xplane-plugin SHARED ${ftnoir-xplane-plugin-c})
+	if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
+		SET_TARGET_PROPERTIES(ftnoir-xplane-plugin
+			PROPERTIES LINK_FLAGS
+			"-Wl,--version-script=${CMAKE_SOURCE_DIR}/x-plane-plugin/version-script.txt -shared -rdynamic -nodefaultlibs -undefined_warning -fPIC"
+			COMPILE_FLAGS "-Wall -O2 -pipe -fPIC -DLIN"
+			LIBRARY_OUTPUT_NAME "facetracknoir.xpl"
+			PREFIX "" SUFFIX "")
+	endif()
+endif()
 
 # some boilerplate
 
@@ -383,6 +407,10 @@ if(WIN32)
 endif()
 
 # make install
+
+if(SDK_XPLANE)
+	install(TARGETS ftnoir-xplane-plugin LIBRARY DESTINATION .  NAMELINK_SKIP)
+endif()
 
 install(FILES "${CMAKE_SOURCE_DIR}/bin/npclient.dll" "${CMAKE_SOURCE_DIR}/bin/npclient64.dll" DESTINATION .)
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/settings" DESTINATION .)
