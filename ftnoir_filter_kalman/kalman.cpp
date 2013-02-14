@@ -12,6 +12,7 @@ void kalman_load_settings(FTNoIR_Filter& self) {
     iniFile.beginGroup("ftnoir-filter-kalman");
     self.process_noise_covariance_matrix_all_values = iniFile.value("process-noise-covariance-matrix-all-values", DEFAULT_PROC).toDouble();
     self.posteriori_error_covariance_matrix_all_values = iniFile.value("posteriori-error-covariance-matrix-all-values", DEFAULT_POST).toDouble();
+    self.accl = iniFile.value("accel-coefficient", DEFAULT_ACCL).toDouble();
     iniFile.endGroup();
 }
 
@@ -24,6 +25,7 @@ void kalman_save_settings(FilterControls& self) {
     iniFile.beginGroup("ftnoir-filter-kalman");
     iniFile.setValue("process-noise-covariance-matrix-all-values", self.ui.pnoise->value());
     iniFile.setValue("posteriori-error-covariance-matrix-all-values", self.ui.post->value());
+    iniFile.setValue("accel-coefficient", self.ui.accl->value());
     iniFile.endGroup();
 }
 

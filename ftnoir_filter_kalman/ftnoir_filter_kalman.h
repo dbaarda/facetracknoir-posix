@@ -17,6 +17,7 @@
 
 #define DEFAULT_POST 1e-03
 #define DEFAULT_PROC 1e-05
+#define DEFAULT_ACCL 1
 
 class FTNOIR_FILTER_BASE_EXPORT FTNoIR_Filter : public IFilter
 {
@@ -29,6 +30,7 @@ public:
     cv::KalmanFilter kalman;
     double process_noise_covariance_matrix_all_values;
     double posteriori_error_covariance_matrix_all_values;
+    double accl;
 };
 
 void kalman_load_settings(FTNoIR_Filter& self);
@@ -57,11 +59,13 @@ public:
         iniFile.beginGroup("ftnoir-filter-kalman");
         ui.post->setValue(iniFile.value("posteriori-error-covariance-matrix-all-values", DEFAULT_POST).toDouble());
         ui.pnoise->setValue(iniFile.value("process-noise-covariance-matrix-all-values", DEFAULT_PROC).toDouble());
+        ui.accl->setValue(iniFile.value("accel-coefficient", DEFAULT_ACCL).toDouble());
         iniFile.endGroup();
         connect(ui.btnOk, SIGNAL(clicked()), this, SLOT(doOK()));
         connect(ui.btnCancel, SIGNAL(clicked()), this, SLOT(doCancel()));
         connect(ui.post, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
         connect(ui.pnoise, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
+        connect(ui.accl, SIGNAL(valueChanged(double)), this, SLOT(settingsChanged(double)));
         show();
     }
     virtual ~FilterControls() {}
