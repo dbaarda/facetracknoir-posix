@@ -64,7 +64,7 @@ void FTNoIR_Filter::Initialize() {
     cv::setIdentity(kalman.measurementMatrix);
     cv::setIdentity(kalman.processNoiseCov, cv::Scalar::all(proc));
     cv::setIdentity(kalman.measurementNoiseCov, cv::Scalar::all(post));
-    cv::setIdentity(kalman.errorCovPost, cv::Scalar::all(1));
+    cv::setIdentity(kalman.errorCovPost, cv::Scalar::all(accl));
 }
 
 void FTNoIR_Filter::FilterHeadPoseData(THeadPoseData *current_camera_position, THeadPoseData *target_camera_position, THeadPoseData *new_camera_position, bool newTarget) {
