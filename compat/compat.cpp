@@ -49,6 +49,7 @@ PortableLockedShm::PortableLockedShm(const char *shmName, const char *mutexName,
     char shm_filename[NAME_MAX];
     shm_filename[0] = '/';
     strncpy(shm_filename+1, shmName, NAME_MAX-2);
+    sprintf(shm_filename + strlen(shm_filename), "%ld\n", (long) getpid());
     shm_filename[NAME_MAX-1] = '\0';
 
     //(void) shm_unlink(shm_filename);

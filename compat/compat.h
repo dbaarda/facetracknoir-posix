@@ -9,6 +9,7 @@
 #if defined(_WIN32) || defined(__WIN32)
 #include <windows.h>
 #else
+#include <stdio.h>
 #include <string.h>
 #include <sys/file.h>
 #include <sys/mman.h>
