@@ -22,8 +22,8 @@
 #include <QObject>
 
 #define DEFAULT_POST 1e-14
-#define DEFAULT_PROC 1e-14
-#define DEFAULT_ACCL 50000
+#define DEFAULT_PROC 1e-12
+#define DEFAULT_ACCL 500
 
 class FTNOIR_FILTER_BASE_EXPORT FTNoIR_Filter : public IFilter
 {
