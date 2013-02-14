@@ -21,8 +21,6 @@
 #include <QWidget>
 #include <QObject>
 
-#define DEFAULT_POST 1e-14
-#define DEFAULT_PROC 1e-12
 #define DEFAULT_ACCL 500
 
 class FTNOIR_FILTER_BASE_EXPORT FTNoIR_Filter : public IFilter
@@ -63,8 +61,8 @@ public:
         QSettings iniFile( currentFile, QSettings::IniFormat );     // Application settings (in INI-file)
         
         iniFile.beginGroup("ftnoir-filter-kalman");
-        ui.post->setValue(iniFile.value("posteriori-error-covariance-matrix-all-values", DEFAULT_POST).toDouble());
-        ui.pnoise->setValue(iniFile.value("process-noise-covariance-matrix-all-values", DEFAULT_PROC).toDouble());
+        ui.post->setValue(iniFile.value("posteriori-error-covariance-matrix-all-values", "1e-12").toDouble());
+        ui.pnoise->setValue(iniFile.value("process-noise-covariance-matrix-all-values", "1e-14").toDouble());
         ui.accl->setValue(iniFile.value("accel-coefficient", DEFAULT_ACCL).toDouble());
         iniFile.endGroup();
         connect(ui.btnOk, SIGNAL(clicked()), this, SLOT(doOK()));

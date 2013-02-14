@@ -16,8 +16,8 @@ void kalman_load_settings(FTNoIR_Filter& self) {
     QSettings iniFile( currentFile, QSettings::IniFormat );     // Application settings (in INI-file)
     
     iniFile.beginGroup("ftnoir-filter-kalman");
-    self.process_noise_covariance_matrix_all_values = iniFile.value("process-noise-covariance-matrix-all-values", DEFAULT_PROC).toDouble();
-    self.posteriori_error_covariance_matrix_all_values = iniFile.value("posteriori-error-covariance-matrix-all-values", DEFAULT_POST).toDouble();
+    self.process_noise_covariance_matrix_all_values = iniFile.value("process-noise-covariance-matrix-all-values", "1e-14").toDouble();
+    self.posteriori_error_covariance_matrix_all_values = iniFile.value("posteriori-error-covariance-matrix-all-values", "1e-12").toDouble();
     self.accl = iniFile.value("accel-coefficient", DEFAULT_ACCL).toDouble();
     iniFile.endGroup();
 }
