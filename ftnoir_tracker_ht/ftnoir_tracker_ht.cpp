@@ -141,6 +141,7 @@ Tracker::Tracker() : lck_shm(HT_SHM_NAME, HT_MUTEX_NAME, sizeof(ht_shm_t)), fres
 	layout = NULL;
 	enableRX = enableRY = enableRZ = enableTX = enableTY = enableTZ = true;
     shm = (ht_shm_t*) lck_shm.mem;
+    shm->terminate = 0;
 	load_settings(&shm->config, this);
     shm->result.filled = false;
 }
