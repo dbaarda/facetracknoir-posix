@@ -8,6 +8,7 @@ SET(CMAKE_SKIP_RPATH FALSE)
 SET(SDK_MINIMAL FALSE CACHE BOOL "Minimal build")
 
 find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork REQUIRED)
+find_package(OpenGL REQUIRED)
 if(NOT SDK_MINIMAL)
     find_package(OpenCV)
 endif()
@@ -54,8 +55,6 @@ if (WIN32)
         link_directories("${SDK_DIRECTX}/Lib")
     endif()
 endif()
-
-find_package(OpenGL REQUIRED)
 
 if(NOT WIN32)
 	set(SDK_WINE_PREFIX "" CACHE PATH "Path where Wine is installed")

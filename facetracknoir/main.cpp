@@ -34,7 +34,11 @@
 #include <QDebug>
 #include <QList>
 
-int main(int argc, char *argv[])
+#if defined(_WIN32)
+#include <windows.h>
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#endif
+int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
     QFont font;
