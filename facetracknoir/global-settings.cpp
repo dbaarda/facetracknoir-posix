@@ -99,7 +99,7 @@ DynamicLibrary::DynamicLibrary(const char* filename)
     this->filename = filename;
     QString fullPath = QCoreApplication::applicationDirPath() + "/" + this->filename;
 #if defined(__WIN32) || defined(_WIN32)
-    handle = new QLibrary(filename);
+    handle = new QLibrary(fullPath);
     Dialog = (SETTINGS_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetDialog" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
     Constructor = (NULLARY_DYNAMIC_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetConstructor" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
     Metadata = (METADATA_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetMetadata" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
