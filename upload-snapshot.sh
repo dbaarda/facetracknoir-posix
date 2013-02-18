@@ -19,11 +19,11 @@ if test "$CURREV" != "$LASTREV"; then
 	wine $WINEPREFIX/drive_c/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/Common7/IDE/mspdbsrv.exe -start -spawn -shutdowntime -1 &
 	sleep 0.5
 	rm -rf ./install/
-	wine cmd /k "$ORIGIN/build-msvc2008.bat" || exit 1
+	wine cmd /k "$ORIGIN/build-msvc2008.bat" </dev/null || exit 1
 	pushd $HOME/dev/msvc/drive_c/build/ftnoir-faceapi || exit 1
 	rm -rf ./install/
-	wine cmd /k "$ORIGIN/build-msvc2005.bat" || exit 1
-	rsync -ra ./install/faceapi $HOME/dev/msvc/drive_c/build/ftnoir-posix/install || exit 1
+	wine cmd /k "$ORIGIN/build-msvc2005.bat" </dev/null || exit 1
+	rsync -rav ./install/faceapi $HOME/dev/msvc/drive_c/build/ftnoir-posix/install || exit 1
 	popd || exit 1
 	FNAME="ftnoir-posix-$(date +%Y%m%d-%H_%M_%S)"-"$CURREV".7z
 	7z -y a -t7z -m0=lzma -mx=9 -mfb=128 -md=8m -ms=on "$FNAME" install && foo=1 || exit 1

@@ -1157,7 +1157,7 @@ void FaceTrackNoIR::createIconGroupBox()
         for ( int i = 0; i < protocols.size(); i++) {
             QIcon icon;
             QString longName;
-            QString str = QCoreApplication::applicationDirPath() + "/" + protocols.at(i);
+            QString str = protocols.at(i);
             DynamicLibrary* lib = new DynamicLibrary(str.toLatin1().constData());
             qDebug() << "Loading" << str;
             std::cout.flush();
@@ -1181,7 +1181,7 @@ void FaceTrackNoIR::createIconGroupBox()
         for ( int i = 0; i < trackers.size(); i++) {
             QIcon icon;
             QString longName;
-            QString str = QCoreApplication::applicationDirPath() + "/" + trackers.at(i);
+            QString str = trackers.at(i);
             DynamicLibrary* lib = new DynamicLibrary(str.toLatin1().constData());
             qDebug() << "Loading" << str;
             std::cout.flush();
@@ -1207,7 +1207,7 @@ void FaceTrackNoIR::createIconGroupBox()
         for ( int i = 0; i < filters.size(); i++) {
             QIcon icon;
             QString fullName;
-            QString str = QCoreApplication::applicationDirPath() + "/" + filters.at(i);
+            QString str = filters.at(i);
             DynamicLibrary* lib = new DynamicLibrary(str.toLatin1().constData());
             qDebug() << "Loading" << str;
             std::cout.flush();

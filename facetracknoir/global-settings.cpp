@@ -97,13 +97,14 @@ SelectedLibraries::SelectedLibraries(IDynamicLibraryProvider* mainApp) :
 DynamicLibrary::DynamicLibrary(const char* filename)
 {
     this->filename = filename;
+    QString fullPath = QCoreApplication::applicationDirPath() + "/" + this->filename;
 #if defined(__WIN32) || defined(_WIN32)
     handle = new QLibrary(filename);
     Dialog = (SETTINGS_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetDialog" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
     Constructor = (NULLARY_DYNAMIC_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetConstructor" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
     Metadata = (METADATA_FUNCTION) handle->resolve(MAYBE_STDCALL_UNDERSCORE "GetMetadata" CALLING_CONVENTION_SUFFIX_VOID_FUNCTION);
 #else
-    handle = dlopen(filename, RTLD_NOW |
+    handle = dlopen(fullPath.toLatin1().constData(), RTLD_NOW |
 #   ifdef __linux
                     RTLD_DEEPBIND
 #   else
