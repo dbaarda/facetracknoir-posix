@@ -42,28 +42,42 @@ FTNoIR_Filter::FTNoIR_Filter() {
 
 // the following was written by Donovan Baarda <abo@minkirri.apana.org.au>
 // https://sourceforge.net/p/facetracknoir/discussion/1150909/thread/418615e1/?limit=25#af75/084b
-// minor changes to fix bugs, though -sh
+// minor changes to order of magnitude -sh
 void FTNoIR_Filter::Initialize() {
-    const double proc = process_noise_covariance_matrix_all_values;
-    const double post = posteriori_error_covariance_matrix_all_values;
     kalman.init(12, 6, 0, CV_64F);
+    double accel_variance = 1e-2;
     kalman.transitionMatrix = *(cv::Mat_<double>(12, 12) <<
-    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+    1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+    0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+    0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0,
+    0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0,
+    0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
     0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+    double a = 0.25 * accel_variance;
+    double b = 0.5 * accel_variance;
+    double c = 1.0 * accel_variance;
+    kalman.processNoiseCov = (cv::Mat_<double>(12, 12) <<
+    a, 0, 0, 0, 0, 0, b, 0, 0, 0, 0, 0,
+    0, a, 0, 0, 0, 0, 0, b, 0, 0, 0, 0,
+    0, 0, a, 0, 0, 0, 0, 0, b, 0, 0, 0,
+    0, 0, 0, a, 0, 0, 0, 0, 0, b, 0, 0,
+    0, 0, 0, 0, a, 0, 0, 0, 0, 0, b, 0,
+    0, 0, 0, 0, 0, a, 0, 0, 0, 0, 0, b,
+    b, 0, 0, 0, 0, 0, c, 0, 0, 0, 0, 0,
+    0, b, 0, 0, 0, 0, 0, c, 0, 0, 0, 0,
+    0, 0, b, 0, 0, 0, 0, 0, c, 0, 0, 0,
+    0, 0, 0, b, 0, 0, 0, 0, 0, c, 0, 0,
+    0, 0, 0, 0, b, 0, 0, 0, 0, 0, c, 0,
+    0, 0, 0, 0, 0, b, 0, 0, 0, 0, 0, c);
     cv::setIdentity(kalman.measurementMatrix);
-    cv::setIdentity(kalman.processNoiseCov, cv::Scalar::all(proc));
-    cv::setIdentity(kalman.measurementNoiseCov, cv::Scalar::all(post));
-    cv::setIdentity(kalman.errorCovPost, cv::Scalar::all(accl));
+    cv::setIdentity(kalman.measurementNoiseCov, cv::Scalar::all(accl));
+    cv::setIdentity(kalman.errorCovPost, cv::Scalar::all(accel_variance * 1e-4));
 }
 
 void FTNoIR_Filter::FilterHeadPoseData(THeadPoseData *current_camera_position, THeadPoseData *target_camera_position, THeadPoseData *new_camera_position, bool newTarget) {

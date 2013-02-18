@@ -171,10 +171,10 @@
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
    </property>
    <property name="decimals">
-    <number>10</number>
+    <number>6</number>
    </property>
    <property name="maximum">
-    <double>99999.999999000006937</double>
+    <double>1000000000.000000000000000</double>
    </property>
    <property name="singleStep">
     <double>0.000001000000000</double>
