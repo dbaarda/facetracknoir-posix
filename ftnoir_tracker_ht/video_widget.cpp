@@ -9,7 +9,6 @@
 
 #include <QDebug>
 
-using namespace cv;
 using namespace std;
 
 // ----------------------------------------------------------------------------

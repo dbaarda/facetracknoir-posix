@@ -10,7 +10,6 @@
 
 #include <QGLWidget>
 #include <QTime>
-#include <opencv2/opencv.hpp>
 #include <QFrame>
 #include <QImage>
 #include <QWidget>

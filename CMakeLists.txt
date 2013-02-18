@@ -11,7 +11,6 @@ find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork REQUIRED)
 if(NOT SDK_MINIMAL)
     find_package(OpenCV)
 endif()
-find_package(OpenGL REQUIRED)
 
 if(WIN32 AND NOT CMAKE_COMPILER_IS_GNUCC)
 	add_definitions(/D FTNOIR_FILTER_BASE_LIB /D FTNOIR_TRACKER_BASE_LIB /D FTNOIR_PROTOCOL_BASE_LIB)
@@ -52,8 +51,12 @@ if (WIN32)
     set(SDK_DIRECTX "" CACHE PATH "Path to DirectX SDK")
     if(SDK_DIRECTX)
 	    include_directories("${SDK_DIRECTX}/Include")
+        link_directories("${SDK_DIRECTX}/Lib")
     endif()
 endif()
+
+find_package(OpenGL REQUIRED)
+
 if(NOT WIN32)
 	set(SDK_WINE_PREFIX "" CACHE PATH "Path where Wine is installed")
 	set(SDK_WINE_NO_WRAPPER FALSE CACHE BOOL "Don't build wrapper, for instance X-Plane is native Linux app")
@@ -255,7 +258,7 @@ endif()
 
 add_library(ftnoir-pose-widget SHARED ${ftnoir-pose-widget-c} ${ftnoir-pose-widget-moc} ${ftnoir-pose-widget-rcc})
 target_link_libraries(ftnoir-pose-widget ${QT_LIBRARIES} ${OPENGL_gl_LIBRARY})
-add_library(ftnoir-spline-widget SHARED ${ftnoir-spline-widget-c} ${ftnoir-spline-widget-moc})
+add_library(ftnoir-spline-widget SHARED ${ftnoir-spline-widget-c} ${ftnoir-spline-widget-moc} ${QT_LIBRARIES})
 target_link_libraries(ftnoir-spline-widget ${QT_LIBRARIES})
 
 add_library(ftnoir-filter-accela SHARED ${ftnoir-filter-accela-c} ${ftnoir-filter-accela-moc} ${ftnoir-filter-accela-uih} ${ftnoir-filter-accela-rcc})
@@ -392,10 +395,7 @@ endif()
 
 add_executable(ftnoir ${ftnoir-bin-c} ${ftnoir-bin-moc} ${ftnoir-bin-uih} ${ftnoir-bin-rcc})
 if(WIN32)
-	target_link_libraries(ftnoir ftnoir-pose-widget ftnoir-spline-widget ${QT_LIBRARIES}
-			      "${CMAKE_SOURCE_DIR}/dinput/dinput8.lib"
-			      "${CMAKE_SOURCE_DIR}/dinput/dxguid.lib"
-			      "${CMAKE_SOURCE_DIR}/dinput/strmiids.lib")
+	target_link_libraries(ftnoir ftnoir-pose-widget ftnoir-spline-widget ${QT_LIBRARIES} "${CMAKE_SOURCE_DIR}/dinput/dinput8.lib" "${CMAKE_SOURCE_DIR}/dinput/dxguid.lib" "${CMAKE_SOURCE_DIR}/dinput/strmiids.lib")
 endif()
 target_link_libraries(ftnoir ftnoir-pose-widget ftnoir-spline-widget ${QT_LIBRARIES} ${QXT_QXTCORE_LIB_RELEASE} ${QXT_QXTGUI_LIB_RELEASE})
 if(NOT WIN32)
