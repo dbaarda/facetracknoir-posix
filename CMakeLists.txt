@@ -5,19 +5,19 @@ SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 SET(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX})
 SET(CMAKE_SKIP_RPATH FALSE)
 
-if(NOT WIN32)
-	find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork QtDesigner REQUIRED)
-else(NOT WIN32)
-	find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork REQUIRED)
-endif(NOT WIN32)
-find_package(OpenCV)
+SET(SDK_MINIMAL FALSE CACHE BOOL "Minimal build")
+
+find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork REQUIRED)
+if(NOT SDK_MINIMAL)
+    find_package(OpenCV)
+endif()
 find_package(OpenGL REQUIRED)
 
-if(MSVC)
+if(WIN32 AND NOT CMAKE_COMPILER_IS_GNUCC)
 	add_definitions(/D FTNOIR_FILTER_BASE_LIB /D FTNOIR_TRACKER_BASE_LIB /D FTNOIR_PROTOCOL_BASE_LIB)
 else(MSVC)
 	add_definitions(-DFTNOIR_FILTER_BASE_LIB -DFTNOIR_TRACKER_BASE_LIB -DFTNOIR_PROTOCOL_BASE_LIB)
-endif(MSVC)
+endif(WIN32 AND NOT CMAKE_COMPILER_IS_GNUCC)
 
 if(NOT WIN32)
 	if(NOT QXT_QXTGUI_LIB_RELEASE)
@@ -44,11 +44,10 @@ endif()
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_SOURCE_DIR})
 
+SET(SDK_OPENCV_STATIC TRUE BOOL PATH "Whether OpenCV is statically linked")
 if (WIN32)
 	SET(SDK_SM_FACEAPI_PATH "" CACHE PATH "SeeingMachines FaceAPI SDK path")
 	set(SDK_MINGW_PATH "" CACHE PATH "MinGW path")
-    SET(SDK_MSVC80_PATH "C:/Program Files (x86)/Microsoft Visual Studio 8/VC"
-	    CACHE PATH "Path to MSVC80/VC if you want FaceAPI")
     set(SDK_SIMCONNECT "" CACHE PATH "Path to SimConnect SDK")
     set(SDK_DIRECTX "" CACHE PATH "Path to DirectX SDK")
     if(SDK_DIRECTX)
@@ -267,7 +266,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
     PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 endif()
 
-if(OpenCV_FOUND)
+if(OpenCV_FOUND AND NOT SDK_MINIMAL)
 	add_library(ftnoir-filter-kalman SHARED ${ftnoir-filter-kalman-c} ${ftnoir-filter-kalman-moc} ${ftnoir-filter-kalman-uih} ${ftnoir-filter-kalman-rcc})
 	target_link_libraries(ftnoir-filter-kalman ${QT_LIBRARIES} ${OpenCV_LIBS})
 	if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
@@ -347,14 +346,14 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
 			      PROPERTIES LINK_FLAGS "-Wl,--version-script=${CMAKE_SOURCE_DIR}/facetracknoir/posix-version-script.txt")
 endif()
 
-if(MSVC)
+if(WIN32 AND NOT CMAKE_COMPILER_IS_GNUCC)
 	target_link_libraries(ftnoir-tracker-ht
 			      "${CMAKE_SOURCE_DIR}/dinput/dinput8.lib"
 			      "${CMAKE_SOURCE_DIR}/dinput/dxguid.lib"
 			      "${CMAKE_SOURCE_DIR}/dinput/strmiids.lib")
 endif()
 
-if(OpenCV_FOUND)
+if(OpenCV_FOUND AND NOT SDK_MINIMAL)
     add_library(ftnoir-tracker-pt SHARED ${ftnoir-tracker-pt-c} ${ftnoir-tracker-pt-moc} ${ftnoir-tracker-pt-uih} ${ftnoir-tracker-pt-rcc})
     target_link_libraries(ftnoir-tracker-pt ${QT_LIBRARIES} ${OpenCV_LIBS} ${OPENGL_gl_LIBRARY})
     if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_GNUCC)
@@ -363,11 +362,11 @@ if(OpenCV_FOUND)
     endif()
 endif()
 
-if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH)
+if(WIN32 AND SDK_SM_FACEAPI_PATH)
     include_directories("${SDK_SM_FACEAPI_PATH}/include")
     add_library(ftnoir-tracker-faceapi SHARED ${ftnoir-tracker-faceapi-c} ${ftnoir-tracker-faceapi-moc} ${ftnoir-tracker-faceapi-uih} ${ftnoir-tracker-faceapi-rcc})
     target_link_libraries(ftnoir-tracker-faceapi ${QT_LIBRARIES})
-    if(MSVC80 OR CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+    if(MSVC80)
 	    add_executable(ftnoir-faceapi-wrapper ${ftnoir-faceapi-wrapper-c})
 	    if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 		    target_link_libraries(ftnoir-faceapi-wrapper "${SDK_SM_FACEAPI_PATH}/bin/smft32.lib" "${SDK_MSVC80_PATH}/lib/msvcrt.lib")
@@ -380,7 +379,7 @@ if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH)
 		    SET_TARGET_PROPERTIES(ftnoir-faceapi-wrapper PROPERTIES LINK_FLAGS "-Wl,-nostdlib")
 	    endif()
     else()
-	    MESSAGE(WARNING "Cannot build FaceAPI without MinGW GNU CC or MSVC 2005!")
+	    MESSAGE(WARNING "Cannot build FaceAPI without MSVC 2005!")
     endif()
 endif()
 
@@ -440,7 +439,7 @@ install(TARGETS
         NAMELINK_SKIP
 )
 
-if(OpenCV_FOUND)
+if(OpenCV_FOUND AND NOT SDK_MINIMAL)
     install(TARGETS
             ftnoir-tracker-pt
 	    ftnoir-filter-kalman
@@ -467,9 +466,9 @@ if(WIN32)
             LIBRARY DESTINATION .
             NAMELINK_SKIP)
     endif()
-    if(OpenCV_FOUND)
+    if(OpenCV_FOUND AND NOT SDK_OPENCV_STATIC AND NOT SDK_MINIMAL)
         get_filename_component(ftnoir-opencv-dir "${OpenCV_LIB_DIR_OPT}" PATH)
-	if(MSVC)
+	if(WIN32 AND NOT CMAKE_COMPILER_IS_GNUCC)
 		set(LIB-PREFIX "")
 	else()
 		set(LIB-PREFIX "lib")
@@ -485,7 +484,7 @@ if(WIN32)
         install(FILES ${ftnoir-opencv-files} DESTINATION .)
     endif()
     get_filename_component(ftnoir-qt-bin "${QT_QMAKE_EXECUTABLE}" PATH)
-    if(MSVC)
+    if(WIN32 AND NOT CMAKE_COMPILER_IS_GNUCC)
 	GET_FILENAME_COMPONENT(qt-dirname "${QT_QTCORE_LIBRARY_RELEASE}/../bin/" PATH)
 	install(FILES
 		"${qt-dirname}/QtCore4.dll"
@@ -519,7 +518,7 @@ if(WIN32)
     if(WIN32)
         install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/tracker-ht" DESTINATION .)
     endif()
-    if(WIN32 AND SDK_SM_FACEAPI_PATH AND SDK_MSVC80_PATH)
+    if(WIN32 AND SDK_SM_FACEAPI_PATH)
 	install(TARGETS ftnoir-tracker-faceapi
 		RUNTIME DESTINATION .
 		LIBRARY DESTINATION .
