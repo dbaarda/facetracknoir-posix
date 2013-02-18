@@ -27,7 +27,7 @@ if test "$CURREV" != "$LASTREV"; then
 	popd || exit 1
 	FNAME="ftnoir-posix-$(date +%Y%m%d-%H_%M_%S)"-"$CURREV".7z
 	7z -y a -t7z -m0=lzma -mx=9 -mfb=128 -md=8m -ms=on "$FNAME" install && foo=1 || exit 1
-	ssh -4o BatchMode=yes "$USER"@"$BACKUPHOST" find '"*.7z"' /var/www/ftnoir/ -type f -mtime 14 -delete
+	ssh -4o BatchMode=yes "$USER"@"$BACKUPHOST" find /var/www/ftnoir/ -name '"*.7z"' -type f -mtime 14 -delete
 	scp -4o BatchMode=yes "$FNAME" "$USER"@"$BACKUPHOST":/var/www/ftnoir/
 	rm *.7z
 	test $foo && { echo $CURREV > ./last-snapshot.rev; }
