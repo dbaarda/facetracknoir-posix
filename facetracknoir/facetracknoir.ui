@@ -505,7 +505,7 @@ color: rgb(0, 255, 0);</string>
             </rect>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -531,7 +531,6 @@ color: rgb(0, 255, 0);</string>
            <property name="lineWidth">
             <number>0</number>
            </property>
-           <zorder>widget4logo</zorder>
           </widget>
          </widget>
         </item>
@@ -552,7 +551,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLCDNumber" name="lcdNumOutputRotX">
            <property name="geometry">
             <rect>
-             <x>116</x>
+             <x>250</x>
              <y>20</y>
              <width>50</width>
              <height>21</height>
@@ -580,7 +579,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLCDNumber" name="lcdNumOutputRotY">
            <property name="geometry">
             <rect>
-             <x>116</x>
+             <x>250</x>
              <y>38</y>
              <width>50</width>
              <height>21</height>
@@ -608,7 +607,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLCDNumber" name="lcdNumOutputRotZ">
            <property name="geometry">
             <rect>
-             <x>116</x>
+             <x>250</x>
              <y>56</y>
              <width>50</width>
              <height>21</height>
@@ -639,7 +638,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLCDNumber" name="lcdNumOutputPosX">
            <property name="geometry">
             <rect>
-             <x>34</x>
+             <x>168</x>
              <y>20</y>
              <width>50</width>
              <height>21</height>
@@ -667,7 +666,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLCDNumber" name="lcdNumOutputPosY">
            <property name="geometry">
             <rect>
-             <x>34</x>
+             <x>168</x>
              <y>38</y>
              <width>50</width>
              <height>21</height>
@@ -695,7 +694,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLCDNumber" name="lcdNumOutputPosZ">
            <property name="geometry">
             <rect>
-             <x>34</x>
+             <x>168</x>
              <y>56</y>
              <width>50</width>
              <height>21</height>
@@ -723,7 +722,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLabel" name="lblX">
            <property name="geometry">
             <rect>
-             <x>24</x>
+             <x>158</x>
              <y>21</y>
              <width>16</width>
              <height>16</height>
@@ -739,7 +738,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLabel" name="lblY">
            <property name="geometry">
             <rect>
-             <x>25</x>
+             <x>159</x>
              <y>41</y>
              <width>16</width>
              <height>16</height>
@@ -755,7 +754,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLabel" name="lblZ">
            <property name="geometry">
             <rect>
-             <x>25</x>
+             <x>159</x>
              <y>60</y>
              <width>16</width>
              <height>16</height>
@@ -771,7 +770,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLabel" name="lblRotZ">
            <property name="geometry">
             <rect>
-             <x>86</x>
+             <x>220</x>
              <y>60</y>
              <width>20</width>
              <height>16</height>
@@ -787,7 +786,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLabel" name="lblRotX">
            <property name="geometry">
             <rect>
-             <x>88</x>
+             <x>222</x>
              <y>21</y>
              <width>31</width>
              <height>16</height>
@@ -803,7 +802,7 @@ color: rgb(0, 255, 0);</string>
           <widget class="QLabel" name="lblRotY">
            <property name="geometry">
             <rect>
-             <x>86</x>
+             <x>220</x>
              <y>41</y>
              <width>41</width>
              <height>16</height>
@@ -1102,8 +1101,8 @@ color: rgb(0, 255, 0);</string>
         <widget class="QGroupBox" name="groupBox_4">
          <property name="geometry">
           <rect>
-           <x>386</x>
-           <y>296</y>
+           <x>388</x>
+           <y>300</y>
            <width>201</width>
            <height>119</height>
           </rect>
@@ -1203,10 +1202,10 @@ color: rgb(0, 255, 0);</string>
         <widget class="QGroupBox" name="groupTrackerSource">
          <property name="geometry">
           <rect>
-           <x>21</x>
-           <y>170</y>
+           <x>19</x>
+           <y>181</y>
            <width>170</width>
-           <height>80</height>
+           <height>103</height>
           </rect>
          </property>
          <property name="minimumSize">
@@ -1218,7 +1217,7 @@ color: rgb(0, 255, 0);</string>
          <property name="maximumSize">
           <size>
            <width>65535</width>
-           <height>80</height>
+           <height>65535</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -1264,15 +1263,15 @@ color: rgb(0, 255, 0);</string>
           </property>
           <property name="geometry">
            <rect>
-            <x>34</x>
-            <y>50</y>
-            <width>100</width>
+            <x>20</x>
+            <y>48</y>
+            <width>133</width>
             <height>23</height>
            </rect>
           </property>
           <property name="maximumSize">
            <size>
-            <width>100</width>
+            <width>65535</width>
             <height>16777215</height>
            </size>
           </property>
@@ -1291,9 +1290,9 @@ color: rgb(0, 255, 0);</string>
          <property name="geometry">
           <rect>
            <x>391</x>
-           <y>170</y>
+           <y>182</y>
            <width>200</width>
-           <height>80</height>
+           <height>98</height>
           </rect>
          </property>
          <property name="minimumSize">
@@ -1305,7 +1304,7 @@ color: rgb(0, 255, 0);</string>
          <property name="maximumSize">
           <size>
            <width>200</width>
-           <height>80</height>
+           <height>65535</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -1359,10 +1358,10 @@ color: rgb(0, 255, 0);</string>
         <widget class="QGroupBox" name="groupFilter">
          <property name="geometry">
           <rect>
-           <x>203</x>
-           <y>173</y>
+           <x>199</x>
+           <y>181</y>
            <width>181</width>
-           <height>80</height>
+           <height>106</height>
           </rect>
          </property>
          <property name="minimumSize">
@@ -1374,7 +1373,7 @@ color: rgb(0, 255, 0);</string>
          <property name="maximumSize">
           <size>
            <width>655355</width>
-           <height>80</height>
+           <height>65535</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -1420,8 +1419,8 @@ color: rgb(0, 255, 0);</string>
           </property>
           <property name="geometry">
            <rect>
-            <x>40</x>
-            <y>46</y>
+            <x>38</x>
+            <y>43</y>
             <width>100</width>
             <height>23</height>
            </rect>
@@ -1452,8 +1451,8 @@ color: rgb(0, 255, 0);</string>
         <widget class="QGroupBox" name="groupStartStop">
          <property name="geometry">
           <rect>
-           <x>226</x>
-           <y>300</y>
+           <x>224</x>
+           <y>342</y>
            <width>150</width>
            <height>60</height>
           </rect>
@@ -1518,8 +1517,8 @@ color: rgb(0, 255, 0);</string>
         <widget class="QGroupBox" name="groupBox_3">
          <property name="geometry">
           <rect>
-           <x>11</x>
-           <y>304</y>
+           <x>17</x>
+           <y>337</y>
            <width>200</width>
            <height>80</height>
           </rect>
@@ -2110,15 +2109,6 @@ background:none;</string>
           </property>
          </widget>
         </widget>
-        <zorder>groupTrackerSource</zorder>
-        <zorder>groupGameProtocol</zorder>
-        <zorder>groupFilter</zorder>
-        <zorder>groupStartStop</zorder>
-        <zorder>groupBox_3</zorder>
-        <zorder>groupGlobalSettings</zorder>
-        <zorder>groupProfile</zorder>
-        <zorder>groupBox_4</zorder>
-        <zorder>groupBox_5</zorder>
        </widget>
       </item>
      </layout>
