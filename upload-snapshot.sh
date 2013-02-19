@@ -9,7 +9,7 @@ LASTREV="$line"
 CURREV="$(git rev-parse HEAD)"
 foo=0
 
-export PATH=/opt/wine.git/bin:"$PATH" WINEPREFIX=$HOME/dev/msvc WINEDEBUG=-all
+export WINEPREFIX=$HOME/dev/msvc WINEDEBUG=-all
 ORIGIN="$(pwd)"
 
 wineserver -k
