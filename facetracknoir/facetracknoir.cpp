@@ -124,6 +124,31 @@ KeybindingWorkerDummy::KeybindingWorkerDummy(FaceTrackNoIR& w, Key keyCenter, Ke
     if (isKeyPressed(&k, keystate) && (!k.ever_pressed ? (k.timer.start(), k.ever_pressed = true) : k.timer.restart() > 100)) \
         window.s();
 
+static bool isKeyPressed( const Key *key, const BYTE *keystate ) {
+    bool shift;
+    bool ctrl;
+    bool alt;
+
+    if (keystate[key->keycode] & 0x80) {
+        shift = ( (keystate[DIK_LSHIFT] & 0x80) || (keystate[DIK_RSHIFT] & 0x80) );
+        ctrl  = ( (keystate[DIK_LCONTROL] & 0x80) || (keystate[DIK_RCONTROL] & 0x80) );
+        alt   = ( (keystate[DIK_LALT] & 0x80) || (keystate[DIK_RALT] & 0x80) );
+
+        //
+        // If one of the modifiers is needed and not pressed, return false.
+        //
+        if (key->shift && !shift) return false;
+        if (key->ctrl && !ctrl) return false;
+        if (key->alt && !alt) return false;
+
+        //
+        // All is well!
+        //
+        return true;
+    }
+    return false;
+}
+
 void KeybindingWorkerDummy::run() {
     BYTE keystate[256];
     while (!should_quit)
@@ -141,32 +166,6 @@ void KeybindingWorkerDummy::run() {
         
         Sleep(100);
     }
-}
-
-
-static bool isKeyPressed( const Key *key, const BYTE *keystate ) {
-    bool shift;
-    bool ctrl;
-    bool alt;
-    
-    if (keystate[key->keycode] & 0x80) {
-        shift = ( (keystate[DIK_LSHIFT] & 0x80) || (keystate[DIK_RSHIFT] & 0x80) );
-        ctrl  = ( (keystate[DIK_LCONTROL] & 0x80) || (keystate[DIK_RCONTROL] & 0x80) );
-        alt   = ( (keystate[DIK_LALT] & 0x80) || (keystate[DIK_RALT] & 0x80) );
-        
-        //
-        // If one of the modifiers is needed and not pressed, return false.
-        //
-        if (key->shift && !shift) return false;
-        if (key->ctrl && !ctrl) return false;
-        if (key->alt && !alt) return false;
-        
-        //
-        // All is well!
-        //
-        return true;
-    }
-    return false;
 }
 #else
 #endif
