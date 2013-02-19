@@ -130,7 +130,7 @@ void KeybindingWorkerDummy::run() {
     {
         if (dinkeyboard->GetDeviceState(256, (LPVOID)keystate) != DI_OK) {
             qDebug() << "Tracker::run GetDeviceState function failed!" << GetLastError();
-            Sleep(25);
+            Sleep(100);
             continue;
         }
         
@@ -139,7 +139,7 @@ void KeybindingWorkerDummy::run() {
         PROCESS_KEY(kZero, shortcutZero);
         PROCESS_KEY(kStartStop, shortcutStartStop);
         
-        Sleep(25);
+        Sleep(100);
     }
 }
 
@@ -169,7 +169,6 @@ static bool isKeyPressed( const Key *key, const BYTE *keystate ) {
     return false;
 }
 #else
-static bool isKeyPressed(const Key *key, const BYTE *keystate) { return false; }
 #endif
 
 #ifdef _MSC_VER

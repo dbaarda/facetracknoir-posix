@@ -42,8 +42,10 @@ PortableLockedShm* PortableLockedShm_init(const char *shmName, const char *mutex
     //(void) shm_unlink(shm_filename);
     
     self->fd = shm_open(shm_filename, O_RDWR | O_CREAT, 0600);
-    (void) ftruncate(self->fd, mapSize);
-    self->mem = mmap(NULL, mapSize, PROT_READ|PROT_WRITE, MAP_SHARED, self->fd, (off_t)0);
+    if (ftruncate(self->fd, mapSize) == 0)
+        self->mem = mmap(NULL, mapSize, PROT_READ|PROT_WRITE, MAP_SHARED, self->fd, (off_t)0);
+    else
+        self->mem = (void*) -1;
     return self;
 }
 

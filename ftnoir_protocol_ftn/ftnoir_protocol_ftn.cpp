@@ -79,8 +79,6 @@ void FTNoIR_Protocol::loadSettings() {
 //
 void FTNoIR_Protocol::sendHeadposeToGame( THeadPoseData *headpose, THeadPoseData *rawheadpose ) {
 int no_bytes;
-QHostAddress sender;
-quint16 senderPort;
 THeadPoseData TestData;
 
 	//

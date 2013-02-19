@@ -90,7 +90,6 @@ public:
 typedef unsigned char BYTE;
 struct Key { int foo; };
 #endif
-static bool isKeyPressed( const Key *key, const BYTE *keystate );
 
 class FaceTrackNoIR : public QMainWindow, IDynamicLibraryProvider
 {

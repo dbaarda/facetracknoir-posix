@@ -80,6 +80,7 @@ void FilterControls::Initialize(QWidget *parent, IFilter* ptr) {
 	// This can be used to update settings, while Tracking and may also be handy to display logging-data and such...
 	//
 	pFilter = ptr;
+    loadSettings();
 	
 	QPoint offsetpos(100, 100);
 	if (parent) {
@@ -101,7 +102,6 @@ void FilterControls::doOK() {
 
 // override show event
 void FilterControls::showEvent ( QShowEvent * event ) {
-	loadSettings();
 }
 
 //
