@@ -180,289 +180,6 @@ QGroupBox {
         <property name="spacing">
          <number>0</number>
         </property>
-        <item row="0" column="0">
-         <widget class="QWidget" name="widget4logo" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>89</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>89</height>
-           </size>
-          </property>
-          <widget class="QLCDNumber" name="lcdNumOutputRotX">
-           <property name="geometry">
-            <rect>
-             <x>260</x>
-             <y>16</y>
-             <width>50</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <property name="numDigits">
-            <number>5</number>
-           </property>
-           <property name="segmentStyle">
-            <enum>QLCDNumber::Flat</enum>
-           </property>
-          </widget>
-          <widget class="QLCDNumber" name="lcdNumOutputRotY">
-           <property name="geometry">
-            <rect>
-             <x>260</x>
-             <y>34</y>
-             <width>50</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <property name="numDigits">
-            <number>5</number>
-           </property>
-           <property name="segmentStyle">
-            <enum>QLCDNumber::Flat</enum>
-           </property>
-          </widget>
-          <widget class="QLCDNumber" name="lcdNumOutputRotZ">
-           <property name="geometry">
-            <rect>
-             <x>260</x>
-             <y>52</y>
-             <width>50</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Sunken</enum>
-           </property>
-           <property name="lineWidth">
-            <number>0</number>
-           </property>
-           <property name="numDigits">
-            <number>5</number>
-           </property>
-           <property name="segmentStyle">
-            <enum>QLCDNumber::Flat</enum>
-           </property>
-          </widget>
-          <widget class="QLCDNumber" name="lcdNumOutputPosX">
-           <property name="geometry">
-            <rect>
-             <x>178</x>
-             <y>16</y>
-             <width>50</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <property name="numDigits">
-            <number>5</number>
-           </property>
-           <property name="segmentStyle">
-            <enum>QLCDNumber::Flat</enum>
-           </property>
-          </widget>
-          <widget class="QLCDNumber" name="lcdNumOutputPosY">
-           <property name="geometry">
-            <rect>
-             <x>178</x>
-             <y>34</y>
-             <width>50</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <property name="numDigits">
-            <number>5</number>
-           </property>
-           <property name="segmentStyle">
-            <enum>QLCDNumber::Flat</enum>
-           </property>
-          </widget>
-          <widget class="QLCDNumber" name="lcdNumOutputPosZ">
-           <property name="geometry">
-            <rect>
-             <x>178</x>
-             <y>52</y>
-             <width>50</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <property name="numDigits">
-            <number>5</number>
-           </property>
-           <property name="segmentStyle">
-            <enum>QLCDNumber::Flat</enum>
-           </property>
-          </widget>
-          <widget class="QLabel" name="lblX">
-           <property name="geometry">
-            <rect>
-             <x>168</x>
-             <y>17</y>
-             <width>16</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="text">
-            <string>X</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="lblY">
-           <property name="geometry">
-            <rect>
-             <x>169</x>
-             <y>37</y>
-             <width>16</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="text">
-            <string>Y</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="lblZ">
-           <property name="geometry">
-            <rect>
-             <x>169</x>
-             <y>56</y>
-             <width>16</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="text">
-            <string>Z</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="lblRotZ">
-           <property name="geometry">
-            <rect>
-             <x>230</x>
-             <y>56</y>
-             <width>20</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="text">
-            <string>roll</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="lblRotX">
-           <property name="geometry">
-            <rect>
-             <x>232</x>
-             <y>17</y>
-             <width>31</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="text">
-            <string>yaw</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="lblRotY">
-           <property name="geometry">
-            <rect>
-             <x>230</x>
-             <y>37</y>
-             <width>41</width>
-             <height>16</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(0, 255, 0);</string>
-           </property>
-           <property name="text">
-            <string>pitch</string>
-           </property>
-          </widget>
-         </widget>
-        </item>
         <item row="2" column="0">
          <widget class="QWidget" name="headPoseWidget" native="true">
           <property name="sizePolicy">
@@ -759,45 +476,6 @@ color: rgb(0, 255, 0);</string>
             </property>
            </widget>
           </widget>
-          <widget class="QPushButton" name="btnDonate">
-           <property name="geometry">
-            <rect>
-             <x>83</x>
-             <y>133</y>
-             <width>145</width>
-             <height>34</height>
-            </rect>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>58</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="toolTip">
-            <string>Please help us: make gaming fun...</string>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Support
-FaceTrackNoIR!</string>
-           </property>
-           <property name="icon">
-            <iconset resource="main-facetracknoir.qrc">
-             <normaloff>:/uielements/donate.png</normaloff>:/uielements/donate.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>18</width>
-             <height>18</height>
-            </size>
-           </property>
-          </widget>
          </widget>
         </item>
         <item row="1" column="0">
@@ -852,6 +530,290 @@ FaceTrackNoIR!</string>
            </property>
            <property name="lineWidth">
             <number>0</number>
+           </property>
+           <zorder>widget4logo</zorder>
+          </widget>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QWidget" name="widget4logo" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>89</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>89</height>
+           </size>
+          </property>
+          <widget class="QLCDNumber" name="lcdNumOutputRotX">
+           <property name="geometry">
+            <rect>
+             <x>116</x>
+             <y>20</y>
+             <width>50</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <property name="numDigits">
+            <number>5</number>
+           </property>
+           <property name="segmentStyle">
+            <enum>QLCDNumber::Flat</enum>
+           </property>
+          </widget>
+          <widget class="QLCDNumber" name="lcdNumOutputRotY">
+           <property name="geometry">
+            <rect>
+             <x>116</x>
+             <y>38</y>
+             <width>50</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <property name="numDigits">
+            <number>5</number>
+           </property>
+           <property name="segmentStyle">
+            <enum>QLCDNumber::Flat</enum>
+           </property>
+          </widget>
+          <widget class="QLCDNumber" name="lcdNumOutputRotZ">
+           <property name="geometry">
+            <rect>
+             <x>116</x>
+             <y>56</y>
+             <width>50</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>0</number>
+           </property>
+           <property name="numDigits">
+            <number>5</number>
+           </property>
+           <property name="segmentStyle">
+            <enum>QLCDNumber::Flat</enum>
+           </property>
+          </widget>
+          <widget class="QLCDNumber" name="lcdNumOutputPosX">
+           <property name="geometry">
+            <rect>
+             <x>34</x>
+             <y>20</y>
+             <width>50</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <property name="numDigits">
+            <number>5</number>
+           </property>
+           <property name="segmentStyle">
+            <enum>QLCDNumber::Flat</enum>
+           </property>
+          </widget>
+          <widget class="QLCDNumber" name="lcdNumOutputPosY">
+           <property name="geometry">
+            <rect>
+             <x>34</x>
+             <y>38</y>
+             <width>50</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <property name="numDigits">
+            <number>5</number>
+           </property>
+           <property name="segmentStyle">
+            <enum>QLCDNumber::Flat</enum>
+           </property>
+          </widget>
+          <widget class="QLCDNumber" name="lcdNumOutputPosZ">
+           <property name="geometry">
+            <rect>
+             <x>34</x>
+             <y>56</y>
+             <width>50</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <property name="numDigits">
+            <number>5</number>
+           </property>
+           <property name="segmentStyle">
+            <enum>QLCDNumber::Flat</enum>
+           </property>
+          </widget>
+          <widget class="QLabel" name="lblX">
+           <property name="geometry">
+            <rect>
+             <x>24</x>
+             <y>21</y>
+             <width>16</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="text">
+            <string>X</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="lblY">
+           <property name="geometry">
+            <rect>
+             <x>25</x>
+             <y>41</y>
+             <width>16</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="text">
+            <string>Y</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="lblZ">
+           <property name="geometry">
+            <rect>
+             <x>25</x>
+             <y>60</y>
+             <width>16</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="text">
+            <string>Z</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="lblRotZ">
+           <property name="geometry">
+            <rect>
+             <x>86</x>
+             <y>60</y>
+             <width>20</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="text">
+            <string>roll</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="lblRotX">
+           <property name="geometry">
+            <rect>
+             <x>88</x>
+             <y>21</y>
+             <width>31</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="text">
+            <string>yaw</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="lblRotY">
+           <property name="geometry">
+            <rect>
+             <x>86</x>
+             <y>41</y>
+             <width>41</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(0, 255, 0);</string>
+           </property>
+           <property name="text">
+            <string>pitch</string>
            </property>
           </widget>
          </widget>
@@ -1622,8 +1584,8 @@ FaceTrackNoIR!</string>
         <widget class="QGroupBox" name="groupGlobalSettings">
          <property name="geometry">
           <rect>
-           <x>403</x>
-           <y>22</y>
+           <x>251</x>
+           <y>18</y>
            <width>167</width>
            <height>120</height>
           </rect>
@@ -1643,288 +1605,357 @@ FaceTrackNoIR!</string>
          <property name="title">
           <string>Axis Settings</string>
          </property>
-         <widget class="QWidget" name="gridLayoutWidget_2">
+         <widget class="QLabel" name="lblSensYaw">
           <property name="geometry">
            <rect>
-            <x>20</x>
-            <y>20</y>
-            <width>130</width>
-            <height>91</height>
+            <x>21</x>
+            <y>39</y>
+            <width>25</width>
+            <height>16</height>
            </rect>
           </property>
-          <layout class="QGridLayout" name="gridLayout_4">
-           <property name="sizeConstraint">
-            <enum>QLayout::SetMinAndMaxSize</enum>
-           </property>
-           <item row="2" column="1">
-            <widget class="QCheckBox" name="chkInvertPitch">
-             <property name="styleSheet">
-              <string notr="true">background:none;</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="3">
-            <widget class="QCheckBox" name="chkInvertZ">
-             <property name="styleSheet">
-              <string notr="true">background:none;</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLabel" name="lblInvert1_3">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>30</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:#ccc;
+          <property name="minimumSize">
+           <size>
+            <width>25</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:#ccc;
 background:none;</string>
-             </property>
-             <property name="text">
-              <string>Invert</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="lblSensRoll">
-             <property name="minimumSize">
-              <size>
-               <width>25</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>150</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::RightToLeft</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:#ccc;
+          </property>
+          <property name="text">
+           <string>Yaw</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblInvert1_2">
+          <property name="geometry">
+           <rect>
+            <x>113</x>
+            <y>21</y>
+            <width>35</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:#ccc;
 background:none;</string>
-             </property>
-             <property name="text">
-              <string>Roll</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QLabel" name="lblInvert1_2">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>30</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:#ccc;
+          </property>
+          <property name="text">
+           <string>Invert</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="chkInvertZ">
+          <property name="geometry">
+           <rect>
+            <x>119</x>
+            <y>89</y>
+            <width>25</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:none;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="chkInvertY">
+          <property name="geometry">
+           <rect>
+            <x>119</x>
+            <y>64</y>
+            <width>25</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:none;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="chkInvertPitch">
+          <property name="geometry">
+           <rect>
+            <x>56</x>
+            <y>64</y>
+            <width>25</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:none;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblInvert1_3">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>21</y>
+            <width>35</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:#ccc;
 background:none;</string>
-             </property>
-             <property name="text">
-              <string>Invert</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QCheckBox" name="chkInvertYaw">
-             <property name="styleSheet">
-              <string notr="true">background:none;</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLabel" name="lblSensY">
-             <property name="minimumSize">
-              <size>
-               <width>25</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>150</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::RightToLeft</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:#ccc;
+          </property>
+          <property name="text">
+           <string>Invert</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="chkInvertYaw">
+          <property name="geometry">
+           <rect>
+            <x>56</x>
+            <y>39</y>
+            <width>25</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:none;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="chkInvertRoll">
+          <property name="geometry">
+           <rect>
+            <x>56</x>
+            <y>89</y>
+            <width>25</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:none;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblSensX">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>39</y>
+            <width>25</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>25</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:#ccc;
 background:none;</string>
-             </property>
-             <property name="text">
-              <string>Y</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="lblSensYaw">
-             <property name="minimumSize">
-              <size>
-               <width>25</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>150</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::RightToLeft</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:#ccc;
+          </property>
+          <property name="text">
+           <string>X</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblSensY">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>64</y>
+            <width>25</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>25</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:#ccc;
 background:none;</string>
-             </property>
-             <property name="text">
-              <string>Yaw</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="lblSensX">
-             <property name="minimumSize">
-              <size>
-               <width>25</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>150</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::RightToLeft</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:#ccc;
+          </property>
+          <property name="text">
+           <string>Y</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblSensZ">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>89</y>
+            <width>25</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>25</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:#ccc;
 background:none;</string>
-             </property>
-             <property name="text">
-              <string>X</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="3">
-            <widget class="QCheckBox" name="chkInvertY">
-             <property name="styleSheet">
-              <string notr="true">background:none;</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QCheckBox" name="chkInvertX">
-             <property name="styleSheet">
-              <string notr="true">background:none;</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="lblSensPitch">
-             <property name="minimumSize">
-              <size>
-               <width>25</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>150</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::RightToLeft</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:#ccc;
+          </property>
+          <property name="text">
+           <string>Z</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblSensPitch">
+          <property name="geometry">
+           <rect>
+            <x>21</x>
+            <y>64</y>
+            <width>31</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>25</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:#ccc;
 background:none;</string>
-             </property>
-             <property name="text">
-              <string>Pitch</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QCheckBox" name="chkInvertRoll">
-             <property name="styleSheet">
-              <string notr="true">background:none;</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QLabel" name="lblSensZ">
-             <property name="minimumSize">
-              <size>
-               <width>25</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>150</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::RightToLeft</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color:#ccc;
+          </property>
+          <property name="text">
+           <string>Pitch</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblSensRoll">
+          <property name="geometry">
+           <rect>
+            <x>21</x>
+            <y>89</y>
+            <width>25</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>25</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:#ccc;
 background:none;</string>
-             </property>
-             <property name="text">
-              <string>Z</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          </property>
+          <property name="text">
+           <string>Roll</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="chkInvertX">
+          <property name="geometry">
+           <rect>
+            <x>119</x>
+            <y>39</y>
+            <width>25</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:none;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
          </widget>
         </widget>
         <widget class="QGroupBox" name="groupProfile">
          <property name="geometry">
           <rect>
-           <x>101</x>
+           <x>29</x>
            <y>19</y>
            <width>206</width>
            <height>120</height>
@@ -2028,6 +2059,57 @@ background:none;</string>
           </property>
          </widget>
         </widget>
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="geometry">
+          <rect>
+           <x>447</x>
+           <y>35</y>
+           <width>120</width>
+           <height>84</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Support Us!</string>
+         </property>
+         <widget class="QPushButton" name="btnDonate">
+          <property name="geometry">
+           <rect>
+            <x>25</x>
+            <y>30</y>
+            <width>68</width>
+            <height>34</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>58</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="toolTip">
+           <string>Please help us: make gaming fun...</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="main-facetracknoir.qrc">
+            <normaloff>:/uielements/donate.png</normaloff>:/uielements/donate.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>18</width>
+            <height>18</height>
+           </size>
+          </property>
+         </widget>
+        </widget>
         <zorder>groupTrackerSource</zorder>
         <zorder>groupGameProtocol</zorder>
         <zorder>groupFilter</zorder>
@@ -2036,6 +2118,7 @@ background:none;</string>
         <zorder>groupGlobalSettings</zorder>
         <zorder>groupProfile</zorder>
         <zorder>groupBox_4</zorder>
+        <zorder>groupBox_5</zorder>
        </widget>
       </item>
      </layout>
