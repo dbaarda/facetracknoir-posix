@@ -8,6 +8,21 @@ SET(CMAKE_SKIP_RPATH FALSE)
 SET(SDK_MINIMAL FALSE CACHE BOOL "Minimal build")
 
 find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork REQUIRED)
+
+macro(QT4_WRAP_CPP outfiles)
+  # get include dirs
+  QT4_GET_MOC_FLAGS(moc_flags)
+  QT4_EXTRACT_OPTIONS(moc_files moc_options ${ARGN})
+
+  foreach(it ${moc_files})
+    get_filename_component(it ${it} ABSOLUTE)
+    QT4_MAKE_OUTPUT_FILE(${it} moc_ cxx outfile)
+    SET(moc_options ${moc_options} -nn)
+    QT4_CREATE_MOC_COMMAND(${it} ${outfile} "${moc_flags}" "${moc_options}")
+    set(${outfiles} ${${outfiles}} ${outfile})
+  endforeach()
+endmacro()
+
 find_package(OpenGL REQUIRED)
 if(NOT SDK_MINIMAL)
     find_package(OpenCV)
