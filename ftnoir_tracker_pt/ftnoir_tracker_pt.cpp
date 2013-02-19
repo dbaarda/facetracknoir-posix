@@ -183,7 +183,7 @@ void Tracker::StartTracker(QFrame* videoframe)
     videoframe->show();
 	reset_command(PAUSE);
     connect(&timer, SIGNAL(timeout()), this, SLOT(paint_widget()));
-    timer.start(33);
+    timer.start(50);
 }
 
 void Tracker::paint_widget() {
