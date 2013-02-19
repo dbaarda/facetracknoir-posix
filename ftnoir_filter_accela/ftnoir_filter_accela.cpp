@@ -36,7 +36,6 @@ FTNoIR_Filter::~FTNoIR_Filter()
 
 void FTNoIR_Filter::Initialize()
 {
-	loadSettings();
 }
 
 void FTNoIR_Filter::loadSettings() {
