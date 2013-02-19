@@ -40,7 +40,7 @@ void VideoWidget::paintGL()
 void VideoWidget::resize_frame(QImage& qframe)
 {
 	if (!qframe.isNull())
-		resized_qframe = qframe.scaled(this->size(), Qt::KeepAspectRatio);
+        resized_qframe = qframe;
 }
 
 

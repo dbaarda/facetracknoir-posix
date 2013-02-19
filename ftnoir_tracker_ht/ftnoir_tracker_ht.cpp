@@ -6,9 +6,6 @@
 #include "ui_trackercontrols.h"
 #include "facetracknoir/global-settings.h"
 
-#define WIDGET_WIDTH 250
-#define WIDGET_HEIGHT 188
-
 #if defined(_WIN32) || defined(__WIN32)
 #include <dshow.h>
 #else
@@ -168,7 +165,6 @@ void Tracker::StartTracker(QFrame* videoframe)
     if (videoframe->layout())
         delete videoframe->layout();
     videoframe->setLayout(layout);
-    videoWidget->resize(WIDGET_WIDTH, WIDGET_HEIGHT);
     videoWidget->show();
     this->layout = layout;
     load_settings(&shm->config, this);
@@ -182,7 +178,7 @@ void Tracker::StartTracker(QFrame* videoframe)
     subprocess.start(QCoreApplication::applicationDirPath() + "/tracker-ht/headtracker-ftnoir");
 #endif
     connect(&timer, SIGNAL(timeout()), this, SLOT(paint_widget()));
-    timer.start(15);
+    timer.start(33);
 }
 
 void Tracker::paint_widget() {
