@@ -660,7 +660,7 @@ void FaceTrackNoIR::loadSettings() {
 	// Read the currently selected Filter from the INI-file.
 	//
 	iniFile.beginGroup ( "Filter" );
-	QString selectedFilterName = iniFile.value ( "DLL", "FTNoIR_Filter_EWMA2.dll" ).toString();
+    QString selectedFilterName = iniFile.value ( "DLL", "" ).toString();
 	qDebug() << "createIconGroupBox says: selectedFilterName = " << selectedFilterName;
 	iniFile.endGroup ();
 
