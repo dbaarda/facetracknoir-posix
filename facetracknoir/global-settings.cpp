@@ -113,6 +113,8 @@ DynamicLibrary::DynamicLibrary(const char* filename)
                     );
     if (handle)
     {
+        fprintf(stderr, "Error, if any: %s\n", dlerror());
+        fflush(stderr);
         Dialog = (SETTINGS_FUNCTION) dlsym(handle, "GetDialog");
         fprintf(stderr, "Error, if any: %s\n", dlerror());
         fflush(stderr);
