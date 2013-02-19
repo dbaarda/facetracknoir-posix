@@ -4,8 +4,7 @@ BACKUPHOST=ananke.laggygamerz.com
 export LC_ALL=C LANG=C
 cd $HOME/dev/facetracknoir-posix || exit 1
 touch ./last-snapshot.rev
-read line < ./last-snapshot.rev
-LASTREV="$line"
+read LASTREV < ./last-snapshot.rev
 CURREV="$(git rev-parse HEAD)"
 foo=0
 
@@ -30,6 +29,6 @@ if test "$CURREV" != "$LASTREV"; then
 	ssh -4o BatchMode=yes "$USER"@"$BACKUPHOST" find /var/www/ftnoir/ -name '"*.7z"' -type f -mtime 14 -delete
 	scp -4o BatchMode=yes "$FNAME" "$USER"@"$BACKUPHOST":/var/www/ftnoir/
 	rm *.7z
-	test $foo && { echo $CURREV > ./last-snapshot.rev; }
+	test $foo && { echo $CURREV > "$ORIGIN"/last-snapshot.rev; }
 	wineserver -k
 fi
