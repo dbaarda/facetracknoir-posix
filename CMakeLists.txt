@@ -87,6 +87,7 @@ if(NOT SDK_FACEAPI_ONLY)
       endif()
     endif(WIN32)
 
+if(NOT SDK_FACEAPI_ONLY)
 # main app
 
     file(GLOB ftnoir-bin-c "facetracknoir/*.cpp" "facetracknoir/*.rc")
@@ -226,8 +227,6 @@ if(NOT SDK_FACEAPI_ONLY)
     QT4_WRAP_UI(ftnoir-tracker-udp-uih ${ftnoir-tracker-udp-ui})
     QT4_ADD_RESOURCES(ftnoir-tracker-udp-rcc ${ftnoir-tracker-udp-rc})
 
-    file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
-
 # compat lib for POSIX/win32
 
     file(GLOB ftnoir-compat-c "compat/*.cpp")
@@ -247,6 +246,9 @@ if(NOT SDK_FACEAPI_ONLY)
                 PREFIX "" SUFFIX "")
         endif()
     endif()
+endif()
+
+file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
 
 # some boilerplate
 
