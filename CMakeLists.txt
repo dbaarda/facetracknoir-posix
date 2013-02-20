@@ -11,13 +11,6 @@ IF(WIN32)
 ENDIF()
 
 file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
-file(GLOB ftnoir-tracker-faceapi-c "ftnoir_tracker_sm/*.cpp")
-file(GLOB ftnoir-tracker-faceapi-h "ftnoir_tracker_sm/*.h")
-QT4_WRAP_CPP(ftnoir-tracker-faceapi-moc ${ftnoir-tracker-faceapi-h})
-file(GLOB ftnoir-tracker-faceapi-ui "ftnoir_tracker_sm/*.ui")
-file(GLOB ftnoir-tracker-faceapi-rc "ftnoir_tracker_sm/*.qrc")
-QT4_WRAP_UI(ftnoir-tracker-faceapi-uih ${ftnoir-tracker-faceapi-ui})
-QT4_ADD_RESOURCES(ftnoir-tracker-faceapi-rcc ${ftnoir-tracker-faceapi-rc})
 
 if(NOT SDK_FACEAPI_ONLY)
     find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork REQUIRED)
@@ -231,6 +224,14 @@ if(NOT SDK_FACEAPI_ONLY)
     file(GLOB ftnoir-tracker-udp-rc "ftnoir_tracker_udp/*.qrc")
     QT4_WRAP_UI(ftnoir-tracker-udp-uih ${ftnoir-tracker-udp-ui})
     QT4_ADD_RESOURCES(ftnoir-tracker-udp-rcc ${ftnoir-tracker-udp-rc})
+
+    file(GLOB ftnoir-tracker-faceapi-c "ftnoir_tracker_sm/*.cpp")
+    file(GLOB ftnoir-tracker-faceapi-h "ftnoir_tracker_sm/*.h")
+    QT4_WRAP_CPP(ftnoir-tracker-faceapi-moc ${ftnoir-tracker-faceapi-h})
+    file(GLOB ftnoir-tracker-faceapi-ui "ftnoir_tracker_sm/*.ui")
+    file(GLOB ftnoir-tracker-faceapi-rc "ftnoir_tracker_sm/*.qrc")
+    QT4_WRAP_UI(ftnoir-tracker-faceapi-uih ${ftnoir-tracker-faceapi-ui})
+    QT4_ADD_RESOURCES(ftnoir-tracker-faceapi-rcc ${ftnoir-tracker-faceapi-rc})
 
 # compat lib for POSIX/win32
 
