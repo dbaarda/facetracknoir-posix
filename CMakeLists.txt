@@ -541,7 +541,6 @@ if(WIN32 AND NOT SDK_FACEAPI_ONLY)
 endif()
 
 if(WIN32 AND SDK_SM_FACEAPI_PATH)
-    endif()
     if(MSVC80)
         install(TARGETS ftnoir-faceapi-wrapper
             RUNTIME DESTINATION faceapi
