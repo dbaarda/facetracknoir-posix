@@ -540,11 +540,13 @@ if(WIN32 AND SDK_SM_FACEAPI_PATH)
         LIBRARY DESTINATION .
         NAMELINK_SKIP
     )
-    install(TARGETS ftnoir-faceapi-wrapper
-        RUNTIME DESTINATION faceapi
-        LIBRARY DESTINATION faceapi
-        NAMELINK_SKIP
-    )
+    if(MSVC80)
+        install(TARGETS ftnoir-faceapi-wrapper
+            RUNTIME DESTINATION faceapi
+            LIBRARY DESTINATION faceapi
+            NAMELINK_SKIP
+        )
+    endif()
     install(FILES "${CMAKE_SOURCE_DIR}/bin/cleye.config" DESTINATION faceapi)
     install(FILES
         "${SDK_SM_FACEAPI_PATH}/bin/computation6.0.dll"
