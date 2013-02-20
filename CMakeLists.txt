@@ -61,7 +61,7 @@ if(NOT SDK_FACEAPI_ONLY)
 
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-    SET(SDK_OPENCV_STATIC TRUE BOOL PATH "Whether OpenCV is statically linked")
+    SET(SDK_OPENCV_STATIC FALSE CACHE BOOL "Whether OpenCV is statically linked")
     if (WIN32)
         SET(SDK_SM_FACEAPI_PATH "" CACHE PATH "SeeingMachines FaceAPI SDK path")
         set(SDK_MINGW_PATH "" CACHE PATH "MinGW path")
