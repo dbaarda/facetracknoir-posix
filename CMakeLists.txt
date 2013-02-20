@@ -211,14 +211,6 @@ if(NOT SDK_FACEAPI_ONLY)
     QT4_WRAP_UI(ftnoir-tracker-pt-uih ${ftnoir-tracker-pt-ui})
     QT4_ADD_RESOURCES(ftnoir-tracker-pt-rcc ${ftnoir-tracker-pt-rc})
 
-    file(GLOB ftnoir-tracker-faceapi-c "ftnoir_tracker_sm/*.cpp")
-    file(GLOB ftnoir-tracker-faceapi-h "ftnoir_tracker_sm/*.h")
-    QT4_WRAP_CPP(ftnoir-tracker-faceapi-moc ${ftnoir-tracker-faceapi-h})
-    file(GLOB ftnoir-tracker-faceapi-ui "ftnoir_tracker_sm/*.ui")
-    file(GLOB ftnoir-tracker-faceapi-rc "ftnoir_tracker_sm/*.qrc")
-    QT4_WRAP_UI(ftnoir-tracker-faceapi-uih ${ftnoir-tracker-faceapi-ui})
-    QT4_ADD_RESOURCES(ftnoir-tracker-faceapi-rcc ${ftnoir-tracker-faceapi-rc})
-
     file(GLOB ftnoir-tracker-udp-c "ftnoir_tracker_udp/*.cpp")
     file(GLOB ftnoir-tracker-udp-h "ftnoir_tracker_udp/*.h")
     QT4_WRAP_CPP(ftnoir-tracker-udp-moc ${ftnoir-tracker-udp-h})
@@ -249,6 +241,13 @@ if(NOT SDK_FACEAPI_ONLY)
 endif()
 
 file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
+file(GLOB ftnoir-tracker-faceapi-c "ftnoir_tracker_sm/*.cpp")
+file(GLOB ftnoir-tracker-faceapi-h "ftnoir_tracker_sm/*.h")
+QT4_WRAP_CPP(ftnoir-tracker-faceapi-moc ${ftnoir-tracker-faceapi-h})
+file(GLOB ftnoir-tracker-faceapi-ui "ftnoir_tracker_sm/*.ui")
+file(GLOB ftnoir-tracker-faceapi-rc "ftnoir_tracker_sm/*.qrc")
+QT4_WRAP_UI(ftnoir-tracker-faceapi-uih ${ftnoir-tracker-faceapi-ui})
+QT4_ADD_RESOURCES(ftnoir-tracker-faceapi-rcc ${ftnoir-tracker-faceapi-rc})
 
 # some boilerplate
 
