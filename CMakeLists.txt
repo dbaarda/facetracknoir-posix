@@ -511,16 +511,6 @@ if(NOT SDK_FACEAPI_ONLY)
             "${qt-dirname}/bin/QtXml4.dll"
             DESTINATION .
         )
-        else()
-        install(FILES
-            "${QT_QTCORE_LIBRARY_RELEASE}"
-            "${QT_QTGUI_LIBRARY_RELEASE}"
-            "${QT_QTNETWORK_LIBRARY_RELEASE}"
-            "${QT_QTOPENGL_LIBRARY_RELEASE}"
-            "${QT_SVG_LIBRARY_RELEASE}"
-            "${QT_QTXML_LIBRARY_RELEASE}"
-            DESTINATION .
-        )
         endif()
         install(TARGETS
                 ftnoir-proto-freetrack
