@@ -499,7 +499,7 @@ if(NOT SDK_FACEAPI_ONLY)
         get_filename_component(ftnoir-qt-bin "${QT_QMAKE_EXECUTABLE}" PATH)
         if(WIN32 AND NOT CMAKE_COMPILER_IS_GNUCC)
         GET_FILENAME_COMPONENT(qt-dirname "${QT_QTCORE_LIBRARY_RELEASE}/../" PATH)
-        if(NOT EXISTS "${qt-dirname}/bin/QtCore4.dll")
+        if(NOT EXISTS "${qt-dirname}/bin/")
             GET_FILENAME_COMPONENT(qt-dirname "${QT_QTCORE_LIBRARY_RELEASE}/../../" PATH)
         endif()
         install(FILES
