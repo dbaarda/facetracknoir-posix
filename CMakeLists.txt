@@ -426,6 +426,9 @@ if(NOT SDK_FACEAPI_ONLY)
     if(SDK_XPLANE)
         install(TARGETS ftnoir-xplane-plugin LIBRARY DESTINATION .  NAMELINK_SKIP)
     endif()
+    if(WIN32)
+        install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/tracker-ht" DESTINATION .)
+    endif()
 
     install(FILES "${CMAKE_SOURCE_DIR}/bin/npclient.dll" "${CMAKE_SOURCE_DIR}/bin/npclient64.dll" DESTINATION .)
     install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/settings" DESTINATION .)
@@ -523,9 +526,6 @@ if(NOT SDK_FACEAPI_ONLY)
                 LIBRARY DESTINATION .
                 NAMELINK_SKIP
         )
-        if(WIN32)
-            install(DIRECTORY "${CMAKE_SOURCE_DIR}/bin/tracker-ht" DESTINATION .)
-        endif()
     endif()
 endif()
 
