@@ -407,8 +407,10 @@ endif()
 
 # make install
 
-if(WIN32 AND SDK_SM_FACEAPI_PATH AND NOT SDK_FACEAPI_ONLY)
+if(MSVC80 AND SDK_SM_FACEAPI_PATH)
     include_directories("${SDK_SM_FACEAPI_PATH}/include")
+endif()
+if(WIN32 AND SDK_SM_FACEAPI_PATH AND NOT SDK_FACEAPI_ONLY)
     add_library(ftnoir-tracker-faceapi SHARED ${ftnoir-tracker-faceapi-c} ${ftnoir-tracker-faceapi-moc} ${ftnoir-tracker-faceapi-uih} ${ftnoir-tracker-faceapi-rcc})
     target_link_libraries(ftnoir-tracker-faceapi ${MY_QT_LIBS})
 endif()
