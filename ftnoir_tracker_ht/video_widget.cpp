@@ -32,7 +32,7 @@ void VideoWidget::resizeGL(int w, int h)
 void VideoWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    if (!resized_qframe.isNull() && !resized_qframe.isDetached())
+    if (!resized_qframe.isNull())
         glDrawPixels(resized_qframe.width(), resized_qframe.height(), GL_RGB, GL_UNSIGNED_BYTE, resized_qframe.bits());
 	glFlush();
 }
@@ -40,9 +40,9 @@ void VideoWidget::paintGL()
 void VideoWidget::resize_frame(QImage& qframe)
 {
     if (qframe.width() <= width() && qframe.height() <= height())
-        resized_qframe = qframe;
+        resized_qframe = qframe.copy();
     else
-        resized_qframe = qframe.scaled(size(), Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        resized_qframe = qframe.scaled(size(), Qt::IgnoreAspectRatio, Qt::FastTransformation).copy();
 }
 
 
