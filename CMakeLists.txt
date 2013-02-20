@@ -11,6 +11,7 @@ IF(WIN32)
 ENDIF()
 
 file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
+include_directories(${CMAKE_SOURCE_DIR})
 
 if(NOT SDK_FACEAPI_ONLY)
     find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork REQUIRED)
@@ -59,7 +60,6 @@ if(NOT SDK_FACEAPI_ONLY)
     endif()
 
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
-    include_directories(${CMAKE_SOURCE_DIR})
 
     SET(SDK_OPENCV_STATIC TRUE BOOL PATH "Whether OpenCV is statically linked")
     if (WIN32)
