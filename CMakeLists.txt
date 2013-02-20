@@ -498,17 +498,17 @@ if(NOT SDK_FACEAPI_ONLY)
         endif()
         get_filename_component(ftnoir-qt-bin "${QT_QMAKE_EXECUTABLE}" PATH)
         if(WIN32 AND NOT CMAKE_COMPILER_IS_GNUCC)
-        GET_FILENAME_COMPONENT(qt-dirname "${QT_QTCORE_LIBRARY_RELEASE}/../bin" PATH)
-        if(NOT EXISTS "${qt-dirname}/QtCore4.dll")
-            GET_FILENAME_COMPONENT(qt-dirname "${QT_QTCORE_LIBRARY_RELEASE}/../../bin" PATH)
+        GET_FILENAME_COMPONENT(qt-dirname "${QT_QTCORE_LIBRARY_RELEASE}/../" PATH)
+        if(NOT EXISTS "${qt-dirname}/bin/QtCore4.dll")
+            GET_FILENAME_COMPONENT(qt-dirname "${QT_QTCORE_LIBRARY_RELEASE}/../../" PATH)
         endif()
         install(FILES
-            "${qt-dirname}/QtCore4.dll"
-            "${qt-dirname}/QtGui4.dll"
-            "${qt-dirname}/QtNetwork4.dll"
-            "${qt-dirname}/QtOpenGL4.dll"
-            "${qt-dirname}/QtSVG4.dll"
-            "${qt-dirname}/QtXml4.dll"
+            "${qt-dirname}/bin/QtCore4.dll"
+            "${qt-dirname}/bin/QtGui4.dll"
+            "${qt-dirname}/bin/QtNetwork4.dll"
+            "${qt-dirname}/bin/QtOpenGL4.dll"
+            "${qt-dirname}/bin/QtSVG4.dll"
+            "${qt-dirname}/bin/QtXml4.dll"
             DESTINATION .
         )
         else()
