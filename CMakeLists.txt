@@ -531,11 +531,13 @@ if(NOT SDK_FACEAPI_ONLY)
 endif()
 
 if(WIN32 AND SDK_SM_FACEAPI_PATH)
-    install(TARGETS ftnoir-tracker-faceapi
-        RUNTIME DESTINATION .
-        LIBRARY DESTINATION .
-        NAMELINK_SKIP
-    )
+    if(NOT SDK_FACEAPI_ONLY)
+        install(TARGETS ftnoir-tracker-faceapi
+            RUNTIME DESTINATION .
+            LIBRARY DESTINATION .
+            NAMELINK_SKIP
+        )
+    endif()
     if(MSVC80)
         install(TARGETS ftnoir-faceapi-wrapper
             RUNTIME DESTINATION faceapi
