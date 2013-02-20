@@ -273,7 +273,12 @@ endif()
         target_link_libraries(ftnoir-compat rt)
     endif()
 
-    SET(MY_QT_LIBS ${QT_QTCORE_LIBRARY_RELEASE} ${QT_QTGUI_LIBRARY_RELEASE} ${QT_QTNETWORK_LIBRARY_RELEASE} ${QT_QTXML_LIBRARY_RELEASE} ${QT_QTOPENGL_LIBRARY_RELEASE})
+
+    IF(CMAKE_BUILD_TYPE MATCHES DEBUG) 
+        SET(MY_QT_LIBS ${QT_QTCORE_LIBRARY_DEBUG} ${QT_QTGUI_LIBRARY_DEBUG} ${QT_QTNETWORK_LIBRARY_DEBUG} ${QT_QTXML_LIBRARY_DEBUG} ${QT_QTOPENGL_LIBRARY_DEBUG})
+    ELSE()
+        SET(MY_QT_LIBS ${QT_QTCORE_LIBRARY_RELEASE} ${QT_QTGUI_LIBRARY_RELEASE} ${QT_QTNETWORK_LIBRARY_RELEASE} ${QT_QTXML_LIBRARY_RELEASE} ${QT_QTOPENGL_LIBRARY_RELEASE})
+    ENDIF()
     add_library(ftnoir-pose-widget SHARED ${ftnoir-pose-widget-c} ${ftnoir-pose-widget-moc} ${ftnoir-pose-widget-rcc})
     target_link_libraries(ftnoir-pose-widget ${MY_QT_LIBS} ${OPENGL_gl_LIBRARY})
     add_library(ftnoir-spline-widget SHARED ${ftnoir-spline-widget-c} ${ftnoir-spline-widget-moc} ${MY_QT_LIBS})

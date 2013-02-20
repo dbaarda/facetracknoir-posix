@@ -41,7 +41,7 @@ void VideoWidget::resize_frame(QImage& qframe)
     if (qframe.width() <= width() && qframe.height() <= height())
         resized_qframe = qframe;
     else
-        resized_qframe = qframe.scaled(size(), Qt::KeepAspectRatioByExpanding, Qt::FastTransformation);
+        resized_qframe = qframe.scaled(size(), Qt::IgnoreAspectRatio, Qt::FastTransformation);
 }
 
 

@@ -21,9 +21,7 @@ class VideoWidget : public QGLWidget
 
 public:
 	VideoWidget(QWidget *parent) : QGLWidget(parent) {
-#if !defined(_WIN32)
-    setAttribute(Qt::WA_NativeWindow, true);
-#endif
+        setAttribute(Qt::WA_NativeWindow, true);
 	}
 
 	void initializeGL();
