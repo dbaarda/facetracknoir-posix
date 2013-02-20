@@ -172,7 +172,9 @@ void Tracker::StartTracker(QFrame* videoframe)
     start();
     qDebug("Tracker::Initialize");
     // setup video frame
-    videoframe->setAttribute(Qt::WA_NativeWindow);
+#if !defined(_WIN32)
+    setAttribute(Qt::WA_NativeWindow, true);
+#endif
     video_widget = new VideoWidget(videoframe);
     QHBoxLayout* layout = new QHBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);

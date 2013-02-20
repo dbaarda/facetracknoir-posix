@@ -33,7 +33,9 @@
 GLWidget::GLWidget(QWidget *parent, QGLWidget *shareWidget)
     : QGLWidget(parent, shareWidget)
 {
+#if !defined(_WIN32)
     setAttribute(Qt::WA_NativeWindow, true);
+#endif
     clearColor = Qt::black;
     xRot = 0;
     yRot = 0;

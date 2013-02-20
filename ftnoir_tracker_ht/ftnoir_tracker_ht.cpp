@@ -156,7 +156,9 @@ Tracker::~Tracker()
 
 void Tracker::StartTracker(QFrame* videoframe)
 {
-    videoframe->setAttribute(Qt::WA_NativeWindow);
+#if !defined(_WIN32)
+    setAttribute(Qt::WA_NativeWindow, true);
+#endif
     videoframe->show();
     videoWidget = new VideoWidget(videoframe);
     QHBoxLayout* layout = new QHBoxLayout();
