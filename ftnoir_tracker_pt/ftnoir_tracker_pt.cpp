@@ -181,7 +181,7 @@ void Tracker::StartTracker(QFrame* videoframe)
     video_widget->resize(VIDEO_FRAME_WIDTH, VIDEO_FRAME_HEIGHT);
     videoframe->show();
 	reset_command(PAUSE);
-    connect(&timer, SIGNAL(timeout()), this, SLOT(paint_widget()));
+    connect(&timer, SIGNAL(timeout()), this, SLOT(paint_widget()), Qt::QueuedConnection);
     timer.start(60);
 }
 
