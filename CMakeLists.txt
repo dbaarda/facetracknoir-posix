@@ -14,6 +14,7 @@ file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
 include_directories(${CMAKE_SOURCE_DIR})
 
 if(NOT SDK_FACEAPI_ONLY)
+    find_package(OpenCV REQUIRED)
     find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork REQUIRED)
     macro(QT4_WRAP_CPP outfiles)
       # get include dirs
