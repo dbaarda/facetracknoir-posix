@@ -408,7 +408,7 @@ endif()
 
 # make install
 
-if(MSVC80 AND SDK_SM_FACEAPI_PATH)
+if(SDK_SM_FACEAPI_PATH)
     include_directories("${SDK_SM_FACEAPI_PATH}/include")
 endif()
 if(WIN32 AND NOT SDK_FACEAPI_ONLY)
