@@ -9,6 +9,16 @@ SET(SDK_FACEAPI_ONLY FALSE CACHE BOOL "FaceAPI only (MSVC 2005)")
 IF(WIN32)
     SET(SDK_SM_FACEAPI_PATH "" CACHE PATH "SeeingMachines FaceAPI SDK path")
 ENDIF()
+
+file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
+file(GLOB ftnoir-tracker-faceapi-c "ftnoir_tracker_sm/*.cpp")
+file(GLOB ftnoir-tracker-faceapi-h "ftnoir_tracker_sm/*.h")
+QT4_WRAP_CPP(ftnoir-tracker-faceapi-moc ${ftnoir-tracker-faceapi-h})
+file(GLOB ftnoir-tracker-faceapi-ui "ftnoir_tracker_sm/*.ui")
+file(GLOB ftnoir-tracker-faceapi-rc "ftnoir_tracker_sm/*.qrc")
+QT4_WRAP_UI(ftnoir-tracker-faceapi-uih ${ftnoir-tracker-faceapi-ui})
+QT4_ADD_RESOURCES(ftnoir-tracker-faceapi-rcc ${ftnoir-tracker-faceapi-rc})
+
 if(NOT SDK_FACEAPI_ONLY)
     find_package(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGL QtNetwork REQUIRED)
     macro(QT4_WRAP_CPP outfiles)
@@ -242,15 +252,6 @@ if(NOT SDK_FACEAPI_ONLY)
         endif()
     endif()
 endif()
-
-file(GLOB ftnoir-faceapi-wrapper-c "faceapi/*.cpp")
-file(GLOB ftnoir-tracker-faceapi-c "ftnoir_tracker_sm/*.cpp")
-file(GLOB ftnoir-tracker-faceapi-h "ftnoir_tracker_sm/*.h")
-QT4_WRAP_CPP(ftnoir-tracker-faceapi-moc ${ftnoir-tracker-faceapi-h})
-file(GLOB ftnoir-tracker-faceapi-ui "ftnoir_tracker_sm/*.ui")
-file(GLOB ftnoir-tracker-faceapi-rc "ftnoir_tracker_sm/*.qrc")
-QT4_WRAP_UI(ftnoir-tracker-faceapi-uih ${ftnoir-tracker-faceapi-ui})
-QT4_ADD_RESOURCES(ftnoir-tracker-faceapi-rcc ${ftnoir-tracker-faceapi-rc})
 
 # some boilerplate
 
