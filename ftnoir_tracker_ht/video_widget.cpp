@@ -31,15 +31,16 @@ void VideoWidget::resizeGL(int w, int h)
 
 void VideoWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-    if (!resized_qframe.isNull())
+    QMutexLocker lck(&mtx);
+	if (!resized_qframe.isNull() && resized_qframe.size() == size())
         glDrawPixels(resized_qframe.width(), resized_qframe.height(), GL_RGB, GL_UNSIGNED_BYTE, resized_qframe.bits());
 	glFlush();
 }
 
 void VideoWidget::resize_frame(QImage& qframe)
 {
-    if (qframe.width() <= width() && qframe.height() <= height())
+    QMutexLocker lck(&mtx);
+    if (qframe.size() == size())
         resized_qframe = qframe.copy();
     else
         resized_qframe = qframe.scaled(size(), Qt::IgnoreAspectRatio, Qt::FastTransformation).copy();

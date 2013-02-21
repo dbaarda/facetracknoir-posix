@@ -13,13 +13,15 @@
 #include <QFrame>
 #include <QImage>
 #include <QWidget>
+#include <QMutex>
+#include <QMutexLocker>
 // ----------------------------------------------------------------------------
 class VideoWidget : public QGLWidget
 {
 	Q_OBJECT
 
 public:
-	VideoWidget(QWidget *parent) : QGLWidget(parent){
+    VideoWidget(QWidget *parent) : QGLWidget(parent) {
 #if !defined(_WIN32)
         setAttribute(Qt::WA_NativeWindow, true);
 #endif
@@ -34,6 +36,7 @@ public:
 private:
     void resize_frame(QImage& qframe);
     QImage resized_qframe;
+    QMutex mtx;
 };
 
 #endif // VIDEOWIDGET_H
